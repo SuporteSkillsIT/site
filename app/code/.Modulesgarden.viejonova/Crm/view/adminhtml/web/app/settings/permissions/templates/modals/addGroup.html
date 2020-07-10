@@ -1,0 +1,29 @@
+<h2>Add New Role</h2>
+
+
+<form name="groupform" novalidate ng-submit="formSubmitNew()" role="form">
+    
+    <div class="form-group" ng-class="{ 'has-error': groupform.name.$invalid }">
+        <label for="name">Name</label>
+        <input type="text" name="name" ng-model="newGroup.name" required class="form-control" id="name" placeholder="Put new role name">
+        <small class="help-block error" ng-show="groupform.name.$invalid">Field cannot be empty</small>
+    </div>
+    
+    <div class="form-group">
+        <label for="admin_groups">Admin Role Group</label>
+        <select class="form-control" name="admin_groups" ng-model="newGroup.admin_groups" ng-options="role.id as role.name for role in adminRoles" required>
+        </select>
+        <small class="help-block error" ng-show="groupform.admin_groups.$invalid">Please Select </small>
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" name="description" ng-model="newGroup.description" class="form-control" id="description" placeholder="Put new role description">
+    </div>
+
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Cancel</button>
+        <button type="submit" ng-disabled="groupform.$invalid" class="ngdialog-button ngdialog-button-primary">Add</button>
+    </div>
+    
+</form>

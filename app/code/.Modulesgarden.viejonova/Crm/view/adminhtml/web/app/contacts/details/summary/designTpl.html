@@ -1,0 +1,22 @@
+<div class="tab-content">
+    <div class="tab-pane active" id="box_tab1">
+        <div class="row">
+            <div class="col-4 col-sm-4 col-lg-4">
+                <!-- MOST IMPORTANT BOX -->
+                <div ui-view="mainDetails"></div>
+                <!-- MOST AWESOME BOX WITH DYNAMIC FIELDS GROUPS -->
+                <div ui-view="customFields"></div>
+            </div>
+            <div class="col-8 col-sm-8 col-lg-8" style="padding-left: 0;">
+                <div class="row fluid">
+                    <!-- BOX WITH dynamic add things -->
+                    <div ng-if="!!!mainData.deleted_at" ui-view="quickActionsTab"></div>
+                    <!-- BOX WITH last X Followups -->
+                    <div ui-view="followups"></div>
+                    <!-- BOX WITH last notes -->
+                    <div ui-view="notes"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

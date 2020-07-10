@@ -1,0 +1,210 @@
+
+        <div class="note note-warning note-bordered">
+            <p ng-bind-html="'settings.personal.view.top.info' | translate"></p>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-md-6">
+                <div class="box light bordered">
+                    <div class="box-body">
+                        <div class="" ng-click="showConfigFor('lists.leads')" style="cursor: pointer;">
+                            <div class="dashboard-stat" ng-class="isActive('lists.leads') ? 'green' : 'red'">
+                                <div class="visual">
+                                    <i class="icon-tag"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        {{ 'contacts' | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="note note-info note-bordered" style="margin-bottom: 0;">
+                            <p ng-bind-html="'settings.personal.view.visiblity.leads' | translate"></p>
+                        </div>
+
+                        <h4 class="bold font-green no-margin-bottom" ng-show="isActive('lists.leads')">{{ 'settings.personal.view.editing.curently' | translate }}</h4>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="box light bordered">
+                    <div class="box-body">
+                        <div class="" ng-click="showConfigFor('dashboard')" style="cursor: pointer;">
+                            <div class="dashboard-stat" ng-class="isActive('dashboard') ? 'green' : 'red'">
+                                <div class="visual">
+                                    <i class="icon-tag"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number" ng-bind-html="'settings.personal.view.tag.dashboard' | translate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="note note-info note-bordered" style="margin-bottom: 0;">
+                            <p ng-bind-html="'settings.personal.view.visiblity.dashboard' | translate"></p>
+                        </div>
+
+                        <h4 class="bold font-green no-margin-bottom" ng-show="isActive('dashboard')">{{ 'settings.personal.view.editing.curently' | translate }}</h4>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+        <div ng-show="currentlyEdit">
+
+            <h3 style="margin-left: 15px;">
+                {{ 'settings.personal.view.edit.header' | translate }}
+                <b ng-show="isActive('lists.leads')">{{ 'contacts' | translate }}</b>
+                <b ng-show="isActive('dashboard')" ng-bind-html="'settings.personal.view.tag.dashboard' | translate"></b>
+            </h3>
+
+            <div class="note note-warning note-bordered" style="margin-left: 15px;">
+                <p ng-bind-html="'settings.personal.view.edit.note' | translate"></p>
+            </div>
+
+
+            <form name="fieldVisibility" novalidate ng-submit="updateFieldVisibility()" role="form">
+
+                <div class="col-md-4">
+                    <div class="box light bg-inverse">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="caption-subject" tooltip-placement="right" tooltip="{{ 'settings.personal.view.visible.tooltip' | translate }}">
+                                  {{ 'settings.personal.view.visible' | translate }}
+                                  <i class="fa fa-question-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="container-fluid raw margin-bottom-20 sortableContainer dynamic static" ui-sortable="sortableOptions" ng-model="currentlyEdit">
+
+                                <div class="col-md-12 single-field sortableItem field-items static-items" ng-class="{'unsortable': field.active == false}" ng-repeat="field in currentlyEdit">
+                                    <div class="mySortableHandler" style="padding-left: 0;">
+                                        <a href="#" class="margin-right-10 ">
+                                            <i class="fa fa-reorder"></i>
+                                        </a>
+
+                                        <span class="dynamic" ng-if="field.id">#{{ field.id }} {{ field.name }}</span>
+                                        <span class="static" ng-if="!field.id">{{ 'staticfields.' + field  | translate}}</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 single-field text-center" ng-hide="currentlyEdit.length">
+                                    <h5>
+                                        {{ 'settings.personal.available.drag' | translate }}
+                                    </h5>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box light bg-inverse">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="caption-subject" tooltip-placement="top" tooltip="{{ 'settings.personal.static.available.tooltip' | translate }}">
+                                  {{ 'settings.personal.static.available' | translate }}
+                                  <i class="fa fa-question-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+
+                            <div class="container-fluid raw margin-bottom-20 sortableContainer static" ui-sortable="sortableOptions" ng-model="fields.static">
+
+                                <div class="col-md-12 single-field sortableItem static-items static" ng-repeat="field in fields.static | filter:filterAlreadyAdded">
+                                    <div class="mySortableHandler" style="padding-left: 0;">
+                                        <a href="#" class="margin-right-10 ">
+                                            <i class="fa fa-reorder"></i>
+                                        </a>
+
+                                        <span class="static">{{ 'staticfields.' + field  | translate}}</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 single-field text-center" ng-hide="(fields.static | filter:filterAlreadyAdded).length">
+                                    <h5>
+                                        {{ 'settings.personal.available.drag' | translate }}
+                                    </h5>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box light bg-inverse">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="caption-subject" tooltip-placement="left" tooltip="{{ 'settings.personal.available.tooltip' | translate }}">
+                                  {{ 'settings.personal.available' | translate }}
+                                  <i class="fa fa-question-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+
+                            <div class="container-fluid raw margin-bottom-20 sortableContainer dynamic" ui-sortable="sortableOptions" ng-model="fields.fields">
+
+                                <div class="col-md-12 single-field sortableItem field-items dynamic" ng-class="{'unsortable': field.active == false}" ng-repeat="field in fields.fields | filter:filterAlreadyAdded">
+                                    <div class="mySortableHandler" style="padding-left: 0;">
+                                        <a href="#" class="margin-right-10 ">
+                                            <i class="fa fa-reorder"></i>
+                                        </a>
+
+                                        <span class="dynamic" ng-style="field.active == false && {'text-decoration': 'line-through'}">#{{ field.id }} {{ field.name }}</span>
+
+                                        <i ng-hide="field.active" class="fa fa-warning font-red pull-right" tooltip="{{ 'text.disabled' | translate }}"></i>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 single-field text-center" ng-hide="(fields.fields | filter:filterAlreadyAdded).length">
+                                    <h5>
+                                        {{ 'settings.personal.available.drag' | translate }}
+                                    </h5>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,57 @@
+<script>
+    MageMailData = typeof(MageMailData) != 'undefined' ? MageMailData : {};
+    MageMailData.username = '<?php echo $this->getHelper()->getUsername();?>';
+    MageMailData.magemail_domain = '<?php echo $this->getHelper()->getMageMailBaseUrl();?>';
+    MageMailData.magento_base_url = '<?php echo $this->getHelper()->getMagentoSecureBaseUrl();?>';
+    MageMailData.capture_email = <?php echo $this->getHelper()->shouldCaptureEmail() ? "true" : "false"; ?>;
+    MageMailData.exit_modal_enabled = <?php echo $this->getHelper()->isExitModalEnabled() ? "true" : "false"; ?>;
+    MageMailData.newsletter_exit_modal_disabled = <?php echo $this->getHelper()->isNewsletterExitModalDisabled() ? "true" : "false"; ?>;
+
+    MageMailData.jquery_remodal_js_url = <?php echo $this->getHelper()->getJqueryRemodalJsUrl(); ?>;
+    MageMailData.jquery_remodal_css_url = <?php echo $this->getHelper()->getJqueryRemodalCssUrl(); ?>;
+    MageMailData.ouibounce_js_url = <?php echo $this->getHelper()->getOuibounceJslUrl(); ?>;
+    MageMailData.exit_modal_css_url = <?php echo $this->getHelper()->getExitModalCssUrl(); ?>;
+
+    <?php if ($this->getHelper()->autoLoginEnabled()): ?>
+        MageMailData.auto_login = true;
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getJavascriptLoggingDisabled()): ?>
+        MageMailData.javascript_logging_disabled = true;
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getCouponBarMessageNotActivated()): ?>
+        MageMailData.coupon_bar_message_not_activated = "<?php echo $this->getHelper()->getCouponBarMessageNotActivated(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getCouponBarMessageActivated()): ?>
+        MageMailData.coupon_bar_message_activated = "<?php echo $this->getHelper()->getCouponBarMessageActivated(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getMessageUpdatingCart()): ?>
+        MageMailData.message_updating_cart = "<?php echo $this->getHelper()->getMessageUpdatingCart(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getMessageReloadingForCoupon()): ?>
+        MageMailData.message_reloading_for_coupon = "<?php echo $this->getHelper()->getMessageReloadingForCoupon(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getMessageReloadingForCart()): ?>
+        MageMailData.message_reloading_for_cart = "<?php echo $this->getHelper()->getMessageReloadingForCart(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getMessageClose()): ?>
+        MageMailData.message_close = "<?php echo $this->getHelper()->getMessageClose(); ?>";
+    <?php endif; ?>
+    <?php if ($this->getHelper()->getMessageHoursSymbol()): ?>
+        MageMailData.message_hours_symbol = "<?php echo $this->getHelper()->getMessageHoursSymbol(); ?>";
+    <?php endif; ?>
+    <?php foreach ($this->getHelper()->getLanguageKeys() as $langKey): ?>
+        <?php if ($this->getHelper()->getLanguageValue($langKey)): ?>
+            MageMailData.lang_<?php echo $langKey; ?> = "<?php echo $this->getHelper()->getLanguageValue($langKey); ?>";
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+</script>
+
+<?php echo $this->getHelper()->getAdditionalHtml(); ?>
+
+<script>
+requirejs(['prototype'], function(){
+    FORM_KEY = 'required-ajax-parameter'; //Magento 2 requires this global variable to be set for triggering Ajax requests.
+    requirejs(['<?php echo $this->getHelper()->getMageMailJavascriptUrl();?>']);
+});
+</script>

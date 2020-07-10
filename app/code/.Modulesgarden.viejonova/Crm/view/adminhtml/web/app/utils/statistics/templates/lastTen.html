@@ -1,0 +1,69 @@
+
+<div class="col-md-12">
+
+    <div class="box light" ng-class="{'toogled': hiddenLeads }">
+        <div class="box-title">
+            <div class="caption">
+                <span class="bold font-red-thunderbird uppercase pull-left" style="padding-top:5px;">
+                    {{ 'statistics.last10.leads' | translate }}
+                </span>
+                <select class="form-control input-sm pull-left margin-left-10" style="width: 150px;" ng-options="c.id as c.name for c in contactTypes | filter:{active:true}:true" ng-model="initialContactType"></select>
+            </div>
+            <div class="actions">
+                <a href="#" ng-show="hiddenLeads" ng-click="hiddenLeads=!hiddenLeads" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="hiddenLeads" ng-click="hiddenLeads=!hiddenLeads" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <table class="table table-striped table-hover align-vertical" id="leadsTable" highlight-active-table-header="border-bottom-red">
+                <colgroup>
+                    <col />
+                    <col width="150" />
+                    <col width="200" />
+                    <col width="200" />
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>{{ 'statistics.last10.th.leadname' | translate }}</th>
+                    <th>{{ 'statistics.last10.th.status' | translate }}</th>
+                    <th>{{ 'statistics.last10.th.admin' | translate }}</th>
+                    <th>{{ 'statistics.last10.th.created' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody block-ui="lastTenLeads">
+                    <tr ng-repeat="row in showData">
+                        <td class="">
+                            <a ui-sref="contacts.details.summary({id: row.id })">
+                                {{ row.name }}
+                            </a>
+                        </td>
+                        <td class="">
+                            <span class="label" ng-style="{'background-color': row.status.color }">{{ ::row.status.name }}</span>
+                        </td>
+                        <td class="">
+                            <a ng-if="row.admin.user_id" href="mailto: {{ ::row.admin.email }}">
+                                {{ ::row.admin.firstname }} {{ ::row.admin.lastname }}
+                            </a>
+                            <small class="text-muted" ng-hide="row.admin.user_id">{{ 'text.not.assigned' | translate }}</small>
+                        </td>
+                        <td class="">
+                            {{ row.created_at }}
+                        </td>
+                    </tr>
+                    <tr ng-hide="showData.length">
+                        <td colspan="4" class="text-center">
+                            <h4>{{ 'table.empty.msg' | translate }}</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>	
+        </div>
+    </div>
+
+</div>
+

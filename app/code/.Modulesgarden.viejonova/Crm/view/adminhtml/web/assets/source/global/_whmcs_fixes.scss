@@ -1,0 +1,58 @@
+/**
+ * Get rid of WHMCS injected module name
+ */
+.contentarea, 
+#contentarea,
+#content
+{
+    padding: 0;
+    background-color: $contentarea-bg-color;
+    border: none;
+    border-radius: 5px 5px 4px 4px;
+    min-height: initial;
+    margin-left: 10px !important;
+
+    > h1
+    {
+        display: none;
+    }
+
+    > div > h1:first-child
+    {
+        display: none;
+    }
+}
+
+/**
+ * one custom template fix
+ */
+#content_padded {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/**
+ * get rid of sidebar
+ */
+#sidebaropen,
+#left_side,
+#sidebar {
+    display: none !important;
+}
+
+/**
+ *
+ * Define stanard typography
+ * Bottom level rule for all module child elements !
+ * we want to get rid of standard whmcs rules insude our module :D
+ *******************************/
+div.mg-wrapper.body
+{
+    // global module typography
+    color:          $text-color;
+    font-family:    $font-family-default;
+    font-size:      $font-size-base;
+    line-height:    1.5;
+    font-style:     normal;
+    font-weight:    normal;
+}

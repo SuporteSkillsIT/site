@@ -1,0 +1,185 @@
+<div class="box light bordered" ng-class="{'toogled': toogled }">
+    <div class="box-title">
+        <div class="caption">
+            <span class="bold font-blue-steel uppercase">
+
+              {{ 'resource.summary.widget.main' | translate }}
+            </span>
+            <span class="caption-helper">
+              {{ 'resource.summary.widget.main.descr' | translate }}
+            </span>
+        </div>
+        <div class="actions">
+            <a href="#" ng-show="toogled" ng-click="toogled=!toogled" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-expand"></i>
+            </a>
+            <a href="#" ng-hide="toogled" ng-click="toogled=!toogled" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+              <i class="fa fa-compress"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body crm-customfields-form">
+
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.assignedclient' | translate }}
+            </label>
+            <div class="col-sm-8">
+                <span class="formatedValue">
+                    <a ng-if="mainData.client" href="clientssummary.php?userid={{ mainData.client.id }}" target="_blank">
+                        #{{ mainData.client.id }} {{ mainData.client.firstname }} {{ mainData.client.lastname }}
+                    </a>
+
+                    <small ng-if="!mainData.client" class="text-muted">{{ 'text.not.assigned' | translate }}</small>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.ticket' | translate }}
+            </label>
+            <div class="col-sm-8">
+
+                <span class="formatedValue">
+                    <small ng-hide="mainData.ticket.id" class="text-muted">{{ ::('text.not.assigned' | translate) }}</small>
+
+                    <span ng-show="mainData.ticket.id">
+                        <a href="supporttickets.php?action=view&id={{ mainData.ticket.id }}" target="_blank">
+                            #{{ mainData.ticket.tid }}: {{ mainData.ticket.title }}
+                        </a>
+                    </span>
+                </span>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.email' | translate }}
+            </label>
+            <div class="col-sm-8">
+
+                <span class="formatedValue">
+
+                    <span ng-show="mainData.email">{{ mainData.email }}</span>
+                    <small ng-hide="mainData.email" class="text-muted">{{ ::('text.not.set' | translate) }}</small>
+
+                    <a ui-sref="contacts.details.emails({id: mainData.id })" ng-show="mainData.email" class="btn btn-xs btn-icon-only btn-primary pull-right margin-right-10 showOnMouseOver"><i class="icon-envelope-letter"></i></a>
+                </span>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.phone' | translate }}
+            </label>
+            <div class="col-sm-8">
+
+                <span class="formatedValue">
+
+                    <span ng-show="mainData.phone">{{ mainData.phone }}</span>
+                    <small ng-hide="mainData.phone" class="text-muted">{{ ::('text.not.set' | translate) }}</small>
+
+                    <a ng-click="openAsterishWidget(mainData.phone)" ng-show="mainData.phone && settings.config.integrations.asterisk" class="btn btn-xs btn-icon-only btn-primary pull-right margin-right-10 showOnMouseOver"><i class="icon-call-end"></i></a>
+                </span>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.type' | translate }}
+            </label>
+            <div class="col-sm-8">
+                <span class="formatedValue">
+                    <span ng-show="contactType.name" class="label label-sm" ng-style="{'background-color': contactType.color}">
+                        {{ contactType.name }}
+                    </span>
+                    <i ng-show="contactType.icon" ng-class="contactType.icon" class="pull-right"></i>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="form-group showOnMouseOverContainer row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.campaign' | translate }}
+            </label>
+            <div class="col-sm-8">
+
+                <span class="formatedValue">
+
+                    <div ng-repeat="c in filteredCampaigns = (temp.campaigns | filter:campaignIsAssigned:true)" ng-style="$last && {'padding-bottom':'6px'}"><span class="label label-sm" ng-style="c.color && {'background-color': c.color }">{{ c.name }}</span></div>
+                    <small ng-hide="filteredCampaigns.length" class="text-muted">{{ ::('text.not.assigned' | translate) }}</small>
+
+                </span>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group row row-eq-height">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.created' | translate }}
+            </label>
+            <div class="col-sm-8">
+                <span class="formatedValue">
+                    {{ mainData.created_at }}
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group row row-eq-height" ng-if="mainData.deleted_at">
+            <label class="col-sm-4 control-label">
+                {{ 'resource.summary.main.deleted' | translate }}
+            </label>
+            <div class="col-sm-8">
+                <span class="formatedValue">
+                    {{ mainData.deleted_at }}
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="box light bordered" ng-class="{'toogled': !toogledCampaignNotes }" ng-hide="(temp.campaigns | filter:campaignIsAssigned:true).length == 0">
+    <div class="box-title">
+        <div class="caption">
+            <span class="bold font-green-grey uppercase">
+                {{ ::('resource.summary.main.campaign.notes' | translate) }}
+            </span>
+            <span class="caption-helper">
+                {{ ::('resource.summary.main.campaign.notes.descr' | translate) }}
+            </span>
+        </div>
+        <div class="actions">
+            <a href="#" ng-show="toogled" ng-click="toogledCampaignNotes=!toogledCampaignNotes" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-compress"></i>
+            </a>
+            <a href="#" ng-hide="toogled" ng-click="toogledCampaignNotes=!toogledCampaignNotes" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-expand"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body crm-customfields-form">
+        
+        <div class="row" ng-repeat="c in filteredCampaigns = (temp.campaigns | filter:campaignIsAssigned:true)">
+            <div class="form-group">
+                <label class="col-sm-12 control-label" style="text-align: left;">
+                    <span ng-style="c.color && {'color': c.color }">
+                        {{ c.name }}
+                    </span>
+                </label>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12" ng-class="$last ? 'margin-bottom-10' : 'margin-bottom-20'" style="padding-top: 5px;" ng-bind-html="c.description"></div>
+        </div>
+    </div>
+</div>

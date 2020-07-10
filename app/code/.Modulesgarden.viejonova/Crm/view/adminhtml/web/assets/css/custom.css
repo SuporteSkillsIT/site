@@ -1,0 +1,395 @@
+@charset "UTF-8";
+/**
+ * Full screen wrapper
+ */
+.mg-wrapper.full-screen-module-on {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 10; }
+
+/**
+ * remove rounded corners in full screen mode
+ */
+.box-fullscreen .contentarea,
+.box-fullscreen #contentarea,
+.box-fullscreen .contentarea .page-header .top-menu {
+  border-radius: 0 !important; }
+
+/* Full Screen box mode */
+.page-box-fullscreen {
+  overflow: hidden; }
+
+/**
+ * Full screen wrapper
+ */
+.mg-wrapper {
+  /*
+   * Row with equal height columns
+   * --------------------------------------------------
+   */ }
+  .mg-wrapper .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+
+/**
+ * Lead details page Main detgails fixes for form, etc
+ */
+.mg-wrapper .showOnMouseOverContainer .showOnMouseOver {
+  opacity: 0;
+  -webkit-transition: opacity 0.1s linear;
+  transition: opacity 0.1s linear; }
+.mg-wrapper .showOnMouseOverContainer:hover .showOnMouseOver {
+  opacity: 1; }
+.mg-wrapper form.form-inline .help-block.editable-error {
+  display: inline;
+  margin-left: 10px; }
+.mg-wrapper .rating-container .ratings {
+  opacity: .5 !important;
+  font-size: small !important; }
+.mg-wrapper div.single-field div {
+  height: 30px;
+  line-height: 30px; }
+.mg-wrapper div.single-field:hover {
+  background-color: rgba(255, 255, 255, 0.5); }
+.mg-wrapper div.single-field .form-group {
+  margin-bottom: 0;
+  border-bottom: 1px solid #eee; }
+.mg-wrapper .content-box div.single-field .form-group:last-child {
+  border-bottom: none; }
+.mg-wrapper .content-box div.single-field .form-group label {
+  padding-bottom: 5px;
+  color: #777; }
+.mg-wrapper .content-box div.single-field .form-group label .right {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  border-left: 1px dotted #eee; }
+
+/**
+ *  awesome loadre flow
+ */
+.mg-wrapper .mg-loader-flow {
+  display: inline-block;
+  margin: 1px;
+  height: 22px;
+  width: 22px; }
+.mg-wrapper .under-header-message-container {
+  height: 30px; }
+.mg-wrapper .under-header-message-container .message {
+  padding: 0px 10px;
+  float: right; }
+.mg-wrapper .under-header-message-container .mg-loader-flow {
+  float: right;
+  margin-top: -1px; }
+.mg-wrapper .mg-loader-flow.active,
+.mg-wrapper .mg-loader-flow:hover {
+  -webkit-animation: spin-rotate 0.7s infinite ease;
+  animation: spin-rotate 0.7s infinite ease; }
+@-webkit-keyframes spin-rotate {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(359deg); } }
+@keyframes spin-rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg); } }
+.mg-wrapper .header-message-enter,
+.mg-wrapper .header-message-leave {
+  -webkit-transition: 400ms cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  transition: 400ms cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  position: relative;
+  display: block; }
+.mg-wrapper .header-message-enter.header-message-enter-active,
+.mg-wrapper .header-message-leave {
+  opacity: 1;
+  top: 0;
+  height: 30px; }
+.mg-wrapper .animate-leave.animate-leave-active,
+.mg-wrapper .animate-enter {
+  opacity: 0;
+  top: -50px;
+  height: 0px; }
+
+.mg-wrapper .loadingNotificationIn, .mg-wrapper .loadingNotificationOut {
+  -webkit-transition: -webkit-transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1);
+  transition: transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1); }
+.mg-wrapper .loadingNotificationIn.ng-hide-remove,
+.mg-wrapper .loadingNotificationOut.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
+  -webkit-transform: translate3d(100px, 0px, 0px);
+  transform: translate3d(100px, 0px, 0px);
+  display: block !important; }
+.mg-wrapper .loadingNotificationOut.ng-hide-add,
+.mg-wrapper .loadingNotificationIn.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+  display: block !important;
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  transform: translate3d(0px, 0px, 0px); }
+
+/***********************
+ *    SMART TABLE
+ ***********************/
+.mg-wrapper .st-sort-ascent:after {
+  content: '\25B2'; }
+.mg-wrapper .st-sort-descent:after {
+  content: '\25BC'; }
+.mg-wrapper .st-selected {
+  background: #216eff !important;
+  color: white !important; }
+.mg-wrapper .mg-wrapper .pagination {
+  margin-top: 0; }
+.mg-wrapper .border-bottom-red {
+  border-bottom-color: #d84a38 !important;
+  color: #d84a38 !important; }
+
+/***********************
+ *    Custom form for editable fields
+ ***********************/
+.mg-wrapper .tabbable ul li.active .badge {
+  background-color: rgba(0, 0, 0, 0.5); }
+.mg-wrapper .tabbable ul li .badge {
+  background-color: rgba(0, 0, 0, 0.2); }
+
+/***********************
+ *    Custom form for editable fields
+ ***********************/
+.mg-wrapper .crm-customfields-form.box-body {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
+.mg-wrapper .crm-customfields-form .control-label {
+  text-align: right;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  color: #777;
+  border-right: 1px dotted #eeeeee; }
+.mg-wrapper .crm-customfields-form .form-group {
+  margin-bottom: 0;
+  border-bottom: 1px solid #eeeeee; }
+  .mg-wrapper .crm-customfields-form .form-group .editable-controls {
+    margin-top: 4px; }
+    .mg-wrapper .crm-customfields-form .form-group .editable-controls inputt:not([type=radio]) {
+      width: 100%; }
+.mg-wrapper .crm-customfields-form .form-group:last-child {
+  border-bottom: none;
+  padding-bottom: 5px; }
+.mg-wrapper .crm-customfields-form .form-group:first-child .control-label {
+  padding-top: 0 !important; }
+.mg-wrapper .crm-customfields-form .form-group:first-child .formatedValue {
+  padding-top: 0 !important; }
+.mg-wrapper .crm-customfields-form .editable-pencil {
+  color: rgba(68, 68, 68, 0.5);
+  cursor: pointer;
+  float: right; }
+.mg-wrapper .crm-customfields-form .formatedValue {
+  display: block;
+  padding-top: 7px; }
+.mg-wrapper .crm-customfields-form .formatedValue:first-child {
+  display: block; }
+.mg-wrapper .crm-customfields-form form.editable-select,
+.mg-wrapper .crm-customfields-form form.editable-text,
+.mg-wrapper .crm-customfields-form form.editable-textarea,
+.mg-wrapper .crm-customfields-form form.editable-select > .editable-controls,
+.mg-wrapper .crm-customfields-form form.editable-text > .editable-controls,
+.mg-wrapper .crm-customfields-form form.editable-textarea > .editable-controls,
+.mg-wrapper .crm-customfields-form form.editable-select select.editable-input,
+.mg-wrapper .crm-customfields-form form.editable-text .editable-input,
+.mg-wrapper .crm-customfields-form form.editable-textarea .editable-input {
+  width: 100%; }
+.mg-wrapper .crm-customfields-form form.editable-textarea textarea.editable-input {
+  resize: vertical !important; }
+.mg-wrapper .crm-customfields-form form.editable-select .editable-buttons,
+.mg-wrapper .crm-customfields-form form.editable-textarea .editable-buttons,
+.mg-wrapper .crm-customfields-form form.editable-text .editable-buttons {
+  float: left;
+  margin-top: 5px !important;
+  margin-left: 0 !important; }
+.mg-wrapper .crm-customfields-form form.editable-select .editable-error,
+.mg-wrapper .crm-customfields-form form.editable-textarea .editable-error,
+.mg-wrapper .crm-customfields-form form.editable-text .editable-error {
+  float: left; }
+.mg-wrapper ul.datetime-picker-dropdown {
+  padding-bottom: 5px;
+  padding-top: 5px; }
+
+/***********************
+ *    Custom form for ui-select
+ ***********************/
+.mg-wrapper .ui-select-container .ui-select-match .btn.btn-link {
+  border: none; }
+  .mg-wrapper .ui-select-container .ui-select-match .btn.btn-link i {
+    font-style: normal; }
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper table.align-vertical td {
+  vertical-align: middle !important; }
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper .ta-toolbar.btn-toolbar .btn i.fa {
+  height: 17px; }
+.mg-wrapper .ta-toolbar.btn-toolbar {
+  margin-bottom: 5px; }
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper .simple-calendar {
+  font-size: 62.5%; }
+.mg-wrapper .simple-calendar .week-header {
+  border: 1px solid #ddd;
+  border-bottom: none; }
+.mg-wrapper .simple-calendar .day-name {
+  text-align: center;
+  font-size: 11px;
+  width: calc(100% / 7);
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  line-height: 1.42857143;
+  font-weight: bold;
+  color: #464646; }
+.mg-wrapper .simple-calendar .day-name.first {
+  border-left: none; }
+.mg-wrapper .simple-calendar .simple-calendar-body {
+  border: 1px solid #ddd;
+  border-top: none; }
+.mg-wrapper .simple-calendar .week {
+  height: 50px;
+  border-top: 1px solid #ddd; }
+.mg-wrapper .simple-calendar .week.odd {
+  /*background-color: lightblue;*/ }
+.mg-wrapper .simple-calendar .week.even {
+  /*background-color: antiquewhite;*/ }
+.mg-wrapper .simple-calendar .week.first {
+  /*border-top: none;*/ }
+.mg-wrapper .simple-calendar .week.last {
+  /*border-radius: 0 0 10px 10px;*/ }
+.mg-wrapper .simple-calendar .day {
+  text-align: center;
+  width: calc(100% / 7);
+  height: 100%;
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  position: relative; }
+.mg-wrapper .simple-calendar .day.first {
+  border-left: none; }
+.mg-wrapper .simple-calendar .day .number {
+  border-left: none;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 11px; }
+.mg-wrapper .simple-calendar .day .events {
+  display: none;
+  position: absolute;
+  top: 20px;
+  text-align: center;
+  width: 100%; }
+.mg-wrapper .simple-calendar .day .events .label {
+  font-size: 1.5em; }
+.mg-wrapper .simple-calendar .day.today {
+  background-color: #E6F6FF; }
+.mg-wrapper .simple-calendar .day.validDay {
+  cursor: pointer; }
+.mg-wrapper .simple-calendar .day.activeday {
+  background-color: #fcf8e3 !important; }
+.mg-wrapper .simple-calendar .day.beforetoday {
+  /*background-color: #FBF1F2;*/ }
+.mg-wrapper .simple-calendar .day.aftertoday {
+  /*background-color: #F1F5FB;*/ }
+.mg-wrapper .simple-calendar .day.aftertoday .badge {
+  background-color: #F3565D; }
+.mg-wrapper .simple-calendar .day.beforetoday .badge {
+  background-color: #F3D3D5; }
+.mg-wrapper .simple-calendar .day.hasEvents .events {
+  display: block; }
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper .sortableContainer .single-field:nth-of-type(odd) {
+  background-color: #f9f9f9; }
+.mg-wrapper .sortableContainer .single-field form.form-inline.editable-wrap editable-controls {
+  margin-top: -3px; }
+.mg-wrapper .sortableItem {
+  padding: 5px 15px; }
+
+/**
+ * Firefox fix for color input
+ */
+.mg-wrapper input[type=color].editable-input {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle; }
+
+/**
+ * Fix for notifications margin inside box
+ */
+.mg-wrapper .box > .box-body.notifications > div.note:last-child {
+  margin-bottom: 0; }
+
+/**
+ * Rounded switches
+ * @author Piotr Sarzyński <piotr.sa@modulesgarden.com> / < >
+ */
+.mg-wrapper .picek-switch > input.switch-rounded[type=checkbox] {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden; }
+.mg-wrapper input.switch-rounded + label {
+  padding: 2px;
+  width: 45px;
+  height: 20px;
+  background-color: transparent;
+  border-radius: 20px; }
+.mg-wrapper input.switch-rounded + label:before,
+.mg-wrapper input.switch-rounded + label:after {
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: 1px;
+  content: ""; }
+.mg-wrapper input.switch-rounded + label:before {
+  right: 1px;
+  background-color: #E0E0E0;
+  height: 20px;
+  border-radius: 10px;
+  -webkit-transition: background 0.4s;
+  transition: background 0.4s; }
+.mg-wrapper input.switch-rounded + label:after {
+  margin-left: 5px;
+  width: 16px;
+  margin-top: 2px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-transition: margin 0.4s;
+  transition: margin 0.4s; }
+.mg-wrapper input.switch-rounded:checked + label:before {
+  background-color: #34A746; }
+.mg-wrapper input.switch-rounded:checked + label:after {
+  margin-left: 24px; }
+.mg-wrapper .picek-switch {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  padding: 0px; }
+.mg-wrapper .variable-on-mousehover:hover {
+  background-color: #F4F4F4;
+  cursor: pointer; }
+.mg-wrapper .box-title-pointer-on-hover:hover {
+  cursor: pointer; }
+.mg-wrapper .vertical-textarea {
+  resize: vertical !important; }

@@ -1,0 +1,41 @@
+<form class="form-horizontal" novalidate name="uploadFileForm" id="uploadFileForm"  ng-submit="uploadFileFormSubmit()" >
+    <fieldset>
+        <div class="form-group col-lg-12">
+            <div class="col-sm-4 control-label">
+                <label class="primary-font font-sm thin" for="files">{{ ::('resource.files.form.select' | translate) }}</label>
+            </div>
+            <div class="col-sm-8 margin-top-10">
+                <input type="file" id="files" name="files" ng-model="fileToUpload" />
+                
+                <small class="help-block">{{ 'settings.importexport.import.files.descr' | translate }}</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                <button 
+                        ng-disabled="uploadFileForm.$invalid"
+                        type="submit"
+                        class="btn btn-success btn-inverse">
+                    {{ ::('resource.files.form.btn.upload' | translate) }}
+                </button>   
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<div class="col-sm-12">
+    <div class="note note-success" ng-show="fileSummary.rows">
+        <p>
+            {{ ::('settings.importexport.import.file.detected' | translate) }}
+            <b>{{ fileSummary.rows }}</b> 
+            {{ ::('settings.importexport.import.file.rows' | translate) }}
+        </p>
+        
+        <button 
+                type="button"
+                ng-click="startImporting()"
+                class="btn btn-success btn-inverse">
+            {{ ::('settings.importexport.import.start' | translate) }}
+        </button>   
+    </div>
+</div>

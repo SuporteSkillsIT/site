@@ -1,0 +1,179 @@
+<div block-ui="fieldsBlockContainer" style="min-height: 200px;">
+
+    <div class="box light bordered" ng-repeat="group in fieldsParsed" ng-if="group.active" ng-class="{'toogled': groupIsHidden(group.id) }">
+        <div class="box-title">
+            <div class="caption">
+                  <span class="bold uppercase" ng-style="{'color': group.color }">
+                    {{ group.name }}
+                  </span>
+            </div>
+            <div class="actions">
+                <a href="#" ng-show="groupIsHidden(group.id)" ng-click="groupToogleHideHidden(group.id)" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="groupIsHidden(group.id)" ng-click="groupToogleHideHidden(group.id)" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body crm-customfields-form">
+
+            <div class="row-fluid">
+
+                <div class="form-group showOnMouseOverContainer row row-eq-height" ng-repeat="field in group.fields">
+                    <label class="col-sm-4 control-label">
+                        {{ field.name }}
+                    </label>
+                    <div class="col-sm-8">
+
+                        <span ng-if="field.type == 'text'">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span ng-hide="dynamicFieldForms.$waiting" editable-text="field.data.data" e-form="dynamicFieldForms" ng-model="field.data.data" onbeforesave="updateDynamicField(field.id, field.data.id, $data)">
+                                    <span class="formatedValue">
+                                        {{ field.data.data || ('text.not.set' | translate) }}
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+                        <span ng-if="field.type == 'textarea'">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span ng-hide="dynamicFieldForms.$waiting" editable-textarea="field.data.data" e-form="dynamicFieldForms" ng-model="field.data.data" onbeforesave="updateDynamicField(field.id, field.data.id, $data)"  >
+                                    <span class="formatedValue">
+                                        {{ field.data.data || ('text.not.set' | translate) }}
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+                        <span ng-if="field.type == 'select' && !!!field.multiple">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span 
+                                    ng-hide="dynamicFieldForms.$waiting" 
+                                    editable-select="field.data.optionsRaw[0]" 
+                                    e-ng-options="option.id as option.value for option in field.options" 
+                                    e-form="dynamicFieldForms" 
+                                    e-required="field.required" 
+                                    ng-model="field.data.optionsRaw[0]" 
+                                    onbeforesave="updateDynamicChoicesField(field, field.data.id, $data)"
+                                    onaftersave="updateDynamicSingleSelectFieldUpdateParsed(field)"
+                                    >
+                                    <span class="formatedValue">
+
+                                        <span ng-repeat="fd in field.data.optionsParsed">
+                                            {{ fd.value }}<small ng-if="!$last">, </small>
+                                        </span>
+                                        <span ng-hide="field.data.optionsParsed.length">{{ 'text.not.set' | translate }}</span>
+
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+                        <span ng-if="field.type == 'select' && field.multiple">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span 
+                                    ng-hide="dynamicFieldForms.$waiting" 
+                                    editable-select="field.data.optionsRaw" 
+                                    e-ng-options="option.id as option.value for option in field.options" 
+                                    e-multiple
+                                    e-required="field.required" 
+                                    e-form="dynamicFieldForms" 
+                                    ng-model="field.data.optionsRaw" 
+                                    onbeforesave="updateDynamicChoicesField(field, field.data.id, $data)"
+                                    onaftersave="updateDynamicCheckboxFieldUpdateParsed(field)"
+                                    >
+                                    <span class="formatedValue">
+
+                                        <span ng-repeat="fd in field.data.optionsParsed">
+                                            {{ fd.value }}<small ng-if="!$last">, </small>
+                                        </span>
+                                        <span ng-hide="field.data.optionsParsed.length">{{ 'text.not.set' | translate }}</span>
+
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+                        <span ng-if="field.type == 'radio'">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span 
+                                    ng-hide="dynamicFieldForms.$waiting" 
+                                    editable-radiolist="field.data.optionsRaw" 
+                                    e-ng-options="option.id as option.value for option in field.options" 
+                                    e-form="dynamicFieldForms" 
+                                    ng-model="field.data.optionsRaw" 
+                                    onbeforesave="updateDynamicChoicesField(field, field.data.id, $data)"
+                                    onaftersave="updateDynamicChoicesFieldUpdateParsed(field)"
+                                    >
+                                    <span class="formatedValue">
+
+                                        <span ng-repeat="fd in field.data.optionsParsed">
+                                            {{ fd.value }}<small ng-if="!$last">, </small>
+                                        </span>
+                                        <span ng-hide="field.data.optionsParsed.length">{{ 'text.not.set' | translate }}</span>
+
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+
+                        <span ng-if="field.type == 'checkbox'">
+                            <span ng-hide="dynamicFieldForms.$waiting">
+                                <span 
+                                    ng-hide="dynamicFieldForms.$waiting" 
+                                    editable-checklist="field.data.optionsRaw" 
+                                    e-ng-options="option.id as option.value for option in field.options" 
+                                    e-form="dynamicFieldForms" 
+                                    ng-model="field.data.optionsRaw" 
+                                    onbeforesave="updateDynamicChoicesField(field, field.data.id, $data)"
+                                    onaftersave="updateDynamicChoicesFieldUpdateParsed(field)"
+
+                                    >
+                                    <span class="formatedValue">
+
+                                        <span ng-repeat="fd in field.data.optionsParsed">
+                                            {{ fd.value }}<small ng-if="!$last">, </small>
+                                        </span>
+                                        <span ng-hide="field.data.optionsParsed.length">{{ 'text.not.set' | translate }}</span>
+
+                                        <span class="icon-pencil showOnMouseOver editable-pencil" ng-click="dynamicFieldForms.$show()"></span>
+                                    </span>
+                                </span>
+
+                            </span>
+                            <span ng-show="dynamicFieldForms.$waiting" class="mg-loader-flow active" style="position: absolute; top: -3px;"></span>
+                        </span>
+
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div><!--single field container-->
+
+            </div>
+
+            <div class="text-center" ng-if="!group.fields.length">
+                <h4>There are no active fields here</h4>
+            </div>
+
+        </div><!--box-body container-->
+
+    </div>
+
+</div>

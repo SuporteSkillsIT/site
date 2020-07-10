@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <body>
+        <referenceContainer name="after.body.start">
+            <block template="KJ_MageMail::kj_magemail/conversion.phtml" class="KJ\MageMail\Block\Conversion" name="kj_magemail_conversion" ifconfig="kj_magemail/settings/enable_javascript"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,139 @@
+
+
+<h2>Follow-up # {{ ngDialogData.followup.id }}
+    <button type="button" 
+            class="btn btn-primary btn-inverse pull-right margin-right-10" 
+            ui-sref="contacts.details.followup({id: ngDialogData.followup.resource_id, followupID: ngDialogData.followup.id })"
+            ng-click="closeThisDialog(0);"
+            >
+        {{ 'form.edit' | translate }}
+    </button>
+    <button type="button" 
+            class="btn btn-info btn-inverse pull-right margin-right-10" 
+            ui-sref="contacts.details.summary({id: ngDialogData.followup.resource_id})"
+            ng-click="closeThisDialog(0);"
+            >
+        #{{ ::ngDialogData.followup.resource_id }}: {{ ::ngDialogData.followup.resource.name }}
+        {{ 'text.summary' | translate }}
+    </button>
+</h2>
+<div class="form-horizontal">
+    
+    <div class="form-group no-margin">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                {{ 'followup.form.assignedfor' | translate }}
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <p class="primary-font text-left bold">
+                <span class="label margin-right-10" ng-style="{'background-color':ngDialogData.followup.resource.type_color}">
+                    <i ng-show="ngDialogData.followup.resource.type_name" ng-class="ngDialogData.followup.resource.type_name"></i>
+                    {{ ::(ngDialogData.followup.resource.type_name) }}
+                </span>
+                <span>
+                    #{{ ::ngDialogData.followup.resource_id }}: {{ ::ngDialogData.followup.resource.name }}
+                </span>
+            </p>
+        </div>
+    </div>
+    
+    <div class="form-group no-margin">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                {{ 'form.date' | translate }}
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <p class="primary-font text-left bold">
+                {{ ::ngDialogData.followup.date }}
+            </p>
+        </div>
+    </div>
+
+
+    <div class="form-group no-margin">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                {{ 'form.description' | translate }}
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <p class="primary-font text-left bold">
+                {{ ::ngDialogData.followup.description }}
+            </p>
+        </div>
+    </div>
+    
+
+    <div class="form-group no-margin">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                {{ 'form.admin' | translate }}
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <p class="primary-font text-left bold">
+                {{ ::( ngDialogData.admins | filter:{'user_id': ngDialogData.followup.admin_id})[0].full }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<h3>{{ 'followup.reminders' | translate }}</h3>
+<table class="table table-striped table-hover" highlight-active-table-header="border-bottom-red">
+    <colgroup>
+        <col width="50" />
+        <col width="200" />
+        <col width="100" />
+        <col width="100" />
+        <col />
+    </colgroup>
+    <thead>
+    <tr>
+        <th>{{ 'table.th.id' | translate }}</th>
+        <th>{{ 'table.th.date' | translate }}</th>
+        <th>{{ 'table.th.method' | translate }}</th>
+        <th>{{ 'table.th.status' | translate }}</th>
+        <th>{{ 'table.th.remind' | translate }}</th>
+    </tr>
+    </thead>
+    <tbody block-ui="remindersTable" style="min-height: 100px;">
+        <tr ng-repeat="row in reminders">
+            <td class="">#{{ row.id }}</td>
+            <td class="">{{ row.date }}</td>
+            <td>
+                <span class="label" ng-class="(row.type == 'email' ? 'label-info' : 'label-warning')">
+                    {{ row.type }}
+                </span>
+            </td>
+            <td>
+
+                <span class="label" ng-class="(row.status == 'sent' ? 'label-success' : (row.status == 'pending' ? 'label-warning' : 'label-danger'))">
+                    {{ row.status }}
+                </span>
+
+            </td>
+            <td class="">
+
+                <span ng-show="row.target == 'admin'">
+                    {{ 'table.reminders.admin' | translate }} 
+                    <strong>
+                        {{ ::( ngDialogData.admins | filter:{'user_id': row.target_id})[0].full }}
+                    </strong>
+                </span>
+                <span ng-show="row.target == 'resource'">{{ 'reminders.modal.client' | translate }}</span>
+
+            </td>
+        </tr>
+        <tr ng-hide="reminders.length">
+            <td colspan="5" class="text-center">
+                <h4>{{ 'table.reminders.empty' | translate }}</h4>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="ngdialog-buttons">
+    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">{{ 'form.close' | translate }}</button>
+</div>

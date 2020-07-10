@@ -1,0 +1,99 @@
+<div class="col-md-12">
+    <div class="box light bordered">
+        <div class="box-title">
+            <div class="caption">
+                  <span class="bold font-red-thunderbird uppercase">
+                    {{ 'resource.summary.notes.last' | translate }} {{ limitNotesTo }} {{ 'resource.summary.notes' | translate }}
+                  </span>
+            </div>
+            <div class="actions">
+                <button ng-show="showHidden" type="button" class="btn btn-sm" ng-click="triggerShowHidden()">
+                    {{ 'resource.summary.notes.hide.hidden' | translate }}
+                </button>
+                <button ng-hide="showHidden" type="button" class="btn btn-sm" ng-click="triggerShowHidden()">
+                    {{ 'resource.summary.notes.show.hidden' | translate }}
+                </button>
+
+                <a href="" ng-click="forceReloadNotes()" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only">
+                    <i class="icon-refresh"></i>
+                </a>
+                <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body" style="padding-top: 0;" block-ui="lastNotesContainer">
+
+            <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}">{{m.content}}</note>
+
+            <div class="timeline">
+
+
+                <!-- SINGLE TIMELINE ITEM -->
+                <div class="timeline-item showOnMouseOverContainer" ng-repeat="note in notes" ng-hide="!showHidden && note.deleted_at">
+                    <div class="timeline-badge">
+                        <img ng-show="note.admin.avatar" class="timeline-badge-userpic" ng-src="{{ note.admin.avatar }}">
+                        <div ng-hide="note.admin.avatar" class="timeline-icon">
+                            <i class="" ng-class="note.deleted_at ? 'font-grey icon-user-unfollow' : 'font-blue icon-user-following'"></i>
+                        </div>
+                    </div>
+
+                    <div class="timeline-body">
+                        <div class="timeline-body-arrow"></div>
+                        <div class="timeline-body-head">
+
+                            <div class="timeline-body-head-caption">
+                                <a href="mailto:{{ note.admin.email }}" class="timeline-body-alerttitle font-green-haze">{{ note.admin.firstname }} {{ note.admin.lastname }}</a>
+                                <small class="font-grey-cascade">{{ note.updated_at }}</small>
+
+                                <div ng-show="currentlyEditedID == note.id" class="label label-warning margin-left-10">currently editing</div>
+                                <div ng-show="note.deleted_at" class="label label-danger">hidden at: {{ note.deleted_at }}</div>
+                            </div>
+
+                            <div class="timeline-body-head-actions">
+
+                                <div class="btn-group btn-group-sm showOnMouseOver" ng-hide="mainData.deleted_at">
+                                    <button ng-hide="note.deleted_at" type="button" class="btn btn-sm btn-danger" ng-click="triggerDeleteNote(note.id, false)">
+                                        {{ 'resource.summary.notes.hidde' | translate }}
+                                    </button>
+                                    <button ng-show="note.deleted_at" type="button" class="btn btn-sm btn-success" ng-click="triggerRestoreNote(note.id)">
+                                        {{ 'resource.summary.notes.unhide' | translate }}
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-inverse" ng-click="triggerDeleteNote(note.id, true)">
+                                        {{ 'resource.summary.notes.delete' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-body-content font-grey-cascade">
+                            <div  ng-bind-html="note.content">
+                                {{ note.content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SINGLE TIMELINE ITEM -->
+
+                <div class="timeline-item showOnMouseOverContainer" ng-hide="notes.length">
+                    <div class="timeline-badge">
+                        <!--<img ng-show="note.admin.avatar" class="timeline-badge-userpic" src="http://dummyimage.com/80x80/000/fff">-->
+                        <div class="timeline-icon">
+                            <i class="icon-direction font-grey-mint"></i>
+                        </div>
+                    </div>
+
+                    <div class="timeline-body">
+                        <div class="timeline-body-arrow"></div>
+                        <div class="timeline-body-content text-center" style="margin-top: 10px;">
+                            <h3 class="font-grey-cascade no-margin">
+                                {{ 'resource.summary.notes.none' | translate }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

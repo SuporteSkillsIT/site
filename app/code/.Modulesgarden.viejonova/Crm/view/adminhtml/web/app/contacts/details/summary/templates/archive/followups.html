@@ -1,0 +1,131 @@
+<div class="col-md-12">
+    <div  st-pipe="callServer" st-table="displayed">
+        <div class="box light">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="bold font-red-thunderbird uppercase pull-left" style="padding-top: 9px;">
+                        {{ 'resource.summary.followupswidget' | translate }}
+                    </span>
+                    <div id="tableSearchContainer" style="width: 300px;" class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background: none;"><i class="font-red bold icon-magnifier"></i></span>
+                            <input st-search="description" id="followups-table-search" placeholder="{{ 'form.search.placeholder' | translate }}"  class="form-control" type="search" style="border-color: #e5e5e5;" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-flat" ng-class="{'active': displayFollowupsFilters == true}" ng-click="displayFollowupsFilters = !displayFollowupsFilters" type="button" style="height: 34px;"><i class="fa fa-filter"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions" style="padding-right: 11px; top: 17px;">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                        <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <note ng-repeat="m in followupMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+                <table class="table table-striped table-hover align-vertical" id="leadsTable" highlight-active-table-header="border-bottom-red">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="200" />
+                        <col />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th st-sort="id">{{ 'table.th.id' | translate }}</th>
+                            <th st-sort="date">{{ 'table.th.date' | translate }}</th>
+                            <th st-sort="type">{{ 'resource.summary.followups.th.type' | translate }}</th>
+                            <th st-sort="admin">{{ 'resource.summary.followups.th.admin' | translate }}</th>
+                            <th st-sort="description">{{ 'resource.summary.followups.th.descr' | translate }}</th>
+                            <th>{{ 'resource.summary.followups.th.reminders' | translate }}</th>
+                        </tr>
+                        <tr ng-show="displayFollowupsFilters">
+                            <th>
+                                <input type="number" min="0" st-search="id" class="form-control input-sm"/>
+                            </th>
+                            <th>
+                                <input type="text" st-search="date" class="form-control input-sm"/>
+                            </th>
+                            <th>
+                                <select st-search="type_id" st-input-event="change" class="form-control input-sm">
+                                    <option value="">{{ 'form.any' | translate }}</option>
+                                    <option ng-repeat="a in temp.followupTypes" value="{{ ::a.id }}">{{ ::a.name }}</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select st-search="admin_id" st-input-event="change" class="form-control input-sm">
+                                    <option value="">{{ 'form.any' | translate }}</option>
+                                    <option ng-repeat="a in temp.admins" value="{{ ::a.id }}">{{ ::a.full }}</option>
+                                </select>
+                            </th>
+                            <th>
+                                <input type="text" st-search="description" class="form-control input-sm"/>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody block-ui="followupsTable">
+                        <tr ng-repeat="row in displayed">
+                            <td class="">#{{ row.id }}</td>
+                            <td class="">{{ row.date }}</td>
+                            <td class="">
+                                <span class="label" ng-style="{'background-color': row.type.color }">
+                                    {{ row.type.name }}
+                                </span>
+                            </td>
+                            <td class="">
+
+                                <a ng-if="row.admin" href="mailto:{{ row.admin.email }}">#{{ row.admin.id }} {{ row.admin.firstname }} {{ row.admin.lastname }}</a>
+                                <span ng-if="!row.admin_id" class="uppercase">{{ 'text.system' | translate }}</span>
+
+                            </td>
+                            <td class="">{{ row.description }}</td>
+                            <td class="text-right">
+
+                                <button type="button" class="btn btn-sm btn-inverse" ng-class="( row.reminders_count > 0 ? 'btn-grey-medium' : 'btn-grey-light')" ng-click="showRemindersForFollowup(row)">
+                                    {{ row.reminders_count }}
+                                </button>
+
+                            </td>
+                        </tr>
+                        <tr ng-hide="displayed.length">
+                            <td colspan="6" class="text-center">
+                                <h4>{{ 'resource.summary.followups.none' | translate }}</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" class="text-left">
+
+                                <span ng-hide="itemsLastNr == 0">
+                                    {{ 'table.pagination.display' | translate }} 
+
+                                    <div class="btn-group btn-group-xs btn-group-solid">
+                                        <button type="button" class="btn" ng-class="{'active': itemsByPage == 10}" ng-click="itemsByPage = 10">10</button>
+                                        <button type="button" class="btn" ng-class="{'active': itemsByPage == 25}" ng-click="itemsByPage = 25">25</button>
+                                        <button type="button" class="btn" ng-class="{'active': itemsByPage == 50}" ng-click="itemsByPage = 50">50</button>
+                                        <button type="button" class="btn" ng-class="{'active': itemsByPage == 100}" ng-click="itemsByPage = 100">100</button>
+                                    </div>
+
+                                    {{ 'table.pagination.perpage' | translate }} {{ 'table.pagination.showing' | translate }} {{ itemsFirstNr }} {{ 'table.pagination.to' | translate }} {{ itemsLastNr }} {{ 'table.pagination.of' | translate }} {{ itemsTotal }} {{ 'table.pagination.entries' | translate }}
+
+                                </span>
+
+                                <div class="pull-right" st-pagination="" st-items-by-page="itemsByPage">
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>	
+
+            </div>
+        </div>
+    </div>
+
+</div>

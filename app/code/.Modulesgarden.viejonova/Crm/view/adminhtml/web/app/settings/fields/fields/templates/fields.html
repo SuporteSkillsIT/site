@@ -1,0 +1,170 @@
+<div class="tab-pane" ng-class="active">
+    <div class="container-fluid">
+        <div class="box light bordered" ng-class="{'toogled': formHidden }">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="bold font-green uppercase">
+                        {{ 'settings.fields.widget.new' | translate }}
+                    </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" ng-show="formHidden" ng-click="formHidden=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="javascript:;" ng-hide="formHidden" ng-click="formHidden=true" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-compress"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="formSubmitNewBlock" style="min-height: 100;">
+
+                <div ng-show="formSubmitDone" class="note note-success">
+                    <h5 class="note-title no-margin">{{ 'settings.fields.widget.new.succeed' | translate }}</h5>
+                </div>
+
+
+                    <form name="$parent.fieldform" novalidate valid-submit="newFieldFormSubmit()" role="form" class="form-horizontal">
+                        <fieldset>
+
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-6" ng-class="{'ng-invalid': (submitted && fieldform.name.$invalid), 'ng-valid': (submitted && fieldform.name.$valid)}">
+                                    <div class="col-sm-2 control-label">
+                                        <label class="primary-font font-sm thin" for="name">{{ 'form.name' | translate }}</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="name" ng-model="newField.name" required class="form-control" id="name" placeholder="{{ 'settings.fields.new.name.placeholder' | translate }}">
+                                        <small class="help-block error" ng-show="submitted && fieldform.name.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6" ng-class="{'ng-invalid': (submitted && fieldform.description.$invalid), 'ng-valid': (submitted && fieldform.description.$valid)}">
+                                    <div class="col-sm-2 control-label">
+                                        <label class="primary-font font-sm thin" for="description">{{ 'form.description' | translate }}</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="description" ng-model="newField.description" class="form-control" id="description" placeholder="{{ 'settings.fields.new.descr.placeholder' | translate }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-6" ng-class="{'ng-invalid': (submitted && fieldform.type.$invalid), 'ng-valid': (submitted && fieldform.type.$valid)}">
+                                    <div class="col-sm-2 control-label">
+                                        <label class="primary-font font-sm thin" for="type">{{ 'settings.fields.new.type' | translate }}</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="type" name="type" ng-model="newField.type" ng-options="type.name as type.name for type in fieldTypes" required>
+                                        </select>
+                                        <small class="help-block error" ng-show="submitted && fieldform.type.$invalid">{{ 'settings.fields.new.type.required' | translate }}</small>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6" ng-class="{'ng-invalid': (submitted && fieldform.group_id.$invalid), 'ng-valid': (submitted && fieldform.group_id.$valid)}">
+                                    <div class="col-sm-2 control-label">
+                                        <label class="primary-font font-sm thin" for="group_id">{{ 'settings.fields.new.group' | translate }}</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="group_id" name="group_id" ng-model="newField.group_id" ng-options="group.id as group.name for group in fieldGroups" required>
+                                        </select>
+                                        <small class="help-block error" ng-show="submitted && fieldform.group_id.$invalid">{{ 'settings.fields.new.group.required' | translate }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': (submitted && statusform.active.$invalid), 'ng-valid': (submitted && statusform.active.$valid)}">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-2 control-label">
+                                            <label class="primary-font font-sm thin" for="active">{{ 'form.enabled' | translate }}</label>
+                                        </div>
+                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                            <input type="checkbox" id="active" ng-model="newField.active" name="active">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group no-margin-bottom">
+                                <div class="col-sm-12 text-center">
+                                    <button type="submit" ng-click="$parent.submitted=true" class="btn btn-success btn-inverse">
+                                        {{ 'form.add' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+
+                <div class="clearfix"></div>
+
+
+            </div>
+        </div>
+    </div>
+    
+    
+    <h3 class="no-margin-top" style="padding-left: 15px;">
+        {{ 'settings.fields.list.widget.name' | translate }}
+    </h3>
+
+    <div class="container-fluid margin-top-20" block-ui="fieldsTable" style="min-height: 100px; width: 100%;">
+
+
+        <div 
+            class="row"
+            vertilize-container
+            ng-repeat="grpcounter in fieldGroups" ng-if="$index % 2 == 0" 
+            >
+            <div ng-repeat="group in fieldGroups.slice($index, $index+2)" >
+                <div class="col-lg-6" >
+                    <div class="box light bordered" vertilize>
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="caption-subject bold uppercase" ng-style="{'color': group.color }">{{ group.name }}</span>
+                            </div>
+
+                            <div class="actions" ng-hide="group.active">
+                                <i class="fa fa-warning font-red" tooltip-placement="left"   tooltip="{{ 'settings.fields.tooltip.disabled' | translate }}"></i>
+                            </div>
+                        </div>
+                        <div class="box-body no-padding">
+
+                            <div class="container-fluid margin-bottom-20 sortableContainer" ui-sortable="sortableOptions" ng-model="group.fields">
+
+
+                                <div class="row single-field sortableItem" ng-repeat="field in group.fields">
+                                    <div class="col-md-8 tex-left" style="padding-left: 0;">
+                                        <a href="#" class="margin-right-10 mySortableHandler">
+                                            <i class="fa fa-reorder"></i>
+                                        </a>
+                                        <div style="display: inline-block;">
+                                            <a href="#" editable-text="field.name"  ng-model="field.name" onaftersave="sentFieldToUpdate(field.id, 'name', $data)">
+                                                #{{ field.id }} {{ field.name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <small>{{ field.type }}</small>
+                                        
+                                        <div class="btn-group btn-group-xs btn-group-solid pull-right margin-top-5" >
+                                             <button ui-sref="settings.fields.edit({id:field.id})" type="button" class="btn btn-primary"><i class="fa fa-pencil"></i></button>
+                                             <button ng-show="field.active" type="button" class="btn btn-danger"  ng-click="sentFieldToUpdate(field.id, 'active', false)"><i class="fa fa-square-o"></i></button>
+                                             <button ng-hide="field.active" type="button" class="btn btn-success" ng-click="sentFieldToUpdate(field.id, 'active', true)"><i class="fa fa-check-square-o"></i></button>
+                                             <button type="button" class="btn btn-danger btn-inverse btn-icon-only" ng-click="confirmDelete(field.id)"><i class="fa fa-trash-o"></i></button>
+                                        </div>
+                                        
+                                        <span ng-show="field.active==true" class="label label-success pull-right margin-right-10" style="margin-top: 7px;">{{ 'text.active' | translate }}</span>
+                                        <span ng-hide="field.active==true" class="label label-danger  pull-right margin-right-10" style="margin-top: 7px;">{{ 'text.inactive' | translate }}</span>
+
+                                    </div>
+                                </div>
+
+                                <h5 class="text-center" ng-hide="group.fields.length">
+                                    {{ 'settings.fields.no.in.group' | translate }}
+                                </h5>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

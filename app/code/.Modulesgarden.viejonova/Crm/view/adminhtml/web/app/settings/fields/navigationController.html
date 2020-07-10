@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box light bordered">
+            <div class="box-title tabbable-line">
+                <ul class="nav nav-tabs nav-left">
+
+                    <li ui-sref-active-if="settings.fields.list;settings.fields.edit" ui-sref-active-many="true">
+                        <a data-toggle="tab" href ui-sref="settings.fields.list"  data-target="settings.fields.list">
+                            {{ ::('settings.fields.tab.list' | translate) }}
+                        </a>
+                    </li>
+                    
+                    <li ui-sref-active="active">
+                        <a data-toggle="tab" href ui-sref="settings.fields.groups"  data-target="settings.fields.groups">
+                            {{ ::('settings.fields.tab.groups' | translate) }}
+                        </a>
+                    </li>
+                    
+                    <li ui-sref-active="active" ng-if="hasAccess('settings.manage_statuses')">
+                        <a data-toggle="tab" href ui-sref="settings.fields.statuses"  data-target="settings.fields.statuses">
+                            {{ ::('settings.fields.tab.statuses' | translate) }}
+                        </a>
+                    </li>
+                    
+<!--                    <li ui-sref-active="active" ng-if="hasAccess('settings.manage_fields_map')">
+                        <a data-toggle="tab" href ui-sref="settings.fields.map"  data-target="settings.fields.map">
+                            {{ ::('settings.fields.tab.map' | translate) }}
+                        </a>
+                    </li>-->
+                    
+                </ul>
+
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                      <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="tab-content">
+                    <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+                    <div ui-view></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,311 @@
+<div class="col-md-12" ng-hide="!hasAccess('resources.allow_notes') && !hasAccess('resources.allow_email') && !hasAccess('resources.create_followup') && !hasAccess('resources.allow_ticket_respose')">
+    <div class="box light bordered">
+        <div class="box-title tabbable-line">
+            <ul class="nav nav-tabs nav-left">
+                <li ng-class="{'active': activeTab == 'note'}" ng-if="hasAccess('resources.allow_notes')">
+                    <a data-toggle="tab" ng-click="activeTab='note'" >
+                        {{ 'resource.summary.tab.addnote' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{'active': activeTab == 'email'}" ng-if="hasAccess('resources.allow_email')">
+                    <a data-toggle="tab" ng-click="activeTab='email'" >
+                        {{ 'resource.summary.tab.sentemail' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{'active': activeTab == 'followup'}" ng-if="hasAccess('resources.create_followup')">
+                    <a data-toggle="tab" ng-click="activeTab='followup'" >
+                        {{ 'resource.summary.tab.addfollowup' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{'active': activeTab == 'ticketResponse'}" ng-if="hasAccess('resources.allow_ticket_respose')">
+                    <a data-toggle="tab" ng-click="activeTab='ticketResponse'" ng-hide="!mainData.ticket_id" >
+                        {{ 'resource.summary.tab.addticketresp' | translate }}
+                    </a>
+                    <span ng-show="!mainData.ticket_id" style="margin: 0; padding: 12px 13px 13px 13px; font-size: 13px; color: #AAA; display: block; line-height: 1.42857; cursor: not-allowed;">
+                        {{ 'resource.summary.tab.addticketresp' | translate }}
+                    </span>
+                </li>
+            </ul>
+
+            <div class="actions" style="padding-right: 10px;">
+                <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <note ng-repeat="m in scopeSummaryMessages" type="{{m.type}}" dismiss="true"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+            <div ng-show="activeTab == 'note'" block-ui="newNoteContainer" style="min-height: 100;">
+
+                <div ng-show="formSubmitNoteDone" class="note note-success">
+                    <h4 class="note-title no-margin">{{ 'resource.summary.notes.add.success' | translate }}</h4>
+                </div>
+
+                <textarea 
+                    placeholder="{{ 'resource.summary.notes.add.placeholder' | translate }}" 
+                    class="form-control vertical-textarea" 
+                    ng-model="$parent.newNoteContent"
+                ></textarea>
+
+                <div class="col-sm-12 text-center margin-top-10">
+                    <button 
+                            ng-click="addNewNote()"
+                            ng-disabled="!newNoteContent"
+                            type="button"
+                            class="btn btn-success btn-inverse">
+                        {{ 'resource.summary.notes.btn.add' | translate }}
+                    </button>   
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div ng-show="activeTab == 'email'" block-ui="newEmailContainer" style="min-height: 100;">
+
+                <div ng-show="sendEmailDone" class="note note-success">
+                    <h4 class="note-title no-margin">
+                        {{ 'resource.summary.email.add.success' | translate }}
+                    </h4>
+                </div>
+
+                <form class="form-horizontal" novalidate name="sendEmailForm" id="sendEmailForm"  ng-submit="sendEmailFormSubmit()" >
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <h5 for="from" class="text-left no-margin-top">
+                                    {{ 'resource.summary.email.from' | translate }}
+                                    <i class="fa fa-question-circle" tooltip-placement="right" tooltip="{{ 'resource.summary.email.from.tooltip' | translate }}"></i>
+                                </h5>
+                                <select class="form-control input-sm" name="from" ng-model="modelSentEmail.from" ng-options="d.id as d.fullemail for d in formData.departments" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <h5 for="to" class="text-left no-margin-top">
+                                    {{ 'resource.summary.email.to' | translate }}
+                                    <i class="fa fa-question-circle" tooltip-placement="right" tooltip="{{ 'resource.summary.email.to.tooltip' | translate }}"></i>
+                                </h5>
+                                <select class="form-control input-sm" name="to" ng-model="modelSentEmail.to" required>
+                                    <option ng-repeat="email in formData.targetEmails" value="{{ email }}">{{ email }}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <h5 for="template" class="text-left no-margin-top">
+                                    {{ 'resource.summary.email.template' | translate }}
+                                    <i class="fa fa-question-circle" tooltip-placement="right" tooltip="{{ 'resource.summary.email.template.tooltip' | translate }}"></i>
+                                </h5>
+                                <select class="form-control input-sm" name="template" ng-model="modelSentEmail.template">
+                                    <option value="false">{{ 'resource.summary.email.template.none' | translate }}</option>
+                                    <option ng-repeat="t in formData.templates" value="{{ ::t.id }}">{{ ::t.full }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="modelSentEmail.template != 'false'">
+                            <div class="col-sm-2 control-label">
+                                <label class="primary-font font-sm thin" for="subject">{{ 'resource.summary.email.subject' | translate }}</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" id="subject" name="subject" ng-model="modelSentEmail.subject" placeholder="{{ 'resource.summary.email.subject.placeholder' | translate }}" required class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="modelSentEmail.template != 'false'">
+                            <div class="col-sm-2 control-label">
+                                <label class="primary-font font-sm thin" for="email_content">{{ 'resource.summary.email.content' | translate }}</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <textarea 
+                                    id="email_content"
+                                    name="email_content"
+                                    ng-model="modelSentEmail.content"
+                                    placeholder="{{ 'resource.summary.email.content.placeholder' | translate }}" 
+                                    class="form-control vertical-textarea" 
+                                    required
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="modelSentEmail.template != 'false'">
+                            <div class="col-sm-2 control-label">
+                                <label class="primary-font font-sm thin" for="files">{{ 'resource.summary.email.files' | translate }}</label>
+                            </div>
+                            <div class="col-sm-10 control-label">
+                                <input type="file" id="files" name="files" ng-model="modelSentEmail.files" multiple="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button 
+                                        ng-disabled="sendEmailForm.$invalid && modelSentEmail.template == 'false'"
+                                        type="submit"
+                                        class="btn btn-success btn-inverse">
+                                    {{ 'resource.summary.email.sent' | translate }}
+                                </button>   
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div ng-show="activeTab == 'followup'" block-ui="newFollowupContainer" style="min-height: 100;">
+
+
+                    <div ng-show="newFollowupResult.done" class="note" ng-class="newFollowupResult.error == false ? 'note-success' : 'note-danger'">
+                        <h4 ng-hide="newFollowupResult.error" class="note-title no-margin">{{ 'resource.summary.followup.add.success' | translate }}</h4>
+                        <h4 ng-show="newFollowupResult.error" class="note-title no-margin">{{ newFollowupResult.error }}</h4>
+                    </div>
+
+                    <form class="form-horizontal" name="newFollowupForm"  ng-submit="newFollowupFormSubmit()" >
+                        <fieldset>
+                            <!--<h3 class="no-margin-top">Main Options</h3>-->
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <div class="col-sm-4 text-right">
+                                        <h5 class="text-right">
+                                            {{ 'resource.summary.followup.admin' | translate }} 
+                                            <i class="fa fa-question-circle" tooltip="{{ 'resource.summary.followup.admin.tooltip' | translate }}"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="col-sm-8">
+
+                                        <select 
+                                            class="form-control" 
+                                            name="type" 
+                                            ng-options="option.id as option.full for option in temp.admins"
+                                            ng-model="newFollowup.admin" 
+                                            required>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+
+
+                                    <div class="col-sm-4 text-right">
+                                        <h5 class="text-right">
+                                            {{ 'resource.summary.followup.date' | translate }} 
+                                            <i class="fa fa-question-circle" tooltip="{{ 'resource.summary.followup.date.tooltip' | translate }}"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="col-sm-8">
+
+                                        <p class="input-group">
+                                            <!--datatimepicker-->
+                                            <input type="text" class="form-control" datetime-picker="{{settings.datapicker.format}}" ng-model="newFollowup.date" is-open="followupDataOpen" enable-time="settings.datapicker.enabletime" datepicker-options="settings.datapicker.options" />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="followupDataOpen = true"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <div class="col-sm-4 text-right">
+                                        <h5 class="text-right">{{ 'resource.summary.followup.type' | translate }}</h5>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select 
+                                            class="form-control" 
+                                            name="type" 
+                                            ng-options="option.id as option.name for option in temp.followupTypes"
+                                            ng-model="newFollowup.type" 
+                                            required>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="col-sm-4 text-right">
+                                        <h5 class="text-right">{{ 'resource.summary.followup.descr' | translate }}</h5>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea 
+                                            ng-model="newFollowup.description"
+                                            placeholder="{{ 'resource.summary.followup.descr.placeholder' | translate }}" 
+                                            class="form-control vertical-textarea" 
+                                            required
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button 
+                                            ng-disabled="newFollowupForm.$invalid"
+                                            type="submit"
+                                            class="btn btn-success btn-inverse">
+                                        {{ 'resource.summary.followup.add' | translate }}
+                                    </button>   
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+            </div>
+<!--                                <div ng-show="activeTab == 'reminder'">
+                Add Reminder
+            </div>-->
+            <div ng-show="activeTab == 'ticketResponse'" block-ui="newTicketReplyContainer">
+
+                <h3 ng-hide="mainData.ticket_id" class="text-center no-margin-top">{{ 'resource.summary.ticket.noclient' | translate }}</h3>
+                <div ng-show="mainData.ticket_id">
+
+                    <form class="form-horizontal" name="newTicketReplyForm"  ng-submit="newTicketReplyFormSubmit()" >
+                        <fieldset>
+
+                            <div ng-show="formSubmitTicketDone" class="note" ng-class="formSubmitTicketError == false ? 'note-success' : 'note-danger'">
+                                <h4 ng-hide="formSubmitTicketError" class="note-title no-margin">{{ 'resource.summary.ticket.sent' | translate }}</h4>
+                                <h4 ng-show="formSubmitTicketError" class="note-title no-margin">{{ formSubmitTicketError }}</h4>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-2 text-right">
+                                        <h5 class="text-right">{{ 'resource.summary.ticket.msg' | translate }}</h5>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <textarea 
+                                            placeholder="{{ 'resource.summary.ticket.msg.placeholder' | translate }}" 
+                                            class="form-control vertical-textarea" 
+                                            ng-model="newTicketReply.message"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button 
+                                            ng-disabled="newTicketReplyForm.$invalid"
+                                            type="submit"
+                                            class="btn btn-success btn-inverse">
+                                        {{ 'resource.summary.ticket.addreply' | translate }}
+                                    </button>   
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

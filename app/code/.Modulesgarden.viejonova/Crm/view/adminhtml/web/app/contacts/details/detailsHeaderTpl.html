@@ -1,0 +1,173 @@
+
+
+<div class="row-fluid" style="margin-bottom: 20px;">
+    <div class="box light" style="margin: 0;">
+        <div class="box-title no-border-bottom" style="margin: 0px;" ng-style="mainData.deleted_at && {'background-color':'rgb(235, 239, 244)'}">
+            <h2 style="margin: 0px;">
+                #{{ mainData.id }} 
+                <strong>
+                    <span ng-hide="fuckingawesomenameform.$waiting" class="showOnMouseOverContainer">
+                        <span ng-hide="fuckingawesomenameform.$waiting" editable-text="mainData.name" e-form="fuckingawesomenameform" ng-model="mainData.name" onbeforesave="updateStatic('name', $data)">
+                            {{ mainData.name || ('text.not.set' | translate) }}
+                            <span class="icon-pencil showOnMouseOver" style="color: rgba(68, 68, 68, .5); cursor: pointer;" ng-click="fuckingawesomenameform.$show()" ng-hide="mainData.deleted_at"></span>
+                        </span>
+                    </span>
+                    <span ng-show="fuckingawesomenameform.$waiting" class="mg-loader-flow active" style="position: relative; top: 5px;"></span>
+                </strong> 
+                <small class="showOnMouseOverContainer">
+                    <span ng-hide="temp.statuschangeFormVisible" class="label label-sm label-success" ng-style="{'background-color': mainData.status.color }">{{ mainData.status.name }}</span>
+                    <i editable-select="mainData.status_id" 
+                       ng-model="mainData.status_id" 
+                       ng-if="hasAccess('resources.change_status') && !!!mainData.deleted_at"
+                       e-ng-options="s.id as s.name for s in temp.statuses | filter:{active:true}:true" 
+                        onshow="$parent.temp.statuschangeFormVisible=true" 
+                        onhide="$parent.temp.statuschangeFormVisible=false" 
+                       class="icon-pencil showOnMouseOver"
+                       style="color: rgba(68, 68, 68, .5); cursor: pointer; border: none;"></i>
+                </small>
+            </h2>
+
+            <div class="row-fluid" style="padding-top: 5px;">
+                <div class="pull-left rating-container" >
+                    <rating ng-model="mainData.priority" readonly="!hasAccess('resources.change_priority') || !!mainData.deleted_at" class="ratings" max="4" on-hover="priorityChangeOnHover(value)" on-leave="priorityChangeOnLave()" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></rating>
+
+                    <span class="label" style="display: inline-block;" 
+                          ng-class="(temp.priorityRating == 2) ? 'label-warning' : 
+                                    (temp.priorityRating == 3) ? 'label-info' : 
+                                    (temp.priorityRating == 4) ? 'label-danger' : 'label-default'">
+                        {{  (temp.priorityRating == 2) ? ('priority.medium'     | translate) : 
+                            (temp.priorityRating == 3) ? ('priority.important'  | translate) : 
+                            (temp.priorityRating == 4) ? ('priority.urgent'     | translate) : ('priority.low' | translate)
+                        }}
+                    </span>
+                </div>
+                <div class="pull-left" style="padding-left: 20px;" ng-show="settings.config.app.assign_admin">
+                    <small class="showOnMouseOverContainer">
+                        Assigned Admin: 
+                        <span ng-hide="temp.adminchangeFormVisible">
+                            <span ng-show="mainData.admin" >
+                                {{ mainData.admin.firstname }} {{ mainData.admin.lastname }}
+                            </span>
+                            <span ng-hide="mainData.admin">
+                                {{ 'text.not.assigned' | translate }}
+                            </span>
+                        </span>
+                        <i editable-select="mainData.admin_id" 
+                           ng-model="mainData.admin_id" 
+                           ng-if="hasAccess('resources.assign_admin') && !!!mainData.deleted_at"
+                           e-ng-options="a.user_id as a.full for a in temp.adminsUnassign" 
+                           onshow="$parent.temp.adminchangeFormVisible=true" 
+                           onhide="$parent.temp.adminchangeFormVisible=false" 
+                           class="icon-pencil showOnMouseOver" 
+                           style="color: rgba(68, 68, 68, .5); cursor: pointer; border: none;"></i>
+                    </small>
+                </div>
+
+                <div class="pull-right">
+                    <small>
+                        {{ 'resource.header.last.update' | translate }}
+                        <span ng-if="mainData.admin">
+                            {{ mainData.updated_at }}
+                        </span>
+                    </small>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="btn-group" ng-if="hasAccess('resources.convert') && !!!mainData.deleted_at">
+                    <button class="btn btn btn-inverse btn-green-grey dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        {{ ::('resource.text.convert' | translate) }}
+                    </button>
+                    <button class="btn btn btn-inverse btn-green-grey dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-angle-down" style="height: 17px !important;"></i>
+                    </button>
+                    <ul role="menu" class="dropdown-menu">
+                        <li ng-repeat="t in contactTypes | filter:{active:true}:true" ng-hide="mainData.type_id == t.id">
+                            <a href="#" ng-click="convertToType(t.id)">
+                                <i ng-class="t.icon" ng-show="t.icon" ng-style="t.color && {'color':t.color}"></i>
+                                {{ t.name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <button ng-hide="mainData.deleted_at" ng-if="hasAccess('resources.trash')" ng-click="deleteLead()" type="button" class="btn btn-inverse btn-danger icon-right">
+                    <i class="fa fa-trash-o"></i>{{ 'resource.text.convert.delete' | translate }}
+                </button>
+                <button ng-show="mainData.deleted_at" ng-if="hasAccess('resources.untrash')" ng-click="restoreLead()" type="button" class="btn btn-inverse icon-right">
+                    <i class="fa fa-undo"></i>{{ 'resource.text.convert.restore' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="box no-shadow no-border-bottom" style="margin: 0; padding: 0;">
+        <div class="box-body tabbable-line-top" style="margin: 0; padding: 0;">
+            <ul class="nav nav-tabs nav-tabs-top nav-left primary-font" style="display: block; background: transparent; padding: 0 0 0 0">
+
+                <li ui-sref-active-if="contacts.details.summary">
+                    <a data-toggle="tab" ui-sref="contacts.details.summary({id: mainData.id })" data-target="contacts.details.summary">
+                        <i class="icon-info"></i> {{ 'resource.header.tab.summary' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.followups;contacts.details.followup" ui-sref-active-many="true">
+                    <a data-toggle="tab" ui-sref="contacts.details.followups({id: mainData.id })"  data-target="contacts.details.followups">
+                        <i class="icon-clock"></i> {{ 'resource.header.tab.followups' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.notes">
+                    <a data-toggle="tab" ui-sref="contacts.details.notes({id: mainData.id })"  data-target="contacts.details.notes">
+                        <i class="icon-speech"></i> {{ 'resource.header.tab.notes' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.emails">
+                    <a data-toggle="tab" ui-sref="contacts.details.emails({id: mainData.id })"  data-target="contacts.details.emails">
+                        <i class="icon-envelope-letter"></i> {{ 'resource.header.tab.emails' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.orders">
+                    <a data-toggle="tab" ui-sref="contacts.details.orders({id: mainData.id })"  data-target="contacts.details.orders">
+                        <i class="icon-basket"></i> {{ 'resource.header.tab.orders' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.files" ng-if="hasAccess('resources.view_files')">
+                    <a data-toggle="tab" ui-sref="contacts.details.files({id: mainData.id })"  data-target="contacts.details.files">
+                        <i class="icon-docs"></i> {{ 'resource.header.tab.files' | translate }}
+                    </a>
+                </li>
+                <li ui-sref-active-if="contacts.details.logs" ng-if="hasAccess('resources.view_logs')">
+                    <a data-toggle="tab" ui-sref="contacts.details.logs({id: mainData.id })"  data-target="contacts.details.logs">
+                        <i class="icon-support"></i> {{ 'resource.header.tab.logs' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="mainData.deleted_at" class="pull-right" style="position: absolute; top: 0; right: 0;">
+            <h3 class="no-margin-top" style="margin-top: 11px; margin-right: -3px;">
+                <span class="label label-default">
+                    {{ 'resource.header.marked.archive' | translate }}
+                </span>
+            </h3>
+        </div>
+    </div>
+
+</div>
+
+
+<div ng-show="convertMessages.length" class="row-fluid">
+    <div class="note note-success note-dismissible" 
+         ng-repeat="m in convertMessages" 
+         role="note" 
+         type="success" 
+         dismiss="true" 
+         close="0">
+        <button type="button" class="close" ng-click="convertMessages.splice($index, 1);">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <h4 class="note-title">{{m.title}}</h4>{{m.content}}
+    </div>
+</div>
+
+<div ui-view>
+    
+</div>

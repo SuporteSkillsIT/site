@@ -1,0 +1,54 @@
+
+<div class="col-md-12 col-lg-12">
+    <div class="box light" ng-class="{'toogled': hiddenBox }">
+        <div class="box-title">
+            <div class="caption">
+                <span class="bold font-red-thunderbird uppercase pull-left">
+                    {{ 'statistics.new.in.month' | translate }} {{ requestedDate | date:'MMMM yyyy'}}
+                </span>
+            </div>
+            <div class="caption" style="display: inline-block; position: relative; padding-left: 10px;">
+                
+                <input type="hidden" 
+                       class="form-control" 
+                       datetime-picker="yyyy-MM" 
+                       ng-model="requestedDate" 
+                       is-open="requestedDateOpen" 
+                       enable-time="false" 
+                       datepicker-options="yeardatapicker" 
+                       show-button-bar="false"
+                       datepicker-mode="'month'"
+                       append-to-body="true"
+                       />
+                <button type="button" class="btn btn-primary btn-inverse btn-xs icon-left" ng-click="requestedDateOpen = true">
+                    <i class="icon-calendar"></i>
+                    {{ 'statistics.choose.month' | translate }}
+                </button>
+                
+            </div>
+            <div class="actions">
+                <a href="#" ng-show="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+                <a href="javascript:;" ng-click="isFullscreen=!isFullscreen; setProperHeight(isFullscreen);" ng-init="isFullscreen=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body" block-ui="graphInMonth" style="min-height: 150px;">
+            <canvas 
+                id="day-chart-bar" 
+                class="chart chart-bar"
+                chart-data="data" 
+                chart-labels="labels" 
+                chart-series="series" 
+                chart-colours="colours" 
+                chart-options="chartOptions" 
+                height="400">
+            </canvas> 
+        </div>
+    </div>
+</div>

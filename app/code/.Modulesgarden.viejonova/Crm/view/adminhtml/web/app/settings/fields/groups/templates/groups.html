@@ -1,0 +1,181 @@
+<div class="tab-pane" ng-class="active">
+    <div class="container-fluid raw">
+        <div class="box light bordered" ng-class="{'toogled': formHidden }">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="bold font-green uppercase">
+                        {{ 'settings.fields.groups.widget' | translate }}
+                    </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" ng-show="formHidden" ng-click="formHidden=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="javascript:;" ng-hide="formHidden" ng-click="formHidden=true" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-compress"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="formSubmitNewBlock" style="min-height: 100;">
+
+                <div ng-show="formSubmitDone" class="note note-success">
+                    <h5 class="note-title no-margin">
+                        {{ 'settings.fields.groups.widget.new.succed' | translate }}
+                    </h5>
+                </div>
+
+
+                <form name="$parent.groupform" novalidate valid-submit="groupFormSubmit()" role="form" class="form-horizontal">
+                    <fieldset>
+
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6" ng-class="{'ng-invalid': ($parent.submitted && groupform.name.$invalid), 'ng-valid': ($parent.submitted && groupform.name.$valid)}">
+                                <div class="col-sm-2 control-label">
+                                    <label class="primary-font font-sm thin" for="name">
+                                        
+                                        {{ 'settings.fields.groups.new.name' | translate }}
+                                    </label>
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" id="name" ng-model="newGroup.name" required class="form-control" id="name" placeholder="{{ 'settings.fields.groups.new.name.placeholder' | translate }}">
+                                    <small class="help-block error" ng-show="groupform.name.$invalid && $parent.submitted">{{ 'form.validator.text.required' | translate }}</small>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6" ng-class="{'ng-invalid': ($parent.submitted && groupform.color.$invalid), 'ng-valid': ($parent.submitted && groupform.color.$valid)}">
+                                <div class="col-sm-2 control-label">
+                                    <label class="primary-font font-sm thin" for="color">{{ 'form.color' | translate }}</label>
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="color" name="color" class="form-control" ng-model="newGroup.color" id="color">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.active.$invalid), 'ng-valid': ($parent.submitted && groupform.active.$valid)}">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-2 control-label">
+                                        <label class="primary-font font-sm thin" for="active">{{ 'form.enabled' | translate }}</label>
+                                    </div>
+                                    <div class="col-sm-10 control-label" style="text-align: left;">
+                                        <input type="checkbox" id="active" ng-model="newGroup.active" value="1" name="active">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" ng-click="$parent.submitted=true" class="btn btn-success btn-inverse">
+                                    {{ 'form.add' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+                <div class="clearfix"></div>
+
+
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="container-fluid raw">
+
+        <div class="box light bordered">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="bold font-red-thunderbird uppercase">
+                        {{ 'settings.fields.widget.groups' | translate }}
+                    </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                        <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="fieldGroupsTable" style="min-height: 100px;">
+
+                <table class="table table-hover table-light table-striped table-height-input-sm">
+                    <colgroup>
+                       <col style="width: 50px;">
+                       <col style="width: 50px;">
+                       <col>
+                       <col style="width: 150px;">
+                       <col style="width: 150px;">
+                       <col style="width: 150px;">
+                       <col style="width: 150px;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ 'table.th.id' | translate }}</th>
+                            <th>{{ 'table.th.name' | translate }}</th>
+                            <th>{{ 'table.th.preview' | translate }}</th>
+                            <th>{{ 'table.th.color' | translate }}</th>
+                            <th>{{ 'table.th.active' | translate }}</th>
+                            <th>{{ 'table.th.actions' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody ui-sortable="sortableOptions" ng-model="groups">
+                        <tr ng-repeat="group in groups">
+                            <td class="mySortableHandler text-center">
+                                <a href="#">
+                                    <i class="fa fa-reorder"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ group.id }}
+                            </td>
+                            <td>
+                                <a href="#" editable-text="group.name"  ng-model="group.name" onaftersave="sentModelToUpdate($index, 'name', $data)">
+                                    {{ group.name || "empty" }}
+                                </a>
+                            </td>
+                            <td>
+                                <span class="bold uppercase" ng-style="{'color': group.color || '#000000' }">{{ group.name || ('text.empty' | translate) }}</span>
+                            </td>
+                            <td>
+                                <a href="#" editable-color="group.color" ng-model="group.color" onaftersave="sentModelToUpdate($index, 'color', $data)">{{ group.color || "#000000" }}</a>
+                            </td>
+                            <td>
+                                <span ng-show="group.active" class="label label-success">{{ 'text.enabled' | translate }}</span>
+                                <span ng-hide="group.active" class="label label-danger">{{ 'text.disabled' | translate }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-icon-only" ng-class="group.active === true ? 'btn-danger' : 'btn-success'" ng-click="group.active = !group.active; sentModelToUpdate($index, 'active', group.active);">
+                                        <i class="fa" ng-class="group.active === true ? 'fa-square-o' : 'fa-check-square-o'"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-icon-only" ng-click="confirmDelete($index)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="groups.length">
+                            <td colspan="7" class="text-center">{{ 'table.empty.msg' | translate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+                <div class="clearfix"></div>
+</div>
+
+
+
+
+
+

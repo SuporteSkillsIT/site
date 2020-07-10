@@ -1,0 +1,66 @@
+<?php
+/**
+ * Copyright © 2020 Wyomind. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+
+namespace Wyomind\SimpleGoogleShopping\Helper;
+
+/**
+ * Attributes management
+ */
+class AttributesImages extends \Magento\Framework\App\Helper\AbstractHelper
+{
+    /**
+     * @var \Wyomind\Framework\Helper\Module
+     */
+    protected $moduleHelper;
+
+    public function __construct(
+        \Magento\Framework\App\Helper\Context $context,
+        \Wyomind\Framework\Helper\Module $moduleHelper
+    )
+    {
+        $this->moduleHelper = $moduleHelper;
+        parent::__construct($context);
+    }
+
+    /**
+     * {image} attribute processing
+     * @param \Wyomind\SimpleGoogleShopping\Model\Feeds $model
+     * @param array $options
+     * @param \Magento\Catalog\Model\Product $product
+     * @param string $reference
+     * @return string product's image
+     */
+    public function imageLink($model, $options, $product, $reference)
+    {
+        $item = $model->checkReference($reference, $product);
+        $idCol = $this->moduleHelper->moduleIsEnabled('Magento_Enterprise') ? 'row_id' : 'entity_id';
+
+        if ($item == null) {
+            return '';
+        }
+
+        $baseImage = $item->getImage();
+        $value = '';
+
+        if (!isset($options['index']) || $options['index'] == 0) {
+            if ($item->getImage() != null && $item->getImage() != "" && $item->getImage() != 'no_selection') {
+                $path = 'catalog/product/' . $item->getImage();
+                $value = $model->baseImg . str_replace('//', '/', $path);
+            } else {
+                if ($model->defaultImage != '') {
+                    $value = $model->baseImg . '/catalog/product/placeholder/' . $model->defaultImage;
+                }
+            }
+        } elseif (isset($model->gallery[$item->getData($idCol)]['src'][$options['index'] - 1]) && $options['index'] > 0) {
+            if ($model->gallery[$item->getData($idCol)]['src'][$options['index'] - 1] != $baseImage) {
+                $path = 'catalog/product/' . $model->gallery[$item->getData($idCol)]['src'][$options['index'] - 1];
+                $value = $model->baseImg . str_replace('//', '/', $path);
+            }
+        }
+
+        return $value;
+    }
+}

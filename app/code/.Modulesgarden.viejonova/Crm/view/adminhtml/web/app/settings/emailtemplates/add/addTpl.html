@@ -1,0 +1,157 @@
+<div class="box light bordered" ng-class="{'toogled': toogled.wholeform }">
+    <div class="box-title">
+        <div class="caption">
+            <span class="bold font-red-thunderbird uppercase">
+                {{ ::('emailtemplates.widget.add.main' | translate) }}
+            </span>
+        </div>
+
+        <div class="actions">
+            <!--            <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only" tooltip="Click to show guide for this page"   tooltip-placement="left">
+                            <i class="fa fa-question"></i>
+                        </a>-->
+            <a href="#" ng-show="toogled.wholeform" ng-click="toogled.wholeform = !toogled.wholeform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-expand"></i>
+            </a>
+            <a href="#" ng-hide="toogled.wholeform" ng-click="toogled.wholeform = !toogled.wholeform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-compress"></i>
+            </a>
+            <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                <i class="icon-size-fullscreen"></i>
+            </a>
+        </div>
+    </div>
+    <div ng-show="nameExists" class="note note-danger">
+        <h4 class="note-title no-margin">
+            Template name already exist
+        </h4>
+    </div>
+    <div class="box-body" block-ui="emailTemplatesForm">
+
+        <form class="form-horizontal" role="form" name="emailTemplatesForm" ng-submit="addEmailTemplatesFormSubmit()">
+
+            <div class="container-fluid raw">
+                <div class="box light bordered" ng-class="{'toogled': toogled.mainform }">
+                    <div class="box-title">
+                        <div class="caption">
+                            <span class="bold">
+                                {{ ::('emailtemplates.widget.add.emailtemplate' | translate) }}
+                            </span>
+                        </div>
+                        <div class="actions">
+                            <a href="#" ng-show="toogled.mainform" ng-click="toogled.mainform = !toogled.mainform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                <i class="fa fa-expand"></i>
+                            </a>
+                            <a href="#" ng-hide="toogled.mainform" ng-click="toogled.mainform = !toogled.mainform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                <i class="fa fa-compress"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group col-lg-6 col-md-6" ng-class="{'ng-invalid': submitted && emailTemplatesForm.name.$invalid, 'ng-valid': submitted && emailTemplatesForm.name.$valid}">
+                                <label for="name" class="col-lg-2 col-md-2 col-sm-1 control-label primary-font thin">{{ 'emailtemplates.form.name' | translate }}</label>
+                                <div class="col-lg-10 col-md-10 col-sm-11">
+                                    <input type="text" class="form-control" name="name" id="name" ng-model="model.name" placeholder="{{ 'emailtemplates.form.name.placeholder' | translate }}" required>
+                                    <small class="help-block error" ng-show="submitted && emailTemplatesForm.name.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group col-lg-6 col-md-6" ng-class="{'ng-invalid': submitted && emailTemplatesForm.subject.$invalid, 'ng-valid': submitted && emailTemplatesForm.subject.$valid}">
+                                <label for="subject" class="col-lg-2 col-md-2 col-sm-1 control-label primary-font thin">{{ 'emailtemplates.form.subject' | translate }}</label>
+                                <div class="col-lg-10 col-md-10 col-sm-11">
+                                    <input type="text" class="form-control" name="subject" id="subject" ng-model="model.subject" placeholder="{{ 'emailtemplates.form.subject.placeholder' | translate }}" required>
+                                    <small class="help-block error" ng-show="submitted && emailTemplatesForm.subject.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group col-lg-12 col-md-12" ng-class="{'ng-invalid': emailTemplatesForm.message.$invalid, 'ng-valid': emailTemplatesForm.message.$valid}">
+                                <label for="message" class="col-lg-1 col-md-1 col-sm-1 control-label primary-font thin">{{ 'emailtemplates.form.message' | translate }}</label>
+                                <div class="col-lg-7 col-md-11 col-sm-11">
+                                    <textarea 
+                                        ui-tinymce="tinymceOptions"
+                                        ng-required="true"
+                                        ng-model="model.message_content"
+                                        id="content"
+                                        name="message"
+                                        class="form-control"
+                                        rows="10"></textarea>
+                                    <small class="help-block error" ng-show="submitted && emailTemplatesForm.message.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                                </div>
+
+                                <div class="col-lg-4 col-lg-offset-0 col-md-11 col-md-offset-1 col-sm-11 col-sm-offset-1">
+<!--                                    <div class="col-sm-12 control-label" style="text-align: left;">
+                                        <label class="primary-font font-sm thin" for="email_content">{{ ::('utils.massmessage.add.variables' | translate) }}</label>
+                                    </div>-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                        <div class="col-lg-12 col-md-5 box light bordered neighbors-panels"
+                                             ng-repeat="group in availableVariables" 
+                                             ng-class="{'toogled': !showBlocks[$index] }" >
+                                            <div class="box-title box-title-pointer-on-hover" ng-click="showBlocks[$index] = !showBlocks[$index]">
+                                                <div class="caption">
+                                                    <span class="bold uppercase">
+                                                        {{ ::group.header }}
+                                                    </span>
+                                                </div>
+
+                                                <div class="actions">
+                                                    <a href="javascript:;" ng-show="!showBlocks[$index]" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                                        <i class="fa fa-expand"></i>
+                                                    </a>
+                                                    <a href="javascript:;" ng-hide="!showBlocks[$index]" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                                        <i class="fa fa-compress"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+
+                                                <div ng-show="group.alert" class="note note-info">{{ ::group.alert }}</div>
+                                                <dl class="dl-horizontal no-margin-bottom">
+                                                    <div ng-repeat="v in group.variables" ng-click="insertTinyMceVariable(v.id)" class="variable-on-mousehover">
+                                                        <dt style="text-align: left;">{{ ::v.id }}</dt>
+                                                        <dd>{{ ::v.description }}</dd>
+                                                    </div>
+                                                </dl>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group col-lg-12">
+                <div class="text-center no-margin-top">
+                    <button 
+                        type="submit" 
+                        ng-disabled="submitted && emailTemplatesForm.$invalid" 
+                        ng-click="submitted = true"
+                        class="btn btn-success btn-inverse"
+                        >{{ ::('emailtemplates.button.add.new' | translate) }}</button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>

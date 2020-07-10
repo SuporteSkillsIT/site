@@ -1,0 +1,155 @@
+<div class="box light ">
+    <div class="box-title">
+        <div class="caption">
+            <span class="bold font-red-thunderbird uppercase">
+                {{ ::('notifications.edit.widget' | translate) }}
+            </span>
+        </div>
+
+        <div class="actions">
+            <a href="#" ng-show="toogled.wholeform" ng-click="toogled.wholeform=!toogled.wholeform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-expand"></i>
+            </a>
+            <a href="#" ng-hide="toogled.wholeform" ng-click="toogled.wholeform=!toogled.wholeform" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                <i class="fa fa-compress"></i>
+            </a>
+            <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                <i class="icon-size-fullscreen"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body" block-ui="notificationForm">
+
+        <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+        
+        <form class="form-horizontal" role="form" name="campaignForm" ng-submit="editNotificaionFormSubmit()">
+            
+            
+                <div class="form-group col-lg-12" ng-class="{'ng-invalid': campaignForm.class.$invalid, 'ng-valid': campaignForm.class.$valid}">
+                    <label for="class" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.importance' | translate }}</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="class" ng-model="model.class" id="class">
+                            <option value="">{{ ::('notifications.form.importance.normal' | translate) }}</option>
+                            <option value="info">{{ ::('notifications.form.importance.info' | translate) }}</option>
+                            <option value="warning">{{ ::('notifications.form.importance.warning' | translate) }}</option>
+                            <option value="danger">{{ ::('notifications.form.importance.danger' | translate) }}</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-group col-lg-12" ng-class="{'ng-invalid': campaignForm.type.$invalid, 'ng-valid': campaignForm.type.$valid}">
+                    <label for="type" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.type' | translate }}</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="type" ng-model="model.type" id="type">
+                            <option value="temporary">{{ ::('notifications.form.type.temporary' | translate) }}</option>
+                            <option value="permanent">{{ ::('notifications.form.type.permanent' | translate) }}</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-group col-lg-12" ng-class="{'ng-invalid': campaignForm.admins.$invalid, 'ng-valid': campaignForm.admins.$valid}">
+                    <label for="admins" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.admins' | translate }}</label>
+                    <div class="col-sm-10">
+                        <select multiple required class="form-control" name="admins" ng-model="model.admins" id="admins" ng-options="a.user_id as a.full for a in cached.admins">
+                        </select>
+                        <small class="help-block">{{ 'notifications.form.admins.descr' | translate }}</small>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-12" ng-class="{'ng-invalid': campaignForm.content.$invalid, 'ng-valid': campaignForm.content.$valid}">
+                    <label for="content" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.content' | translate }}</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control vertical-textarea" 
+                                  name="content" 
+                                  placeholder="{{ 'notifications.form.content.placeholder' | translate }}"
+                                  d="content" 
+                                  rows="3" 
+                                  required
+                                  ng-model="model.content" ></textarea>
+                        <small class="help-block">{{ 'notifications.form.content.descr' | translate }}</small>
+                    </div>
+                </div>
+            
+                <div class="form-group col-lg-12 no-margin-bottom">
+                    <label for="confirmation" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.confirmation' | translate }}</label>
+                    <div class="col-sm-4 control-label">
+                            <input type="checkbox" 
+                                   name="confirmation" 
+                                   id="confirmation"
+                                   class="pull-left"
+                                   ng-model="model.confirmation" 
+                                   />
+                            <small class="help-block margin-left-10 pull-left">{{ 'notifications.form.confirmation.descr' | translate }}</small>
+                    </div>
+                </div>
+            
+                <div class="form-group col-lg-12 no-margin-bottom" ng-show="model.confirmation">
+                    <label for="hideafterconfirm" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.hideafterconfirm' | translate }}</label>
+                    <div class="col-sm-4 control-label">
+                            <input type="checkbox" 
+                                   name="hideafterconfirm" 
+                                   id="hideafterconfirm"
+                                   class="pull-left"
+                                   ng-model="model.hide_after_confirm" 
+                                   />
+                            <small class="help-block margin-left-10 pull-left">{{ 'notifications.form.hideafterconfirm.descr' | translate }}</small>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-12" ng-hide="model.type == 'permanent'" ng-class="{'ng-invalid': campaignForm.date_start.$invalid, 'ng-valid': campaignForm.date_start.$valid}">
+                    <label for="name" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.date_start' | translate }}</label>
+                    <div class="col-sm-4">
+                        <p class="input-group">
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="date_start" 
+                                   datetime-picker="yyyy-MM-dd" 
+                                   ng-model="model.date_start" 
+                                   ng-required="true"
+                                   is-open="campaignDateStartOpen" 
+                                   enable-time="false" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="campaignDateStartOpen = true"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 no-margin-bottom" ng-hide="model.type == 'permanent'" ng-class="{'ng-invalid': campaignForm.date_end.$invalid, 'ng-valid': campaignForm.date_end.$valid}">
+                    <label for="name" class="col-sm-2 control-label primary-font thin">{{ 'notifications.form.date_end' | translate }}</label>
+                    <div class="col-sm-4">
+                        <p class="input-group">
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="date_end" 
+                                   datetime-picker="yyyy-MM-dd" 
+                                   ng-model="model.date_end" 
+                                   is-open="campaignDateEndOpen" 
+                                   ng-required="true"
+                                   enable-time="false"  />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="campaignDateEndOpen = true"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-10 col-md-offset-2" ng-hide="model.type == 'permanent'" style="padding-left: 10px;">
+                    <small class="help-block">{{ ::('notifications.form.dates.descr' | translate) }}</small>
+                </div>
+
+            <div class="clearfix"></div>
+                        
+                        
+
+            <div class="form-group col-lg-12">
+                <div class="text-center no-margin-top">
+                    <button type="submit" ng-disabled="campaignForm.$invalid" class="btn btn-success btn-inverse">{{ ::('notifications.button.form.edit' | translate) }}</button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>

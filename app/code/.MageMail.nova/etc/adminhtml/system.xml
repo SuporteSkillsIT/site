@@ -1,0 +1,315 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="newsletter">
+            <group id="kj_magemail_settings" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>MageMail Settings</label>
+                <field id="web_username" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                    <config_path>kj_magemail/settings/web_username</config_path>
+                </field>
+                <field id="web_password" translate="label" type="password" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <config_path>kj_magemail/settings/web_password</config_path>
+                </field>
+                <field id="connect_button" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>KJ\MageMail\Block\Adminhtml\ConnectButton</frontend_model>
+                    <comment>
+                        Login to your existing MageMail account.
+                    </comment>
+                </field>
+                <field id="disconnect_button" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>KJ\MageMail\Block\Adminhtml\DisconnectButton</frontend_model>
+                </field>
+                <field id="status" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                </field>
+                <field id="javascript" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>KJ\MageMail\Block\Adminhtml\ConnectJavascript</frontend_model>
+                </field>
+            </group>
+            <group id="kj_magemail_advanced" type="" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>MageMail Advanced Settings</label>
+                <field id="magemail_domain" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="1">
+                    <label>MageMail Domain</label>
+                    <config_path>kj_magemail/advanced/magemail_domain</config_path>
+                </field>
+                <field id="api_route" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Route</label>
+                    <config_path>kj_magemail/advanced/api_route</config_path>
+                    <comment>
+                        This will be generated automatically when you connect
+                        using the login in the MageMail Settings above.
+                    </comment>
+                </field>
+                <field id="api_key" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Key</label>
+                    <config_path>kj_magemail/advanced/api_key</config_path>
+                    <comment>
+                        This will be generated automatically when you connect
+                        using the login in the MageMail Settings above.
+                    </comment>
+                </field>
+                <field id="enable_api" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable API</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Enable the API so that MageMail can grab customer data
+                        in order to prepare email recipients.
+                    </comment>
+                    <config_path>kj_magemail/settings/enable_api</config_path>
+                </field>
+                <field id="enable_api_write_access" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Write Access</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Enable write access over the API
+                    </comment>
+                    <config_path>kj_magemail/settings/enable_api_write_access</config_path>
+                </field>
+                <field id="enable_javascript" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Javascript</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Enable a javascript snippet in the global footer as well
+                        as one in the checkout to track orders.
+                    </comment>
+                    <config_path>kj_magemail/settings/enable_javascript</config_path>
+                </field>
+                <field id="enable_ip_address_whitelist" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable IP Address Whitelist</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Enable a javascript snippet in the global footer as well
+                        as one in the checkout to track orders.
+                    </comment>
+                </field>
+                <field id="use_x_forwarded_for" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use X-Forwarded-For</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        For sites that are behind a load balancer or reverse
+                        proxy, the MageMail IP address won't show up as the
+                        IP address of the incoming API request, but it will
+                        show up as the X-Forwarded-For header
+                    </comment>
+                </field>
+                <field id="whitelisted_ip_addresses" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Whitelisted IP Addresses</label>
+                    <comment>
+                        Comma-separated list
+                    </comment>
+                </field>
+                <field id="enable_auto_login" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Auto Login</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Automatically log customers in when they click-through
+                        on an email.
+                    </comment>
+                </field>
+                <field id="auto_login_ip_restricted" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto Login Restricted by IP Address</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Only auto login if customer is on the same IP address
+                        as the order that they placed.
+                    </comment>
+                </field>
+                <field id="additional_html" translate="label" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" type="textarea">
+                    <label>Additional HTML</label>
+                    <comment>
+                        This can be used to to add CSS for the promotional
+                        bar.
+                    </comment>
+                </field>
+                <field id="log_level" translate="label" sortOrder="14" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Log Level</label>
+                    <source_model>KJ\MageMail\Model\System\Config\Source\LogLevel</source_model>
+                </field>
+                <field id="disable_javascript_logging" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Javascript Logging Disabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        You can disable logging to the console in javascript.  For example
+                        when the cart is automatically restored, it logs things to the console
+                        for debugging purposes.
+                    </comment>
+                </field>
+                <field id="capture_email_enabled" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Should Capture Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Capture email address whenever it's typed into an
+                        email field.  This should always be enabled unless
+                        Kalen wants to disable it for a specific reason.
+                    </comment>
+                </field>
+                <field id="disable_add_product_event_dispatch" translate="label" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable 'Add Product' Event Dispatch</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Don't modify this unless you know what you're doing.
+                        In some cases, there can be custom logic observing the
+                        checkout_cart_add_product_complete event that break
+                        the cart restore functionality which needs to be disabled.
+                    </comment>
+                </field>
+                <field id="enable_exit_modal" translate="label" sortOrder="17" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Exit Modal</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Enable the exit modal
+                    </comment>
+                </field>
+                <field id="newsletter_exit_modal_disabled" translate="label" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Newsletter Exit Modal</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Disable the newsletter exit modal so that only the exit modal
+                        for the cart is enabled.
+                    </comment>
+                </field>
+                <field id="disable_sql_api" translate="label" type="select" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable the old API</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Disable the old API.  (Generally only Kalen should
+                        modify this).
+                    </comment>
+                </field>
+                <field id="enable_order_confirmation_email" type="select" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Order Confirmation Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        This will enable the sending of an order confirmation
+                        email through MageMail.
+                    </comment>
+                </field>
+                <field id="dont_redirect_images" translate="label" type="select" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Don't Redirect Images</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        Instead of redirect images, just output them directly - this
+                        is meant to be used in conjunction with a CDN.
+                    </comment>
+                </field>
+                <field id="base_url_override" translate="label" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Base Domain Override</label>
+                    <comment>
+                        Just the domain - no trailing slash.
+                        This overrides the store domain that gets pulled into some javascript
+                        calls, such as the email capture ajax request.  It's useful if your
+                        base url is, for example, example.com, but the actual url customers
+                        get redirected to is example.com/us.
+                    </comment>
+                </field>
+            </group>
+            <group id="kj_magemail_language" type="" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>MageMail Content</label>
+                <field id="coupon_bar_message_not_activated" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Coupon Bar Message (Not Activated)</label>
+                    <comment>
+                        The default value is: "Add items to your cart to activate your discount"
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/coupon_bar_message_not_activated</config_path>
+                </field>
+                <field id="coupon_bar_message_activated" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Coupon Bar Message (Activated)</label>
+                    <comment>
+                        The default value is: "You've activated a discount.  Checkout now to redeem it"
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/coupon_bar_message_activated</config_path>
+                </field>
+                <field id="message_updating_cart" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Updating Cart Message</label>
+                    <comment>
+                        The default value is: "Just a moment, we're updating your cart..."
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/message_updating_cart</config_path>
+                </field>
+                <field id="message_reloading_for_coupon" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reloading Page for Coupon Message</label>
+                    <comment>
+                        The default value is: "Just a moment.  Reloading the page to apply your coupon..."
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/message_reloading_for_coupon</config_path>
+                </field>
+                <field id="message_reloading_for_cart" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reloading page for Cart Message</label>
+                    <comment>
+                        The default value is: "Done updating the cart, reloading the page now..."
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/message_reloading_for_cart</config_path>
+                </field>
+                <field id="message_close" translate="label" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Close Message</label>
+                    <comment>
+                        The default value is: "close".  It's what they can click to close
+                        the promotion bar
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/message_close</config_path>
+                </field>
+                <field id="message_hours_symbol" translate="label" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hours Symbol</label>
+                    <comment>
+                        The default value is: "h".  It's the content next to the hours
+                        place in the promotion bar timer message.
+                    </comment>
+                    <config_path>newsletter/kj_magemail_advanced/message_hours_symbol</config_path>
+                </field>
+                <field id="product_review" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Review Title</label>
+                    <comment>
+                        The title of the product review page
+                    </comment>
+                </field>
+                <field id="thanks_review_complete" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Review Complete Message</label>
+                    <comment>
+                        Confirmation message after review is complete
+                    </comment>
+                </field>
+                <field id="submitting_review" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Submitting Review</label>
+                    <comment>
+                        Message while review is being submitted ajaxly
+                    </comment>
+                </field>
+                <field id="there_was_problem" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>There Was a Problem</label>
+                </field>
+                <field id="authentication_fail" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Authentication Failure Message</label>
+                </field>
+                <field id="invalid_email" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Invalid Email</label>
+                </field>
+                <field id="network_problem_couldnt_save_email" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Network Problem - Couldn't Save Email</label>
+                </field>
+                <field id="thanks_you_will_receive_email" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Thanks, you'll receive an email shortly</label>
+                </field>
+                <field id="loading" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Loading...</label>
+                </field>
+                <field id="before_you_leave" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Before You Leave...</label>
+                </field>
+                <field id="enter_email_to_have_cart_emailed" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enter email to have cart mailed</label>
+                </field>
+                <field id="enter_email_to_receive_newsletter" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enter email to receive newsletter</label>
+                </field>
+                <field id="save_exit_modal_button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Save</label>
+                </field>
+                <field id="no_thanks" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No Thanks</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <body>
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">KJ_MageMail::page/1column.phtml</argument>
+            </action>
+        </reference>
+        <referenceContainer name="content">
+            <block template="KJ_MageMail::kj_magemail/unsubscribe.phtml" class="KJ\MageMail\Block\Unsubscribe" name="magemail_unsubscribe"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,216 @@
+<div class="box light bordered">
+    <div class="box-title">
+        <div class="caption">
+            <span class="bold font-red-thunderbird uppercase">
+                {{ ::('utils.massmessage.widget.add.main' | translate) }}
+            </span>
+        </div>
+
+        <div class="actions">
+            <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                <i class="icon-size-fullscreen"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body" block-ui="massmailBlock">
+
+        
+        <form class="form-horizontal" role="form" name="addMassMailForm" novalidate valid-submit="addMassMailFormSubmit()">
+            <fieldset>
+                <div class="row">
+                    <div class="form-group col-md-6" ng-class="{'ng-invalid': submitted && addMassMailForm.target_type.$invalid, 'ng-valid': submitted && addMassMailForm.target_type.$valid}">
+                        <div class="col-sm-2 control-label">
+                            <label class="primary-font font-sm thin" for="target_type">
+                                {{ ::('utils.massmessage.add.targetmain' | translate) }}
+                            </label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" name="target_type" id="target_type" ng-model="model.target_type">
+                                <option value="users">{{ ::('utils.massmessage.add.target.users' | translate) }}</option>
+                                <option value="usergroups">{{ ::('utils.massmessage.add.target.usergroups' | translate) }}</option>
+                                <option value="campaigns">{{ ::('utils.massmessage.add.target.campaigns' | translate) }}</option>
+                            </select>
+                            <small ng-show="model.target_type == 'users'" class="help-block">{{ ::('utils.massmessage.add.target.users.descr' | translate) }}</small>
+                            <small ng-show="model.target_type == 'usergroups'" class="help-block">{{ ::('utils.massmessage.add.target.usergroups.descr' | translate) }}</small>
+                            <small ng-show="model.target_type == 'campaigns'" class="help-block">{{ ::('utils.massmessage.add.target.campaigns.descr' | translate) }}</small>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" ng-class="{'ng-invalid': submitted && addMassMailForm.message_type.$invalid, 'ng-valid': submitted && addMassMailForm.message_type.$valid}">
+                        <div class="col-sm-2 control-label">
+                            <label class="primary-font font-sm thin" for="message_type">
+                                {{ ::('utils.massmessage.add.type' | translate) }}
+                            </label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" name="message_type" id="target-users" ng-model="model.message_type">
+                                <option value="email">{{ ::('utils.massmessage.add.type.email' | translate) }}</option>
+                                <option value="sms" ng-if="settings.config.integrations.sms_center">{{ ::('utils.massmessage.add.type.sms' | translate) }}</option>
+                            </select>
+                            <small ng-show="model.message_type == 'email'" class="help-block">{{ ::('utils.massmessage.add.type.email.descr' | translate) }}</small>
+                            <small ng-show="model.message_type == 'sms'" class="help-block">{{ ::('utils.massmessage.add.type.sms.descr' | translate) }}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">                      
+                    <div class="form-group col-md-6" ng-class="{'ng-invalid': submitted && addMassMailForm.subject.$invalid, 'ng-valid': submitted && addMassMailForm.subject.$valid}">
+                        <div class="col-sm-2 control-label">
+                            <label class="primary-font font-sm thin" for="subject">{{ ::('utils.massmessage.add.subject' | translate) }}</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                ng-required="true"
+                                ng-model="model.message_title" 
+                                placeholder="{{ ::('utils.massmessage.add.subject.placeholder' | translate) }}" 
+                                class="form-control input-sm" />
+                            <small class="help-block error" ng-show="submitted && addMassMailForm.subject.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" ng-class="{'ng-invalid': submitted && addMassMailForm.date.$invalid, 'ng-valid': submitted && addMassMailForm.date.$valid}">
+                        <div class="col-sm-2 control-label">
+                            <label class="primary-font font-sm thin" for="massmail-date">
+                                {{ ::('utils.massmessage.add.date' | translate) }}
+                            </label>
+                        </div>
+                        <div class="col-sm-10">
+                            <p class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="massmail-date" 
+                                       name="date" 
+                                       datetime-picker="yyyy-MM-dd HH:mm" 
+                                       ng-model="model.date" 
+                                       ng-required="true"
+                                       is-open="campaignDateStartOpen" 
+                                       enable-time="true" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="campaignDateStartOpen = true"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </p>
+                            <small class="help-block">{{ ::('utils.massmessage.add.date.descr' | translate) }}</small>
+                        </div>
+                    </div>   
+                </div>
+                <div class="form-group" ng-if="model.target_type == 'usergroups'" ng-class="{'ng-invalid': submitted && addMassMailForm.target_type_usergrps.$invalid, 'ng-valid': submitted && addMassMailForm.target_type_usergrps.$valid}">
+                    <div class="col-sm-1 control-label">
+                        <label class="primary-font font-sm thin" for="target_type_usergrps">{{ ::('utils.massmessage.add.choose.usergrps' | translate) }}</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <select class="form-control input-sm" id="target_type_usergrps" name="target_type_usergrps" ng-options="g.id as g.name for g in clientgroups" ng-model="$parent.model.target_ids" multiple required>
+                        </select>
+
+                        <small class="help-block error" ng-show="submitted && addMassMailForm.target_type_usergrps.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="model.target_type == 'campaigns'" ng-class="{'ng-invalid': submitted && addMassMailForm.target_type_campaigns.$invalid, 'ng-valid': submitted && addMassMailForm.target_type_campaigns.$valid}">
+                    <div class="col-sm-1 control-label">
+                        <label class="primary-font font-sm thin" for="target_type_campaigns">{{ ::('utils.massmessage.add.choose.campaigns' | translate) }}</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <select class="form-control input-sm" id="target_type_campaigns" name="target_type_campaigns" ng-options="c.id as c.name for c in campaigns" ng-model="$parent.model.target_ids" multiple required>
+                        </select>
+
+                        <small class="help-block error" ng-show="submitted && addMassMailForm.target_type_campaigns.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'ng-invalid': submitted && addMassMailForm.description.$invalid, 'ng-valid': submitted && addMassMailForm.description.$valid}">
+                    <div class="col-sm-1 control-label">
+                        <label class="primary-font font-sm thin" for="description">{{ ::('utils.massmessage.add.description' | translate) }}</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <input 
+                            type="text" 
+                            id="description" 
+                            name="description" 
+                            ng-required="true"
+                            ng-model="model.description" 
+                            placeholder="{{ ::('utils.massmessage.add.description.placeholder' | translate) }}" 
+                            class="form-control input-sm" />
+                        <small class="help-block error" ng-show="submitted && addMassMailForm.description.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group" ng-class="{'ng-invalid': submitted && addMassMailForm.content.$invalid, 'ng-valid': submitted && addMassMailForm.content.$valid}">
+                            <div class="col-sm-12 control-label" style="text-align: left;">
+                                <label class="primary-font font-sm thin" for="email_content">{{ ::('utils.massmessage.add.subject.content' | translate) }}</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <textarea 
+                                          ui-tinymce="tinymceOptions"
+                                          ng-required="true"
+                                          ng-model="model.message_content"
+                                          id="content"
+                                          name="content"
+                                          class="form-control"
+                                          rows="5"></textarea>
+                                <small class="help-block error" ng-show="submitted && addMassMailForm.content.$invalid">{{ 'form.validator.text.required' | translate }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+<!--                        <div class="col-sm-12 control-label" style="text-align: left;">
+                            <label class="primary-font font-sm thin" for="email_content">{{ ::('utils.massmessage.add.variables' | translate) }}</label>
+                        </div>-->
+                        <div class="col-sm-12">
+                            
+                            
+                            <div class="box light bordered" 
+                                 ng-repeat="group in availableVariables" 
+                                 ng-class="{'toogled': !showBlocks[$index] }" 
+                                 ng-show="group.show == true || ((group.show == 'clients' && (model.target_type == 'users' || model.target_type == 'usergroups')) || (group.show == 'campaigns' && model.target_type == 'campaigns') )">
+                                <div class="box-title box-title-pointer-on-hover" ng-click="showBlocks[$index]=!showBlocks[$index]">
+                                    <div class="caption">
+                                        <span class="bold uppercase">
+                                            {{ ::group.header }}
+                                        </span>
+                                    </div>
+
+                                    <div class="actions">
+                                        <a href="javascript:;" ng-show="!showBlocks[$index]" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                        <a href="javascript:;" ng-hide="!showBlocks[$index]" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                            <i class="fa fa-compress"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+
+                                    <div ng-show="group.alert" class="note note-info">{{ ::group.alert }}</div>
+                                    <dl class="dl-horizontal no-margin-bottom">
+                                        <div ng-repeat="v in group.variables" ng-click="insertTinyMceVariable(v.id)" class="variable-on-mousehover">
+                                            <dt style="text-align: left;">{{ ::v.id }}</dt>
+                                            <dd>{{ ::v.description }}</dd>
+                                        </div>
+                                    </dl>
+                            
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button 
+                                ng-disabled="submitted && addMassMailForm.$invalid"
+                                ng-click="submitted = true"
+                                type="submit"
+                                class="btn btn-success btn-inverse">
+                            {{ ::('resource.emails.form.btn.create' | translate) }}
+                        </button>   
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="clearfix"></div>
+        </form>
+
+
+        <div class="clearfix"></div>
+    </div>
+</div>

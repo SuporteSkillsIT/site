@@ -1,0 +1,22 @@
+<div ng-if="allowChangeAdmin" class="pull-right form-group" style="position: absolute; top: 10px; right: 15px;">
+    <div class="pull-left control-label" style="padding-top: 5px; padding-right: 10px;">
+        <label for="select-admin-to-preview" class="primary-font font-sm thin">            
+            {{ 'statistics.previewfor' | translate }}
+        </label>
+    </div>
+    <div class="pull-left">
+        <select class="form-control input-sm" id="select-admin-to-preview" ng-model="$parent.requestForAdmin" convert-to-number>
+            <option value="">{{ 'admins.changable.any' | translate }}</option>
+            <option value="0">{{ 'admins.changable.not.assigned' | translate }}</option>
+            <option ng-repeat="a in admins" value="{{ ::a.user_id }}" ng-selected="{{$parent.requestForAdmin == a.user_id}}">{{ ::a.full }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div ui-view="perStatus"></div>
+    <div ui-view="lastTen"></div>
+    <div ng-if="allowAllAdmin" ui-view="totalPerAdmin"></div>
+    <div ui-view="newPerMonth"></div>
+    <div ui-view="newPerDay"></div>
+</div>

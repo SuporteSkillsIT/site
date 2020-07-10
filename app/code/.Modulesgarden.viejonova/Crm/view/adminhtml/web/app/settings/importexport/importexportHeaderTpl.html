@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box light bordered" ng-class="{'toogled': hideImportexport }">
+            <div class="box-title tabbable-line">
+                <ul class="nav nav-tabs nav-left">
+
+                    <li ui-sref-active-if="settings.importexport.export" >
+                        <a data-toggle="tab" ui-sref="settings.importexport.export"  data-target="settings.importexport.export">
+                            {{ ::('settings.importexport.tab.export' | translate) }}
+                        </a>
+                    </li>
+                    <li ui-sref-active-if="settings.importexport.import" >
+                        <a data-toggle="tab" ui-sref="settings.importexport.import"  data-target="settings.importexport.import">
+                            {{ ::('settings.importexport.tab.import' | translate) }}
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+
+                <div class="actions">
+                    <a href="#" ng-show="hideImportexport" ng-click="hideImportexport=!hideImportexport" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="#" ng-hide="hideImportexport" ng-click="hideImportexport=!hideImportexport" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-compress"></i>
+                    </a>
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                        <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="importexportBlock" style="min-height: 100px;">
+                <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+                <div ui-view></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<div class="row">
+    <div class="col-md-12">
+        <div class="box light bordered" ng-class="{'toogled': !showExplaination }">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="">
+                        {{ ::('settings.importexport.widget.name.explain' | translate) }} <small>{{ ::('settings.importexport.widget.name.explain.small' | translate) }}</small>
+                    </span>
+                </div>
+                <div class="actions">
+                    <a href="#" ng-show="showExplaination" ng-click="showExplaination=!showExplaination" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-compress"></i>
+                    </a>
+                    <a href="#" ng-hide="showExplaination" ng-click="showExplaination=!showExplaination" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                      <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="bold primary-font">Standard Values:</h4>
+                        <blockquote style="font-size: 15px;">
+                            <ul style="padding-left: 0px;" class="list-unstyled">
+                                <li>
+                                    <code>Name</code>
+                                    <small>Define Contact Name</small>
+                                </li>
+                                <li>
+                                    <code>Type</code>
+                                    <small>
+                                        Define Contact Type: (name of contact type), for example  <code>Lead</code>
+                                    </small>
+                                </li>
+                                <li>
+                                    <code>Status</code>
+                                    <small>Contact Status Name</small>
+                                </li>
+                                <li>
+                                    <code>Priority</code>
+                                    <small>Contact Priority</small>
+                                </li>
+                                <li>
+                                    <code>Email</code>
+                                    <small>Contact Email</small>
+                                </li>
+                                <li>
+                                    <code>Phone</code>
+                                    <small>Contact Phone</small>
+                                </li>
+                                <li>
+                                    <code>Creation Date</code>
+                                    <small>Define Creation date. Allowed date in a formatted string.</small>
+                                </li>
+                                <li>
+                                    <code>Update Date</code>
+                                    <small>Define Last Update date. Allowed date in a formatted string.</small>
+                                </li>
+                            </ul>
+                        </blockquote>
+                        <h4 class="bold primary-font">Relations :</h4>
+                        <blockquote style="font-size: 15px;">
+                            <ul style="padding-left: 0px;" class="list-unstyled">
+                                <li><code>Admin ID</code> <small>Admin ID that is assigned to Contact</small></li>
+                                <li><code>Client ID</code> <small>Client ID that is assigned to Contact</small></li>
+                            </ul>
+                        </blockquote>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h4 class="bold primary-font">Custom Fields:</h4>
+                        <label><em>Field Name should contain full name of <b>existing</b> field in systyem</em></label>
+                        <blockquote style="font-size: 15px;">
+                            <small><em>Each of Custom Fields allowed values are optional</em></small>
+                            <small><kbd>Text</kbd>, <kbd>Textarea</kbd> fields accept text values <code>"some text"</code> or empty value <code>""</code></small>
+                            <small><kbd>Checkbox</kbd>, <kbd>Radio</kbd>, <kbd>Dropdown</kbd> fields accept values separated by semicolon <code>;</code> for each option selected for field</small>
+                        </blockquote>
+                    </div>
+                </div>
+                
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

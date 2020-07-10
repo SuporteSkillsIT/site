@@ -1,0 +1,271 @@
+<?php
+declare(strict_types=1);
+/**
+ * Product
+ *
+ * @copyright Copyright © 2020 Firebear Studio. All rights reserved.
+ * @author    fbeardev@gmail.com
+ */
+
+namespace Firebear\CustomImportExport223\Model\Import;
+
+
+use Firebear\ImportExport\Api\UrlKeyManagerInterface;
+use Firebear\ImportExport\Helper\Additional;
+use Firebear\ImportExport\Helper\Data as FirebearImportExportData;
+use Firebear\ImportExport\Model\Import\Product\CategoryProcessor;
+use Firebear\ImportExport\Model\Import\Product\Image as ImportImage;
+use Firebear\ImportExport\Model\Import\Product\ImageProcessor as ImportImageProcessor;
+use Firebear\ImportExport\Model\Import\Product\MediaVideoGallery;
+use Firebear\ImportExport\Model\Import\Product\OptionFactory;
+use Firebear\ImportExport\Model\Import\Product\Price\Rule\ConditionFactory as ConditionFactoryAlias;
+use Firebear\ImportExport\Model\ResourceModel\Job\CollectionFactory;
+use Firebear\ImportExport\Model\Source\Import\Config;
+use Firebear\ImportExport\Model\Translation\Translator;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Helper\Data as CatalogHelperData;
+use Magento\Catalog\Helper\Product as CatalogHelperProduct;
+use Magento\Catalog\Model\CategoryLinkRepository;
+use Magento\Catalog\Model\Config as CatalogConfig;
+use Magento\Catalog\Model\Product\ActionFactory;
+use Magento\Catalog\Model\Product\Link as ProductLink;
+use Magento\Catalog\Model\Product\Media\ConfigInterface;
+use Magento\Catalog\Model\Product\Url;
+use Magento\Catalog\Model\ResourceModel\Eav\AttributeFactory;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\LinkFactory;
+use Magento\CatalogImportExport\Model\Import\Product\SkuProcessor;
+use Magento\CatalogImportExport\Model\Import\Product\StoreResolver;
+use Magento\CatalogImportExport\Model\Import\Product\TaxClassProcessor;
+use Magento\CatalogImportExport\Model\Import\Product\Type\Factory;
+use Magento\CatalogImportExport\Model\Import\Product\Validator;
+use Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory;
+use Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory;
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\CatalogInventory\Model\ResourceModel\Stock\ItemFactory;
+use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
+use Magento\Customer\Model\GroupFactory;
+use Magento\Eav\Model\EntityFactory;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Group\CollectionFactory as AttributeGroupCollectionFactory;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory as AttributeSetCollectionFactory;
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Indexer\IndexerRegistry;
+use Magento\Framework\Intl\DateTimeFactory;
+use Magento\Framework\Model\ResourceModel\Db\ObjectRelationProcessor;
+use Magento\Framework\Model\ResourceModel\Db\TransactionManagerInterface;
+use Magento\Framework\Module\Manager;
+use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\ImportExport\Model\Import\Config as ImportConfig;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\WebsiteFactory;
+use Magento\Swatches\Helper\Data;
+use Magento\Swatches\Helper\Media;
+use Magento\Swatches\Model\ResourceModel\Swatch\CollectionFactory as SwatchCollectionFactory;
+use Magento\Tax\Model\ResourceModel\TaxClass\CollectionFactory as TaxClassCollectionFactory;
+use Zend\Serializer\Serializer;
+use function version_compare;
+
+class Product extends \Firebear\ImportExport\Model\Import\Product
+{
+    /**
+     * Product constructor.
+     * @param Context $context
+     * @param ImportImage $importImage
+     * @param ImportImageProcessor $importImageProcessor
+     * @param FirebearImportExportData $helper
+     * @param CacheInterface $cache
+     * @param Additional $additional
+     * @param ManagerInterface $eventManager
+     * @param StockRegistryInterface $stockRegistry
+     * @param StockConfigurationInterface $stockConfiguration
+     * @param StockStateProviderInterface $stockStateProvider
+     * @param CatalogHelperData $catalogData
+     * @param ImportConfig $importConfig
+     * @param Config $fireImportConfig
+     * @param ResourceModelFactory $resourceFactory
+     * @param OptionFactory $optionFactory
+     * @param AttributeSetCollectionFactory $setColFactory
+     * @param Factory $productTypeFactory
+     * @param LinkFactory $linkFactory
+     * @param ProductFactory $proxyProdFactory
+     * @param Filesystem $filesystem
+     * @param ItemFactory $stockResItemFac
+     * @param TimezoneInterface $localeDate
+     * @param DateTime $dateTime
+     * @param IndexerRegistry $indexerRegistry
+     * @param StoreResolver $storeResolver
+     * @param SkuProcessor $skuProcessor
+     * @param Validator $validator
+     * @param ObjectRelationProcessor $objectRelationProcessor
+     * @param TransactionManagerInterface $transactionManager
+     * @param TaxClassProcessor $taxClassProcessor
+     * @param ScopeConfigInterface $scopeConfig
+     * @param Url $productUrl
+     * @param AttributeFactory $attributeFactory
+     * @param EntityFactory $eavEntityFactory
+     * @param AttributeGroupCollectionFactory $groupCollectionFactory
+     * @param CatalogHelperProduct $productHelper
+     * @param ProductMetadataInterface $productMetadata
+     * @param ProductRepositoryInterface $productRepository
+     * @param ProductCollectionFactory $collectionFactory
+     * @param GroupFactory $groupFactory
+     * @param WebsiteFactory $websiteFactory
+     * @param CategoryProcessor $categoryProcessor
+     * @param UploaderFactory $uploaderFactory
+     * @param TaxClassCollectionFactory $collectionTaxFactory
+     * @param StoreManagerInterface $storeManager
+     * @param CollectionFactory $importCollectionFactory
+     * @param ConditionFactoryAlias $priceRuleConditionFactory
+     * @param Data $swatchesHelperData
+     * @param Media $swatchHelperMedia
+     * @param SwatchCollectionFactory $swatchCollectionFactory
+     * @param ConfigInterface $mediaConfig
+     * @param Manager $moduleManager
+     * @param ProductLink $productLink
+     * @param UrlKeyManagerInterface $urlKeyManager
+     * @param CategoryLinkRepository $categoryLinkRepository
+     * @param ActionFactory $productActionFactory
+     * @param Translator $translator
+     * @param MediaVideoGallery $mediaProcessor
+     * @param array $data
+     * @param array $integrations
+     * @param array $dateAttrCodes
+     * @param CatalogConfig|null $catalogConfig
+     * @param DateTimeFactory|null $dateTimeFactory
+     * @throws FileSystemException
+     * @throws LocalizedException
+     */
+    public function __construct(
+        Context $context,
+        ImportImage $importImage,
+        ImportImageProcessor $importImageProcessor,
+        FirebearImportExportData $helper,
+        CacheInterface $cache,
+        Additional $additional,
+        ManagerInterface $eventManager,
+        StockRegistryInterface $stockRegistry,
+        StockConfigurationInterface $stockConfiguration,
+        StockStateProviderInterface $stockStateProvider,
+        CatalogHelperData $catalogData,
+        ImportConfig $importConfig,
+        Config $fireImportConfig,
+        ResourceModelFactory $resourceFactory,
+        Product\OptionFactory $optionFactory,
+        AttributeSetCollectionFactory $setColFactory,
+        Factory $productTypeFactory,
+        LinkFactory $linkFactory,
+        ProductFactory $proxyProdFactory,
+        Filesystem $filesystem,
+        ItemFactory $stockResItemFac,
+        TimezoneInterface $localeDate,
+        DateTime $dateTime,
+        IndexerRegistry $indexerRegistry,
+        StoreResolver $storeResolver,
+        SkuProcessor $skuProcessor,
+        Validator $validator,
+        ObjectRelationProcessor $objectRelationProcessor,
+        TransactionManagerInterface $transactionManager,
+        TaxClassProcessor $taxClassProcessor,
+        ScopeConfigInterface $scopeConfig,
+        Url $productUrl,
+        AttributeFactory $attributeFactory,
+        EntityFactory $eavEntityFactory,
+        AttributeGroupCollectionFactory $groupCollectionFactory,
+        CatalogHelperProduct $productHelper,
+        ProductMetadataInterface $productMetadata,
+        ProductRepositoryInterface $productRepository,
+        ProductCollectionFactory $collectionFactory,
+        GroupFactory $groupFactory,
+        WebsiteFactory $websiteFactory,
+        Product\CategoryProcessor $categoryProcessor,
+        UploaderFactory $uploaderFactory,
+        TaxClassCollectionFactory $collectionTaxFactory,
+        StoreManagerInterface $storeManager,
+        CollectionFactory $importCollectionFactory,
+        Product\Price\Rule\ConditionFactory $priceRuleConditionFactory,
+        Data $swatchesHelperData,
+        Media $swatchHelperMedia,
+        SwatchCollectionFactory $swatchCollectionFactory,
+        ConfigInterface $mediaConfig,
+        Manager $moduleManager,
+        ProductLink $productLink,
+        UrlKeyManagerInterface $urlKeyManager,
+        CategoryLinkRepository $categoryLinkRepository,
+        ActionFactory $productActionFactory,
+        Translator $translator,
+        MediaVideoGallery $mediaProcessor,
+        array $data = [],
+        array $integrations = [],
+        array $dateAttrCodes = [],
+        CatalogConfig $catalogConfig = null,
+        DateTimeFactory $dateTimeFactory = null
+    ) {
+        if (version_compare($productMetadata->getVersion(), '2.2.3', '>=')) {
+            \Magento\CatalogImportExport\Model\Import\Product::__construct(
+                $context->getJsonHelper(),
+                $context->getImportExportData(),
+                $context->getDataSourceModel(),
+                $context->getConfig(),
+                $context->getResource(),
+                $context->getResourceHelper(),
+                $context->getStringUtils(),
+                $context->getErrorAggregator(),
+                $eventManager,
+                $stockRegistry,
+                $stockConfiguration,
+                $stockStateProvider,
+                $catalogData,
+                $importConfig,
+                $resourceFactory,
+                $optionFactory,
+                $setColFactory,
+                $productTypeFactory,
+                $linkFactory,
+                $proxyProdFactory,
+                $uploaderFactory,
+                $filesystem,
+                $stockResItemFac,
+                $localeDate,
+                $dateTime,
+                $context->getLogger(),
+                $indexerRegistry,
+                $storeResolver,
+                $skuProcessor,
+                $categoryProcessor,
+                $validator,
+                $objectRelationProcessor,
+                $transactionManager,
+                $taxClassProcessor,
+                $scopeConfig,
+                $productUrl,
+                $data,
+                $dateAttrCodes,
+                $catalogConfig
+            );
+        } else {
+            \Firebear\ImportExport\Model\Import\Product::__construct($context, $importImage, $importImageProcessor,
+                $helper, $cache, $additional, $eventManager,
+                $stockRegistry, $stockConfiguration, $stockStateProvider, $catalogData, $importConfig,
+                $fireImportConfig,
+                $resourceFactory, $optionFactory, $setColFactory, $productTypeFactory, $linkFactory, $proxyProdFactory,
+                $filesystem, $stockResItemFac, $localeDate, $dateTime, $indexerRegistry, $storeResolver, $skuProcessor,
+                $validator, $objectRelationProcessor, $transactionManager, $taxClassProcessor, $scopeConfig,
+                $productUrl,
+                $attributeFactory, $eavEntityFactory, $groupCollectionFactory, $productHelper, $productMetadata,
+                $productRepository, $collectionFactory, $groupFactory, $websiteFactory, $categoryProcessor,
+                $uploaderFactory, $collectionTaxFactory, $storeManager, $importCollectionFactory,
+                $priceRuleConditionFactory, $swatchesHelperData, $swatchHelperMedia, $swatchCollectionFactory,
+                $mediaConfig,
+                $moduleManager, $productLink, $urlKeyManager, $categoryLinkRepository, $productActionFactory,
+                $translator,
+                $mediaProcessor, $data, $integrations, $dateAttrCodes, $catalogConfig, $dateTimeFactory);
+        }
+    }
+}

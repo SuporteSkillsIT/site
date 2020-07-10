@@ -1,0 +1,36 @@
+<div class="row" ng-controller="settingsPersonalAbstractController">
+    <div class="col-md-12">
+        <div class="box light bordered">
+            <div class="box-title tabbable-line">
+                <ul class="nav nav-tabs nav-left">
+
+                    <li ui-sref-active-if="settings.personal.personal" >
+                        <a data-toggle="tab" ui-sref="settings.personal.personal"  data-target="settings.personal.personal">
+                            {{ ::('settings.personal.tab' | translate) }}
+                        </a>
+                    </li>
+                    <li ui-sref-active-if="settings.personal.fieldsview" >
+                        <a data-toggle="tab" ui-sref="settings.personal.fieldsview"  data-target="settings.personal.fieldsview">
+                            {{ ::('settings.personal.tab.fields' | translate) }}
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                        <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="importexportBlock" style="min-height: 100px;">
+                <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+                <div ui-view></div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

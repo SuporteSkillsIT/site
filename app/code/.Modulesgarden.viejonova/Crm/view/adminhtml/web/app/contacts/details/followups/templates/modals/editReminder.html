@@ -1,0 +1,192 @@
+
+
+<h2>
+    {{ ::('reminder.modal.header' | translate) }}{{ editableReminder.id }} 
+</h2>
+
+
+<div class="box-body">
+    <form name="reminderform" class="form-horizontal" novalidate ng-submit="submitEditReminder()" role="form">
+
+            
+            <input type="hidden" name="followup_id" ng-model="editableReminder.followup_id" value="{{ followup.id }}">
+
+        
+            <div class="form-group margin-bottom-5" ng-class="{ 'has-error': reminderform.reminderdate.$invalid }">
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font">
+                        {{ ::('reminder.modal.dateto' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10">
+                    
+                    <p class="input-group">
+                        <!--datatimepicker-->
+                        <input type="text" 
+                               required
+                               name="reminderdate"
+                               class="form-control" 
+                               datetime-picker="{{settings.datapicker.format}}" 
+                               ng-model="editableReminder.date" 
+                               is-open="followupReminderDataOpen" 
+                               enable-time="settings.datapicker.enabletime" 
+                               datepicker-options="settings.datapicker.options" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="followupReminderDataOpen = true"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </p>
+                                                    
+                    <small class="help-block error" ng-show="reminderform.reminderdate.$invalid">{{ ::('reminder.modal.edit.date.required' | translate) }}</small>
+                </div>
+            </div>
+        
+            <div class="form-group margin-bottom-5" ng-class="{ 'has-error': reminderform.reminderfor.$invalid }">
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font">
+                        {{ ::('reminder.modal.edit.for' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left" style="padding-top: 7px;">
+                    <label>
+                        <input type="radio" required name="reminderfor" ng-model="editableReminder.target" value="admin">
+                        {{ ::('reminder.modal.edit.admin' | translate) }}
+                    </label>
+                    <label>
+                        <input type="radio" class="margin-left-10" required name="reminderfor" ng-model="editableReminder.target" value="resource">
+                        <input type="hidden" ng-if="editableReminder.target == 'resource'" name="reminderfor" ng-model="editableReminder.target_id" value="{{ followup.resource_id }}">
+                        {{ ::('resource.followup.reminders.to.client' | translate) }}
+                    </label>
+                    <br/>
+                    <small class="help-block error" ng-show="reminderform.reminderfor.$invalid">You need to specify who will recieve this remidner</small>
+                </div>
+            </div>
+
+            <div class="form-group margin-bottom-5" ng-hide="reminderform.reminderfor.$invalid" ng-class="{ 'has-error': reminderform.remindermethod.$invalid }">
+
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font">
+                        {{ ::('reminder.modal.edit.method' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left" style="padding-top: 7px;">
+                    <label>
+                        <input type="radio" required name="remindermethod" ng-model="editableReminder.type" value="email">
+                        {{ ::('reminder.modal.edit.method.email' | translate) }}
+                    </label>
+<!--                    <label>
+                        <input type="radio" class="margin-left-10" required name="remindermethod" ng-model="editableReminder.type" value="sms">
+                        {{ ::('reminder.modal.edit.method.sms' | translate) }}
+                    </label>-->
+                    <br/>
+                    <small class="help-block error" ng-show="reminderform.remindermethod.$invalid">You need to specify how reminder will be sent</small>
+                </div>
+            </div>
+        
+        
+            <div class="form-group margin-bottom-5" ng-if="editableReminder.target == 'admin'" ng-class="{ 'has-error': reminderform.reminderadminselect.$invalid }">
+
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font" for="reminderadminselect">
+                        {{ ::('reminder.modal.edit.choseadmin' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left">
+                    
+                    <select 
+                        id="reminderadminselect"
+                        class="form-control pull-left" 
+                        name="reminderadminselect" 
+                        ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                        ng-model="editableReminder.target_id" 
+                        style="width: 250px;"
+                        required>
+                    </select>
+                    
+                    <small class="help-block error margin-left-10 pull-left" ng-show="reminderform.reminderadminselect.$invalid">{{ ::('reminder.modal.edit.choseadmin.required' | translate) }}</small>
+                </div>
+            </div>
+        
+        
+            <div class="form-group margin-bottom-5" ng-show="editableReminder.target" ng-class="{ 'has-error': reminderform.template.$invalid }">
+
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font" for="reminderadminselect">
+                        {{ ::('reminder.modal.edit.chose.tpl' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left">
+                    
+                    <select 
+                        ng-if="editableReminder.target == 'admin'"
+                        class="form-control" 
+                        name="type" 
+                        ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                        ng-model="editableReminder.template_id" 
+                        required>
+                    </select>
+                    
+                    <select 
+                        ng-if="editableReminder.target == 'resource'"
+                        class="form-control" 
+                        name="type" 
+                        ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                        ng-model="editableReminder.template_id" 
+                        required>
+                    </select>
+                    
+                    <small class="help-block error" ng-show="reminderform.template.$invalid">{{ ::('reminder.modal.edit.chose.tpl.required' | translate) }}</small>
+                </div>
+            </div>
+        
+        
+            <div class="form-group margin-bottom-5" ng-if="editableReminder.type == 'email'">
+
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font" for="emailcc">
+                        {{ ::('reminder.modal.edit.chose.cc' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left">
+                    
+                        <select 
+                            class="form-control" 
+                            name="emailcc" 
+                            ng-model="editableReminder.cc" 
+                            multiple>
+                            <option ng-repeat="option in formData.admins" value="{{ option.user_id }}">{{ option.full }}</option>
+                        </select>
+                    
+                    <small class="help-block">{{ ::('reminder.modal.edit.chose.cc.required' | translate) }}</small>
+                </div>
+            </div>
+
+            <div class="form-group margin-bottom-5" ng-if="editableReminder.type == 'email'" ng-class="{ 'has-error': reminderform.emailreply.$invalid }">
+
+                <div class="col-sm-2 text-right">
+                    <label class="control-label primary-font" for="emailreply">
+                        {{ ::('reminder.modal.edit.chose.reply' | translate) }}
+                    </label>
+                </div>
+                <div class="col-sm-10 text-left">
+                    
+                    <select 
+                        class="form-control" 
+                        name="emailreply" 
+                        ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                        ng-model="editableReminder.reply" 
+                        >
+                    </select>
+                    
+                    <small class="help-block error" ng-show="reminderform.emailreply.$invalid">{{ ::('reminder.modal.edit.chose.reply.required' | translate) }}</small>
+                </div>
+            </div>
+
+
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">{{ ::('form.cancel' | translate) }}</button>
+            <button type="submit" ng-disabled="reminderform.$invalid" class="ngdialog-button ngdialog-button-primary">{{ ::('form.update' | translate) }}</button>
+        </div>
+
+    </form>
+
+</div>

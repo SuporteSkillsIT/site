@@ -1,0 +1,305 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box light bordered">
+            <div class="box-title tabbable-line">
+                <ul class="nav nav-tabs nav-left">
+
+                    <li ng-class="{'active': activeTab == 'overview'}">
+                        <a data-toggle="tab" ng-click="changeActiveTab('overview')" data-target="settings.overview">
+                            {{ ::( 'migration.navtab.overview' | translate) }}
+                        </a>
+                    </li>
+                    
+                    <li ng-class="{'active': activeTab == 'statuses'}" ng-show="versionMach">
+                        <a data-toggle="tab" ng-click="changeActiveTab('statuses')" data-target="settings.statuses">
+                            {{ ::( 'migration.navtab.statuses' | translate) }} <span class="label" ng-class="{'label-success': statusescheck==true}">1</span>
+                        </a>
+                    </li>
+                    
+                    <li ng-class="{'active': activeTab == 'fields', 'disabled': statusescheck!=true }" ng-show="versionMach" ng-style="statusescheck!=true && {'opacity':'.5'}" >
+                        <a ng-click="changeActiveTab('fields')" data-target="settings.fields">
+                            {{ ::( 'migration.navtab.fields' | translate) }} <span class="label" ng-class="{'label-success': fieldscheck==true}">2</span>
+                        </a>
+                    </li>
+                    
+                    <li ng-class="{'active': activeTab == 'resources', 'disabled': (statusescheck!=true || fieldscheck!=true)}" ng-show="versionMach" ng-style="(statusescheck!=true || fieldscheck!=true) && {'opacity':'.5'}" >
+                        <a ng-click="changeActiveTab('resources')" data-target="settings.resources">
+                            {{ ::( 'migration.navtab.fields' | translate) }} <span class="label">3</span>
+                        </a>
+                    </li>
+                </ul>
+                
+
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                      <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body" block-ui="settingsBlock" style="min-height: 100px;">
+
+                <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+                
+                <!--personal settings-->
+                <div ng-show="activeTab == 'overview'">
+                    
+                    <div class="note note-warning">
+                        <h4 class="note-title">{{ ::( 'migration.text.notice' | translate) }}</h4>
+                        <span ng-bind-html="::( 'migration.text.overview.notice' | translate)"></span>
+                    </div>
+                                
+                    <table class="table table-bordered table-striped table-hover align-vertical" style="margin-bottom: 20px;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span ng-hide="status.lastVersion" class="label label-danger">{{ ::( 'migration.text.overview.not.detected' | translate) }}</span>
+                                    <span ng-show="status.lastVersion != '1.2.4'" class="label label-danger">{{ status.lastVersion }}</span>
+                                    <span ng-show="status.lastVersion == '1.2.4'" class="label label-success">{{ status.lastVersion }}</span>
+                                </td>
+                                <td>{{ ::( 'migration.text.overview.last.version' | translate) }}</td>
+                                <td>
+                                    <p ng-hide="status.lastVersion" class="help-block" style="display: inline-block; margin: 0px; color: #999;">
+                                        {{ ::( 'migration.text.overview.notfoundcrm' | translate) }}
+                                    </p>
+                                    <p 
+                                        ng-if="status.lastVersion"
+                                        ng-show="status.lastVersion != '1.2.4'" 
+                                        class="help-block" style="display: inline-block; margin: 0px; color: #999;"
+                                        ng-bind-html="::( 'migration.text.overview.incompatible' | translate)"
+                                        >
+                                    </p>
+                                    <p ng-show="status.lastVersion == '1.2.4'" class="help-block" style="display: inline-block; margin: 0px; color: #999;">
+                                        {{ ::( 'migration.text.overview.compatible' | translate) }}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    
+                    <div class="col-lg-12">
+                        <h3>{{ ::( 'migration.text.overview.flow.header' | translate) }}</h3>
+                        <ol ng-bind-html="::( 'migration.text.overview.flow.content' | translate)">
+                        </ol>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="note note-info" ng-bind-html="::( 'migration.text.overview.bottom.info' | translate)">
+                        
+                    </div>
+                    
+                    <div class="form-group col-lg-12">
+                        <div class="text-center no-margin-top">
+                            <button type="submit" ng-show="status.lastVersion == '1.2.4'" ng-click="changeActiveTab('statuses')" class="btn btn-success btn-inverse">{{ 'migration.btn.begin.conf' | translate }}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    
+                </div>
+                
+                <!--fields views-->
+                <div ng-show="activeTab == 'statuses'">
+                    
+                    <div class="box light bordered">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="uppercase font-red-thunderbird" ng-bind-html="::( 'migration.text.map.statuses.widget' | translate)">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="form-group col-sm-6" ng-repeat="field in container.actual.statuses">
+                                        <div class="col-sm-4 text-right">
+                                            <label class="control-label primary-font" for="status_{{ field.id }}">
+                                                {{ field.name }}
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8">
+
+                                            <select class="form-control" id="status_{{ field.id }}" ng-model="map.statuses[field.id]" ng-options="o.id as o.name for o in container.old.statuses">
+                                            </select>
+                                            <small class="help-block" ng-hide="map.statuses[field.id]">{{ ::( 'migration.text.map.empty.status' | translate) }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                        
+                    <div class="box light bordered">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="uppercase font-red-thunderbird">
+                                    {{ ::( 'migration.text.confirmation' | translate) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group col-lg-12" ng-class="{'ng-invalid': statusescheck!=true, 'ng-valid': (statusescheck==true)}">
+                                <div class="col-lg-6 text-right">
+                                    <label class="control-label primary-font" for="statusescheck" ng-bind-html="::( 'migration.text.statusescheck' | translate)">
+                                    </label>
+                                </div>
+                                <div class="col-lg-6 control-label" style="text-align: left;">
+                                    <input name="statusescheck" id="statusescheck" ng-model="$parent.statusescheck" type="checkbox" required />
+                                    <small class="help-block error" ng-show="statusescheck!=true">{{ 'form.validator.checkbox.required' | translate }}</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <div class="text-center no-margin-top">
+                                    <button type="submit" ng-disabled="statusescheck!=true" ng-click="changeActiveTab('fields')" class="btn btn-success btn-inverse">{{ 'migration.btn.configure.fields' | translate }}</button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                
+                </div>
+                <div ng-show="activeTab == 'fields'">
+                    
+                        <div class="box light bordered">
+                            <div class="box-title">
+                                <div class="caption">
+                                    <span class="uppercase font-red-thunderbird" ng-bind-html="::( 'migration.text.map.fields.widget' | translate)">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6" ng-repeat="field in container.actual.fields.dynamic">
+                                            <div class="col-sm-4 text-right">
+                                                <label class="control-label primary-font" for="fielddynamic_{{ field.id }}">
+                                                    {{ field.name }}
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8">
+
+                                                <select class="form-control" id="fielddynamic_{{ field.id }}" ng-model="map.dynamic[field.id]" ng-options="o.id as o.fullname for o in container.old.fields">
+                                                </select>
+                                                <small class="help-block" ng-hide="map.dynamic[field.id]">{{ ::( 'migration.text.map.empty.field' | translate) }}</small>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    
+                        <div class="box light bordered">
+                            <div class="box-title">
+                                <div class="caption">
+                                    <span class="uppercase font-red-thunderbird">
+                                        {{ ::( 'migration.text.confirmation' | translate) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-lg-12" ng-class="{'ng-invalid': fieldscheck!=true, 'ng-valid': (fieldscheck==true)}">
+                                    <div class="col-lg-6 text-right">
+                                        <label class="control-label primary-font" for="fieldscheck" ng-bind-html="::( 'migration.text.fieldscheck' | translate)">
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6 control-label" style="text-align: left;">
+                                        <input name="statusescheck" id="fieldscheck" ng-model="$parent.fieldscheck" type="checkbox" required />
+                                        <small class="help-block error" ng-show="fieldscheck!=true">{{ 'form.validator.checkbox.required' | translate }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <div class="text-center no-margin-top">
+                                        <button type="submit" ng-disabled="fieldscheck!=true" ng-click="changeActiveTab('resources')" class="btn btn-success btn-inverse">{{ ::( 'migration.btn.last.step' | translate) }}</button>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div ng-show="activeTab == 'resources'">
+                    
+                    <form class="form-horizontal" novalidate role="form" name="migratorForm" valid-submit="migrationFormSubmit()">
+
+                        <div class="box light bordered">
+                            <div class="box-title">
+                                <div class="caption">
+                                    <span class="uppercase font-red-thunderbird">
+                                        {{ ::( 'migration.text.finish.widget' | translate) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                
+                                <div class="note note-info">
+                                    {{ ::( 'migration.how.many.to.import.1' | translate) }} <b>{{ status.old_count_leads }}</b> {{ ::( 'migration.how.many.to.import.2' | translate) }}
+                                </div>
+                                <div class="note note-warning">
+                                    {{ ::( 'migration.text.finish.rewerseinfo' | translate) }} <b>id = {{ status.auto_increment }}</b>
+                                </div>
+                                
+                                <div class="form-group col-lg-12" ng-hide="showResultStatus" ng-class="{'ng-invalid': (submitted && migratorForm.procedecheck.$invalid), 'ng-valid': (submitted && migratorForm.fieldscheck.$valid)}">
+                                    <div class="col-lg-6 text-right">
+                                        <label class="control-label primary-font" for="procedecheck">
+                                            {{ ::( 'migration.text.finish.proceed' | translate) }}
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6 control-label" style="text-align: left;">
+                                        <input name="procedecheck" id="procedecheck" ng-model="migrateForm.procedecheck" type="checkbox" required />
+                                        <small class="help-block error" ng-show="submitted && migratorForm.procedecheck.$invalid">{{ 'form.validator.checkbox.required' | translate }}</small>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="form-group col-lg-12">
+                                    <div class="text-center no-margin-top">
+                                        <button type="submit" ng-click="submitted=true" ng-disabled="(submitted && migratorForm.$invalid)" ng-hide="showResultStatus" class="btn btn-success btn-inverse">{{ ::( 'migration.text.finish.btn.start' | translate) }}</button>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    
+                    <div class="box light bordered" ng-show="showResultStatus">
+                        <div class="box-title">
+                            <div class="caption">
+                                <span class="uppercase font-red-thunderbird">
+                                    {{ ::( 'migration.text.finish.result.widget' | translate) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-body" block-ui="migrationSubmitBlock" style="min-height: 100px;">
+
+                            <note ng-repeat="m in migrationMessages" type="{{m.type}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+                            <div class="note note-info">
+                                {{ ::( 'migration.text.finish.result.log' | translate) }} <code>modules/addons/mgCRM2/app/Storage/logs/{{ logfile }}</code> {{ ::( 'migration.text.finish.result.directory' | translate) }}
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                                
+                </div>
+                
+                <div class="clearfix"></div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+    

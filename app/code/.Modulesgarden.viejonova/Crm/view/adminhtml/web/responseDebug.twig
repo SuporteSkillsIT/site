@@ -1,0 +1,7 @@
+<pre>
+{% for key, value in _context if key is not same as('flash')  and key is not same as('settings') and key is not same as('whmcs') and key is not same as('configFile') and key is not same as('_parent') and key is not same as('lang') and key is not same as('acl')  and key is not same as('currentAdmin') %}
+<b>{{ key }}</b>:
+{{ debug(value, 'var_dump') }}
+{# {{ debug(key, 'r') }} #}
+{% endfor %}
+</pre>

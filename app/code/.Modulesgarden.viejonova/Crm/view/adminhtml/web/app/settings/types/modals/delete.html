@@ -1,0 +1,49 @@
+<h2 class="no-margin-top">{{ ::('settings.types.delete.header' | translate) }} <strong>#{{ modelDelete.id }} {{ (types|filter:{id:modelDelete.id}:true).name }}</strong></h2>
+
+<div class="form-horizontal">
+        
+    <div class="form-group no-margin" ng-class="{'ng-invalid': modelDelete.archive && !modelDelete.convert }">
+        <div class="col-sm-4 text-right">
+            <label class="control-label primary-font" for="delete-convert">
+                {{ ::('settings.types.delete.convert' | translate) }}
+            </label>
+        </div>
+        <div class="col-sm-8 control-label">
+            <p class="primary-font text-left bold">
+                <select
+                    ng-model="modelDelete.convert"
+                    class="form-control"
+                    ng-required="modelDelete.archive"
+                    id="delete-convert"
+                    >
+                    <option value="" ng-disabled="modelDelete.archive">{{ ::('settings.types.delete.convert.dont' | translate) }}</option>
+                    <option ng-hide="t.id == modelDelete.id" ng-value="t.id" ng-repeat="t in types">{{ t.name }}</option>
+                </select>
+                <small class="help-block font-sm">{{ ::('settings.types.delete.convert.descr' | translate) }}</small>
+                
+                <div class="note note-danger no-margin-bottom text-left" ng-show="modelDelete.archive && !modelDelete.convert">
+                    <small class="help-block no-margin">{{ ::('settings.types.delete.convert.error' | translate) }}</small>
+                </div>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="form-group no-margin">
+        <div class="col-sm-4 text-right">
+            <label class="control-label primary-font" for="move-to-archive">
+                {{ ::('settings.types.delete.archive' | translate) }}
+            </label>
+        </div>
+        <div class="col-sm-8 control-label" style="text-align: left;">
+            <input type="checkbox" id="move-to-archive" ng-model="modelDelete.archive" name="move-to-archive">
+            <small class="text-muted font-sm" ng-bind-html="'settings.types.delete.archive.descr' | translate"></small>
+        </div>
+    </div>
+    
+</div>
+
+<div class="ngdialog-buttons">
+    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-disabled="modelDelete.archive && !modelDelete.convert" ng-click="confirm(1)">{{ ::('text.delete' | translate) }}</button>
+    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">{{ ::('form.close' | translate) }}</button>
+</div>

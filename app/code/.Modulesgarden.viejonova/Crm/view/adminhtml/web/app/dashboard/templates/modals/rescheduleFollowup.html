@@ -1,0 +1,99 @@
+
+
+<h2>Reschedule Followup-up # {{ ngDialogData.followup.id }}
+    <button type="button" 
+            class="btn btn-primary btn-inverse pull-right margin-right-10" 
+            ui-sref="contacts.details.followup({id: ngDialogData.followup.resource_id, followupID: ngDialogData.followup.id })"
+            >
+        Edit
+    </button>
+    <button type="button" 
+            class="btn btn-info btn-inverse pull-right margin-right-10" 
+            ui-sref="contacts.details.summary({id: ngDialogData.followup.resource_id})"
+            ng-click="closeThisDialog(0);"
+            >
+        {{ ::(ngDialogData.followup.resource.is_potential ? 'Potential' : 'Lead') }} #{{ ::ngDialogData.followup.resource_id }} Summary
+    </button>
+</h2>
+
+
+
+<form class="form-horizontal" name="followupReschedue" novalidate ng-submit="followupReschedueFormSubmit()" role="form">
+    
+    <div class="form-group no-margin">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                Current Date
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <p class="primary-font text-left bold">
+                {{ ::ngDialogData.followup.date }}
+            </p>
+        </div>
+    </div>
+
+
+    <div class="form-group no-margin" ng-class="{ 'has-error': followupReschedue.date.$invalid }">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                New Date
+            </label>
+        </div>
+        <div class="col-sm-10">
+            
+            <p class="input-group">
+                <!--datatimepicker-->
+                <input 
+                    type="text" 
+                    name="date" 
+                    class="form-control" 
+                    required 
+                    datetime-picker="{{datapicker.format}}" 
+                    ng-model="reschedue.date" 
+                    is-open="followupDataOpen" 
+                    enable-time="datapicker.enabletime" 
+                    datepicker-options="datapicker.options" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="followupDataOpen = true"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+            <small class="help-block error" ng-show="followupReschedue.date.$invalid">Date must be valid</small>
+        </div>
+    </div>
+    
+    <div class="form-group" ng-class="{ 'has-error': followupReschedue.reason.$invalid }">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font">
+                Reason
+            </label>
+        </div>
+        <div class="col-sm-10">
+            <input type="text" name="reason" ng-model="reschedue.reason" required class="form-control" id="name" placeholder="Type reason for reschedue">
+            <small class="help-block error" ng-show="followupReschedue.reason.$invalid">Reason is required</small>
+        </div>
+    </div>
+    
+    <div class="form-group margin-bottom-20">
+        <div class="col-sm-2 text-right">
+            <label class="control-label primary-font" for="updatereminders">
+                Update Reminders
+            </label>
+        </div>
+        <div class="col-sm-10 control-label">
+            <input class="pull-left margin-right-10" type="checkbox" id="updatereminders" ng-model="reschedue.updateReminders" value="1" checked="checked" name="updatereminders">
+            <small class="help-block pull-left">While enabled, each reminder date wil be adjusted acording to changed date.</small>
+        </div>
+    </div>
+    
+    
+    <div class="ngdialog-buttons">
+        <button type="submit" ng-disabled="followupReschedue.$invalid" class="ngdialog-button ngdialog-button-primary">Reschedue</button>
+        <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Close</button>
+    </div>
+    
+</form>
+
+
+
+

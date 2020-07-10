@@ -1,0 +1,299 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box light bordered">
+            <div class="box-title">
+                <div class="caption">
+                    <span class="bold uppercase">
+                        {{ ::('settings.types.nav.widget.name' | translate) }}
+                    </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                      <i class="icon-size-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="tab-content">
+                    <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+                    
+                        <div class="container-fluid raw">
+                            <div class="box light bordered" ng-class="{'toogled': formHidden }">
+                                <div class="box-title">
+                                    <div class="caption">
+                                        <span class="bold font-green uppercase">
+                                            {{ ::('settings.types.list.add.widget.name' | translate) }}
+                                        </span>
+                                    </div>
+                                    <div class="actions">
+                                        <a href="javascript:;" ng-show="formHidden" ng-click="formHidden=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                        <a href="javascript:;" ng-hide="formHidden" ng-click="formHidden=true" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                            <i class="fa fa-compress"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body" block-ui="formSubmitNewBlock" style="min-height: 100;">
+
+                                    <div ng-show="formSubmitDone" class="note note-success">
+                                        <h5 class="note-title no-margin">
+                                            {{ ::('settings.types.add.succed' | translate) }}
+                                        </h5>
+                                    </div>
+
+
+                                    <form name="$parent.groupform" novalidate valid-submit="groupFormSubmit()" role="form" class="form-horizontal">
+                                        <fieldset>
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.name.$invalid), 'ng-valid': ($parent.submitted && groupform.name.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="name">
+                                                                {{ ::('settings.types.add.form.name' | translate) }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" name="name" id="name" ng-model="newType.name" required class="form-control" id="name" placeholder="{{ 'settings.types.add.form.name.placeholder' | translate }}">
+                                                            <small class="help-block error" ng-show="groupform.name.$invalid && $parent.submitted">{{ 'form.validator.text.required' | translate }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.color.$invalid), 'ng-valid': ($parent.submitted && groupform.color.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="color">{{ 'form.color' | translate }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <input type="color" name="color" class="form-control" ng-model="newType.color" id="color">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.icon.$invalid), 'ng-valid': ($parent.submitted && groupform.icon.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="icon">{{ ::('settings.types.add.icon' | translate) }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                                            <input type="text" name="icon" id="icon" ng-model="newType.icon" required class="form-control form-control-sm" id="icon" placeholder="{{ 'settings.types.add.form.icon.placeholder' | translate }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" style="padding-top: 5px;">
+                                                    <small class="text-muted" ng-bind-html="'settings.types.add.icon.descr' | translate"></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.active.$invalid), 'ng-valid': ($parent.submitted && groupform.active.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="active">{{ 'form.enabled' | translate }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                                            <input type="checkbox" id="active" ng-model="newType.active" value="1" name="active">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.show_in_nav.$invalid), 'ng-valid': ($parent.submitted && groupform.show_in_nav.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="show_in_nav">{{ ::('settings.types.add.show.nav' | translate) }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                                            <input type="checkbox" id="show_in_nav" ng-model="newType.show_in_nav" value="1" name="show_in_nav">
+                                                            <small class="text-muted">{{ ::('settings.types.add.show.nav.descr' | translate) }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.show_in_submenu.$invalid), 'ng-valid': ($parent.submitted && groupform.show_in_submenu.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="show_in_submenu">{{ ::('settings.types.add.show.nav.subm' | translate) }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                                            <input type="checkbox" id="show_in_submenu" ng-model="newType.show_in_submenu" value="1" name="show_in_submenu">
+                                                            <small class="text-muted">{{ ::('settings.types.add.show.nav.subm.descr' | translate) }}</small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group margin-bottom-10" ng-class="{'ng-invalid': ($parent.submitted && groupform.show_in_dashboard.$invalid), 'ng-valid': ($parent.submitted && groupform.show_in_dashboard.$valid)}">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2 control-label">
+                                                            <label class="primary-font font-sm thin" for="show_in_dashboard">{{ ::('settings.types.add.show.dashboard' | translate) }}</label>
+                                                        </div>
+                                                        <div class="col-sm-10 control-label" style="text-align: left;">
+                                                            <input type="checkbox" id="show_in_dashboard" ng-model="newType.show_in_dashboard" value="1" name="show_in_dashboard">
+                                                            <small class="text-muted">{{ ::('settings.types.add.show.dashboard.descr' | translate) }}</small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group no-margin-bottom">
+                                                <div class="col-sm-12 text-center">
+                                                    <button type="submit" ng-click="$parent.submitted=true" class="btn btn-success btn-inverse">
+                                                        {{ 'form.add' | translate }}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </form>
+
+                                    <div class="clearfix"></div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="container-fluid raw">
+
+                            <div class="box light bordered">
+                                <div class="box-title">
+                                    <div class="caption">
+                                        <span class="bold font-red-thunderbird uppercase">
+                                            {{ ::('settings.types.list.tbl.widget.name' | translate) }}
+                                        </span>
+                                    </div>
+                                    <div class="actions">
+                                        <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                                            <i class="icon-size-fullscreen"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body" block-ui="typesGroup" style="min-height: 100px;">
+
+                                    <table class="table table-hover table-light table-striped table-height-input-sm">
+                                        <colgroup>
+                                           <col style="width: 50px;">
+                                           <col style="width: 50px;">
+                                           <col>
+                                           <col>
+                                           <col>
+                                           <col>
+                                           <col>
+                                           <col>
+                                           <col>
+                                           <col style="width: 150px;">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>{{ 'table.th.id' | translate }}</th>
+                                                <th>{{ 'table.th.name' | translate }}</th>
+                                                <th>{{ 'settings.types.tbl.th.icon' | translate }}</th>
+                                                <th>{{ 'table.th.color' | translate }}</th>
+                                                <th>{{ 'settings.types.tbl.th.show.in.nav' | translate }}</th>
+                                                <th>{{ 'settings.types.tbl.th.show.in.subm' | translate }}</th>
+                                                <th>{{ 'settings.types.tbl.th.show.in.dashboard' | translate }}</th>
+                                                <th>{{ 'table.th.active' | translate }}</th>
+                                                <th>{{ 'table.th.actions' | translate }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody ui-sortable="sortableOptions" ng-model="types">
+                                            <tr ng-repeat="type in types">
+                                                <td class="mySortableHandler text-center">
+                                                    <a href="#">
+                                                        <i class="fa fa-reorder"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {{ type.id }}
+                                                </td>
+                                                <td>
+                                                    <a href="#" editable-text="type.name"  ng-model="type.name" onaftersave="sentModelToUpdate($index, 'name', $data)">
+                                                        <span class="btn btn-sm">
+                                                            <i ng-show="type.icon" ng-class="type.icon" data-ng-attr-style="{{ 'color:' + (type.color || '#000000') + '!important;' }}"></i> {{ type.name || ('text.empty' | translate) }}
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" editable-text="type.icon"  ng-model="type.name" onaftersave="sentModelToUpdate($index, 'icon', $data)">
+                                                        <i ng-show="type.icon" ng-class="type.icon"></i>
+                                                        <small class="text-muted" ng-show="type.icon">{{ type.icon }}</small>
+                                                        <small class="text-muted" ng-hide="type.icon">{{ 'text.not.set' | translate }}</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" editable-color="type.color" ng-model="type.color" onaftersave="sentModelToUpdate($index, 'color', $data)">{{ type.color || "#000000" }}</a>
+                                                </td>
+                                                <td>
+                                                    <div class="picek-switch">
+                                                         <input id="show_in_nav-{{ type.id }}" class="switch-rounded" type="checkbox" ng-model="type.show_in_nav" ng-click="sentModelToUpdate($index, 'show_in_nav', type.show_in_nav);">
+                                                         <label for="show_in_nav-{{ type.id }}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="picek-switch">
+                                                         <input id="show_in_submenu-{{ type.id }}" class="switch-rounded" type="checkbox" ng-model="type.show_in_submenu" ng-click="sentModelToUpdate($index, 'show_in_submenu', type.show_in_submenu);">
+                                                         <label for="show_in_submenu-{{ type.id }}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="picek-switch">
+                                                         <input id="show_in_dashboard-{{ type.id }}" class="switch-rounded" type="checkbox" ng-model="type.show_in_dashboard" ng-click="sentModelToUpdate($index, 'show_in_dashboard', type.show_in_dashboard);">
+                                                         <label for="show_in_dashboard-{{ type.id }}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="picek-switch">
+                                                         <input id="active-{{ type.id }}" class="switch-rounded" type="checkbox" ng-model="type.active" ng-click="sentModelToUpdate($index, 'active', type.active);">
+                                                         <label for="active-{{ type.id }}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-inverse btn-danger btn-icon-only" ng-click="confirmDelete($index)">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr ng-hide="types.length">
+                                                <td colspan="10" class="text-center">{{ 'table.empty.msg' | translate }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <div class="note note-info no-margin-bottom">
+                                        <h5>{{ ::('settings.types.edit.infobox.notice' | translate) }}</h5>
+                                        <small>
+                                            {{ ::('settings.types.edit.infobox.txt' | translate) }}
+                                        </small>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

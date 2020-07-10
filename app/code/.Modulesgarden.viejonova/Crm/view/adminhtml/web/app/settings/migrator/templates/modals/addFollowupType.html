@@ -1,0 +1,30 @@
+
+
+<h2>Add New Follow-up Type</h2>
+
+
+<form name="addFollowupTypeForm" novalidate ng-submit="addFollowupTypeFormSubmit()" role="form">
+    
+    <!--<div class="box-body">-->
+        <div class="form-group" ng-class="{ 'has-error': addFollowupTypeForm.name.$invalid }">
+            <label for="name">Name</label>
+            <input type="text" name="name" ng-model="newFollowupType.name" required class="form-control" id="name" placeholder="Put new status name">
+            <small class="help-block error" ng-show="addFollowupTypeForm.name.$invalid">Field Cannot be empty</small>
+        </div>
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="color" name="color" class="form-control" ng-model="newFollowupType.color" id="color">
+        </div>
+        <div class="form-group has-success">
+            <label>
+                <input type="checkbox" name="active" ng-model="newFollowupType.active" value="1" checked="checked" name="active"> Enabled
+            </label>
+        </div>
+    <!--</div>-->
+
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Cancel</button>
+        <button type="submit" ng-disabled="addFollowupTypeForm.$invalid" class="ngdialog-button ngdialog-button-primary">Add</button>
+    </div>
+    
+</form>

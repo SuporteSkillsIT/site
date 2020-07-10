@@ -1,0 +1,37 @@
+
+<div class="col-12 col-sm-12 col-lg-12">
+    <div class="box light" ng-class="{'toogled': hiddenBox }">
+        <div class="box-title">
+            <div class="caption">
+                <span class="bold font-red-thunderbird uppercase pull-left">
+                    {{ 'statistics.widget.per.admin' | translate }}
+                </span>
+            </div>
+            <div class="actions">
+                <a href="#" ng-show="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+                <a href="javascript:;" ng-click="isFullscreen=!isFullscreen; setProperHeight(isFullscreen);" ng-init="isFullscreen=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <div style="margin: auto;" class="text-center">
+                <canvas id="bar" class="chart chart-bar"
+                    chart-data="data" 
+                    chart-labels="labels" 
+                    chart-series="series" 
+                    chart-colours="colours" 
+                    chart-options="chartOptions" 
+                    height="200"
+                    >
+                </canvas> 
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

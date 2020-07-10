@@ -1,0 +1,1 @@
+<?php namespace Wyomind\SimpleGoogleShopping\Helper;class SimpleGoogleShopping{}

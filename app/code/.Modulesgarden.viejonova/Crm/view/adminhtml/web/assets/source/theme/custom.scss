@@ -1,0 +1,627 @@
+/**
+ * Full screen wrapper
+ */
+.mg-wrapper
+{
+    &.full-screen-module-on {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            left: 0;
+            z-index: 10;
+    }
+}
+
+/**
+ * remove rounded corners in full screen mode
+ */
+.box-fullscreen .contentarea,
+.box-fullscreen #contentarea,
+.box-fullscreen .contentarea .page-header .top-menu {
+  border-radius: 0 !important;
+}
+
+/* Full Screen box mode */
+.page-box-fullscreen {
+    overflow: hidden;
+}
+/**
+ * Full screen wrapper
+ */
+.mg-wrapper
+{
+    /*
+     * Row with equal height columns
+     * --------------------------------------------------
+     */
+    .row-eq-height {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display:         flex;
+    }
+}
+
+
+
+
+/**
+ * Lead details page Main detgails fixes for form, etc
+ */
+.mg-wrapper
+{
+    .showOnMouseOverContainer .showOnMouseOver {
+        opacity: 0;
+        -webkit-transition: opacity 0.1s linear;
+        -moz-transition: opacity 0.1s linear;
+        -o-transition: opacity 0.1s linear;
+        transition: opacity 0.1s linear;
+    }
+
+    .showOnMouseOverContainer:hover .showOnMouseOver {
+        opacity: 1;
+    }
+
+
+    form.form-inline .help-block.editable-error {
+        display: inline;
+        margin-left: 10px;
+    }
+    
+    .rating-container .ratings {
+        opacity: .5 !important; 
+        font-size: small !important; 
+    }
+
+    div.single-field div {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    div.single-field:hover {
+        background-color: rgba(255,255,255, .5);
+    }
+
+    div.single-field  .form-group {
+        margin-bottom: 0;
+        border-bottom: 1px solid #eee;
+    }
+    .content-box div.single-field  .form-group:last-child {
+        border-bottom: none;
+    }
+    .content-box div.single-field .form-group label {
+        padding-bottom: 5px;
+        color: #777;
+    }
+    .content-box div.single-field .form-group label .right {
+        padding-top: 7px;
+        padding-bottom: 5px;
+        border-left: 1px dotted #eee;
+    }
+}
+
+
+/**
+ *  awesome loadre flow
+ */
+.mg-wrapper
+{
+    .mg-loader-flow {
+        display:inline-block;
+        margin:1px;
+        height:22px;
+        width:22px;
+    }
+
+    .under-header-message-container
+    {
+        height: 30px;
+    }
+
+    .under-header-message-container .message
+    {
+        padding: 0px 10px;
+        float: right;
+    }
+
+    .under-header-message-container .mg-loader-flow
+    {
+        float: right;
+        margin-top: -1px;
+    } 
+
+    .mg-loader-flow.active,
+    .mg-loader-flow:hover {
+        -webkit-animation: spin-rotate 0.7s infinite ease;
+        -moz-animation: spin-rotate 0.7s infinite ease;
+        -o-animation: spin-rotate 0.7s infinite ease;
+        animation: spin-rotate 0.7s infinite ease;
+    }
+}
+// animation for it
+@-moz-keyframes spin-rotate {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(359deg); }
+}
+@-webkit-keyframes spin-rotate {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(359deg); }
+}
+@keyframes spin-rotate {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(359deg);}
+}
+
+
+// transitions!
+.mg-wrapper
+{
+    .header-message-enter, 
+    .header-message-leave
+    { 
+        -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        position: relative;
+        display: block;
+    } 
+
+    .header-message-enter.header-message-enter-active, 
+    .header-message-leave {
+        opacity: 1;
+        top: 0;
+        height: 30px;
+    }
+
+    .animate-leave.animate-leave-active,
+    .animate-enter {
+        opacity: 0;
+        top: -50px;
+        height: 0px;
+    }
+}
+
+
+
+// transitions!
+.mg-wrapper
+{
+    .loadingNotificationIn, .loadingNotificationOut {
+        -webkit-transition: -webkit-transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1);
+        -moz-transition:    -moz-transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1);
+        -o-transition:      -o-transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1);
+        transition:         transform 0.22s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.22s cubic-bezier(0.25, 0, 0.25, 1);
+    }
+    .loadingNotificationIn.ng-hide-remove, 
+    .loadingNotificationOut.ng-hide-add.ng-hide-add-active {
+        opacity: 0;
+        -webkit-transform: translate3d(100px, 0px, 0px);
+        transform: translate3d(100px, 0px, 0px);
+        display: block !important;
+    }
+    .loadingNotificationOut.ng-hide-add, 
+    .loadingNotificationIn.ng-hide-remove.ng-hide-remove-active {
+        opacity: 1;
+        display: block !important;
+        -webkit-transform: translate3d(0px, 0px, 0px);
+        transform: translate3d(0px, 0px, 0px);
+    }
+}
+
+
+
+
+/***********************
+ *    SMART TABLE
+ ***********************/
+.mg-wrapper
+{
+    .st-sort-ascent:after{
+        content: '\25B2';
+    }
+
+    .st-sort-descent:after{
+        content: '\25BC';
+    }
+
+    .st-selected{
+        background: #216eff !important;
+        color: white !important;
+    }
+    .mg-wrapper .pagination {
+        margin-top: 0;
+    }
+
+    .border-bottom-red {
+        border-bottom-color: #d84a38 !important;
+        color: #d84a38 !important;
+    }
+}
+
+
+
+
+/***********************
+ *    Custom form for editable fields
+ ***********************/
+.mg-wrapper
+{
+    .tabbable ul li.active .badge {
+        background-color: rgba(0, 0, 0, .5);
+    }
+    .tabbable ul li .badge {
+        background-color: rgba(0, 0, 0, .2);
+    }
+}
+    
+
+/***********************
+ *    Custom form for editable fields
+ ***********************/
+.mg-wrapper
+{
+    .mg-loader-flow {
+        
+    }
+    
+    .crm-customfields-form 
+    {
+        &.box-body {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .control-label {
+            text-align: right;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 0;
+            
+            padding-top: 7px;
+            padding-bottom: 5px;
+            
+            color: #777;
+            border-right: 1px dotted darken(#eee, 0%);
+        }
+        .form-group {
+            margin-bottom: 0;
+            border-bottom: 1px solid darken(#eee, 0%);
+            
+            .editable-controls {
+                margin-top: 4px;
+                inputt:not([type=radio]) {
+                    width: 100%;
+                }
+            }
+        }
+        .form-group:last-child {
+            border-bottom: none;
+            padding-bottom: 5px;
+        }
+        .form-group:first-child {
+            .control-label {
+                padding-top: 0 !important;
+            }
+            .formatedValue {
+                padding-top: 0 !important;
+            }
+        }
+        .editable-pencil {
+            color: rgba(68, 68, 68, .5); 
+            cursor: pointer;
+            float: right;
+        }
+        .formatedValue {
+            display: block;
+            padding-top: 7px;
+        }
+        .formatedValue:first-child {
+            display: block;
+        }
+        form.editable-select,
+        form.editable-text,
+        form.editable-textarea,
+        form.editable-select > .editable-controls,
+        form.editable-text > .editable-controls,
+        form.editable-textarea > .editable-controls,
+        form.editable-select select.editable-input,
+        form.editable-text .editable-input,
+        form.editable-textarea .editable-input{
+            width: 100%;
+        }
+        form.editable-textarea textarea.editable-input{
+            resize:vertical !important;
+        }
+        form.editable-select .editable-buttons,
+        form.editable-textarea .editable-buttons,
+        form.editable-text .editable-buttons{
+            float: left;
+            margin-top: 5px !important;
+            margin-left: 0 !important;
+        }
+        form.editable-select .editable-error,
+        form.editable-textarea .editable-error,
+        form.editable-text .editable-error{
+            float: left;
+        }
+    }
+    
+    ul.datetime-picker-dropdown {
+        
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+}
+
+
+
+
+/***********************
+ *    Custom form for ui-select
+ ***********************/
+.mg-wrapper
+{
+    .ui-select-container {
+        .ui-select-match {
+            .btn.btn-link {
+                border: none;
+                i {
+                    font-style: normal;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper
+{
+    table.align-vertical {
+        td {
+            vertical-align: middle !important;
+        }
+    }
+}
+
+
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper
+{
+    .ta-toolbar.btn-toolbar .btn i.fa {
+        height: 17px;
+    }
+    .ta-toolbar.btn-toolbar {
+        margin-bottom: 5px;
+    }
+}
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper
+{
+    .simple-calendar {
+	font-size: 62.5%;
+    }
+
+    .simple-calendar .week-header {
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .simple-calendar .day-name {
+        text-align: center;
+        font-size: 11px;
+        width: calc(100% / 7);
+        display: inline-block;
+        border-left: 1px solid #ddd;
+        line-height: 1.42857143;
+        font-weight: bold;
+        color: rgb(70, 70, 70);
+    }
+    .simple-calendar .day-name.first {
+        border-left: none;
+    }
+    .simple-calendar .day-name.last {
+    }
+
+    .simple-calendar .simple-calendar-body {
+        border: 1px solid #ddd;
+        border-top: none;
+    }
+
+    .simple-calendar .week {
+        height: 50px;
+        border-top: 1px solid #ddd;
+    }
+    .simple-calendar .week.odd {
+            /*background-color: lightblue;*/
+    }
+    .simple-calendar .week.even {
+            /*background-color: antiquewhite;*/
+    }
+    .simple-calendar .week.first {
+        /*border-top: none;*/
+    }
+    .simple-calendar .week.last {
+            /*border-radius: 0 0 10px 10px;*/
+    }
+
+    .simple-calendar .day {
+        text-align: center;
+        width: calc(100% / 7);
+        height: 100%;
+        display: inline-block;
+        border-left: 1px solid #ddd;
+        position: relative;
+    }
+    .simple-calendar .day.first {
+        border-left: none;
+    }
+    .simple-calendar .day .number {
+        border-left: none;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        font-size: 11px;
+    }
+    .simple-calendar .day .events {
+        display: none;
+        position: absolute;
+        top: 20px;
+        text-align: center;
+        width: 100%;
+    }
+    .simple-calendar .day .events .label {
+        font-size: 1.5em;
+    }
+
+    .simple-calendar .day.today {
+        background-color: #E6F6FF;
+    }
+    
+    .simple-calendar .day.validDay {
+        cursor: pointer;
+    }
+    
+    .simple-calendar .day.activeday {
+        background-color: #fcf8e3 !important;
+    }
+    .simple-calendar .day.beforetoday {
+        /*background-color: #FBF1F2;*/
+    }
+    .simple-calendar .day.aftertoday {
+        /*background-color: #F1F5FB;*/
+    }
+    .simple-calendar .day.aftertoday .badge {
+        background-color: #F3565D;
+    }
+    .simple-calendar .day.beforetoday .badge {
+        background-color: #F3D3D5;
+    }
+    .simple-calendar .day.hasEvents .events  {
+        display: block;
+    }
+}
+
+
+/***********************
+ *    Vertical align for tables
+ ***********************/
+.mg-wrapper
+{
+    .sortableContainer .single-field:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+    
+    .sortableContainer .single-field form.form-inline.editable-wrap  editable-controls{
+        margin-top: -3px;
+    }
+    
+    .sortableItem {
+        padding: 5px 15px;
+    }
+}
+
+
+/**
+ * Firefox fix for color input
+ */
+.mg-wrapper input[type=color].editable-input
+{
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+
+/**
+ * Fix for notifications margin inside box
+ */
+.mg-wrapper .box > .box-body.notifications > div.note:last-child
+{
+    margin-bottom:0;
+}
+
+/**
+ * Rounded switches
+ * @author Piotr Sarzyński <piotr.sa@modulesgarden.com> / < >
+ */
+.mg-wrapper 
+{
+    .picek-switch > input.switch-rounded[type=checkbox] {
+        position: absolute;
+        margin-left: -9999px;
+        visibility: hidden;
+    }
+
+    input.switch-rounded + label {
+        padding: 2px;
+        width: 45px;
+        height: 20px;
+        background-color: transparent;
+        border-radius: 20px; 
+    }
+
+    input.switch-rounded + label:before,
+    input.switch-rounded + label:after {
+        display: inline-block;
+        position: absolute;
+        top: calc(50% - 10px);
+        left: 1px;
+        content: "";
+    }
+    input.switch-rounded + label:before {
+        right: 1px;
+        background-color: #E0E0E0;
+        height: 20px;
+        border-radius: 10px;
+        -webkit-transition: background 0.4s;
+        transition: background 0.4s;
+    }
+    input.switch-rounded + label:after {
+        margin-left: 5px;
+        width: 16px;
+        margin-top: 2px;
+        height: 16px;
+        background-color: #fff;
+        border-radius: 100%;
+        -webkit-transition: margin 0.4s;
+        transition: margin 0.4s;
+    }
+    input.switch-rounded:checked + label:before {
+        background-color: #34A746;
+    }
+    input.switch-rounded:checked + label:after {
+        margin-left: 24px;
+    }
+    .picek-switch {
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+        padding: 0px;
+    }
+
+ 
+    
+    .variable-on-mousehover:hover{
+        background-color: #F4F4F4;
+        cursor: pointer;
+    }
+    .box-title-pointer-on-hover:hover{
+        cursor: pointer;
+    }
+    
+    .vertical-textarea {
+        resize: vertical !important;
+    }
+}

@@ -1,0 +1,93 @@
+
+<div class="col-4 col-md-4 col-lg-4">
+    <div class="box light" ng-class="{'toogled': hidetotalYearSummary }">
+        <div class="box-title">
+            <div class="caption">
+                <span class="bold font-red-thunderbird uppercase pull-left">
+                    {{ 'statistics.new.in.year' | translate }} {{ selectedYear }}
+                </span>
+            </div>
+            <div class="actions">
+                <input type="hidden" 
+                       class="form-control" 
+                       datetime-picker="yyyy" 
+                       ng-model="tableDate" 
+                       is-open="tableDateOpen" 
+                       enable-time="false" 
+                       datepicker-options="yeardatapicker" 
+                       show-button-bar="false"
+                       datepicker-mode="'year'"
+                       disabled
+                       />
+                <button type="button" class="btn btn-primary btn-inverse btn-xs icon-left" ng-click="tableDateOpen = true">
+                    <i class="icon-calendar"></i>
+                    {{ 'statistics.choose.year' | translate }}
+                </button>
+                <a href="#" ng-show="hidetotalYearSummary" ng-click="hidetotalYearSummary=!hidetotalYearSummary" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="hidetotalYearSummary" ng-click="hidetotalYearSummary=!hidetotalYearSummary" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+                <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <table class="table table-striped table-hover align-vertical no-margin-bottom" id="leadsTable" highlight-active-table-header="border-bottom-red">
+                <colgroup>
+                    <col />
+                    <col />
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>{{ 'statistics.month' | translate }}</th>
+                    <th>{{ 'contacts' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody block-ui="newInYearTable">
+                    <tr ng-repeat="month in months">
+                        <td>{{ month }}</td>
+                        <td>{{ totals[$index] || '0' }}</td>
+                    </tr>
+                </tbody>
+            </table>	
+        </div>
+    </div>
+</div>
+
+<div class="col-8 col-md-8 col-lg-8 no-padding-left">
+    <div class="box light" ng-class="{'toogled': hiddenBox }">
+        <div class="box-title">
+            <div class="caption">
+                <span class="bold font-red-thunderbird uppercase pull-left">
+                    {{ 'statistics.new.in.year' | translate }} {{ selectedYear }}
+                </span>
+            </div>
+            <div class="actions">
+                <a href="#" ng-show="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" ng-hide="hiddenBox" ng-click="hiddenBox=!hiddenBox" class="btn btn-sm btn-danger btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                  <i class="fa fa-compress"></i>
+                </a>
+                <a href="javascript:;" ng-click="isFullscreen=!isFullscreen; setProperHeight(isFullscreen);" ng-init="isFullscreen=false" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                    <i class="icon-size-fullscreen"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body" block-ui="newInYearGraph" style="min-height: 150px;">
+            <canvas 
+                id="month-chart-bar" 
+                class="chart chart-bar"
+                chart-data="data" 
+                chart-labels="months" 
+                chart-series="series" 
+                chart-colours="colours" 
+                chart-options="chartOptions" 
+                height="445">
+            </canvas> 
+        </div>
+    </div>
+</div>

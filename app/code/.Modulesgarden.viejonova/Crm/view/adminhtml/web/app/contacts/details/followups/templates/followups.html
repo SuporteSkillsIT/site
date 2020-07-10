@@ -1,0 +1,936 @@
+<div class="tab-content">
+    <div class="tab-pane active" id="box_tab1">
+        <!--<div class="box light bg-inverse">-->
+                <div class="row">
+                        <note ng-repeat="m in scopeMessages" type="{{m.type}}" dismiss="true" close="{{$index}}"><h4 class="note-title">{{m.title}}</h4>{{m.content}}</note>
+
+                        <div class="col-md-12" ng-if="hasAccess('resources.create_followup') && !isArchive()">
+
+                            <div class="box light bordered">
+                                <div class="box-title">
+                                    <div class="caption">
+                                        <span class="bold font-green uppercase">
+                                            {{ ::('resource.followups.add.widget' | translate) }} 
+                                        </span>
+                                    </div>
+                                    <div class="actions">
+                                        
+                                        <a href="javascript:;" ng-click="newFormVisible=!newFormVisible" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only">
+                                            <i ng-hide="newFormVisible" class="fa fa-expand"></i>
+                                            <i ng-show="newFormVisible" class="fa fa-compress"></i>
+                                        </a>
+                                        <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-icon-only fullscreen">
+                                            <i class="icon-size-fullscreen"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body" ng-show="newFormVisible" block-ui="newFollowupContainer" style="min-height: 100;">
+
+                                    <div ng-show="newFollowupResult.done" class="note" ng-class="newFollowupResult.error == false ? 'note-success' : 'note-danger'">
+                                        <h4 ng-hide="newFollowupResult.error" class="note-title no-margin">{{ ::('resource.followups.add.success' | translate) }}</h4>
+                                        <h4 ng-show="newFollowupResult.error" class="note-title no-margin">{{ newFollowupResult.error }}</h4>
+                                    </div>
+
+                                    <form class="form-horizontal" name="$parent.newFollowupForm" id="newFollowupForm" valid-submit="newFollowupFormSubmit()" >
+                                        <fieldset>
+                                            <!--<h3 class="no-margin-top">Main Options</h3>-->
+                                            <div class="form-group" ng-class="{'ng-invalid': (submitted && newFollowupForm.admin.$invalid), 'ng-valid': (submitted && newFollowupForm.admin.$valid)}">
+                                                <div class="col-sm-6">
+                                                    
+                                                    <div class="col-sm-4 text-right">
+                                                        <h5 class="text-right" >
+                                                            {{ ::('resource.followups.form.add.admin' | translate) }}
+                                                            <i class="fa fa-question-circle" tooltip="{{ ::('resource.followups.form.add.admin.tooltip' | translate) }}"></i>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-sm-8">
+
+                                                        <select 
+                                                            class="form-control" 
+                                                            name="admin" 
+                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins | filter:{user_id: '!0'}:false"
+                                                            ng-model="newFollowup.admin" 
+                                                            required>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    
+                                                    
+                                                    <div class="col-sm-4 text-right">
+                                                        <h5 class="text-right">
+                                                            {{ ::('resource.followups.form.date' | translate) }}
+                                                            <i class="fa fa-question-circle" tooltip="{{ ::('resource.followups.form.date.tooltip' | translate) }}"></i>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-sm-8">
+
+                                                        <p class="input-group">
+                                                            <!--datatimepicker-->
+                                                            <input type="text" 
+                                                                   class="form-control" 
+                                                                   datetime-picker="{{settings.datapicker.format}}" 
+                                                                   ng-model="newFollowup.date" 
+                                                                   is-open="followupDataOpen" 
+                                                                   enable-time="settings.datapicker.enabletime" 
+                                                                   datepicker-options="settings.datapicker.options" />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default" ng-click="followupDataOpen = true"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="col-sm-4 text-right">
+                                                        <h5 class="text-right">{{ ::('resource.followups.form.type' | translate) }}</h5>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <select 
+                                                            class="form-control" 
+                                                            name="type" 
+                                                            ng-options="convertToInt(option.id) as option.name for option in formData.followup.types"
+                                                            ng-model="newFollowup.type" 
+                                                            required>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-6">
+                                                    <div class="col-sm-4 text-right">
+                                                        <h5 class="text-right">{{ ::('resource.followups.form.descr' | translate) }}</h5>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <textarea 
+                                                            ng-model="newFollowup.description"
+                                                            placeholder="{{ ::('resource.followups.form.descr.placeholder' | translate) }}" 
+                                                            class="form-control vertical-textarea" 
+                                                            required
+                                                        ></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 text-center">
+                                                    <button ng-disabled="newFollowupForm.$invalid" type="button" class="btn btn-success btn-inverse" ng-click="newFollowupFormSubmit()">
+                                                        {{ ::('resource.summary.followup.add' | translate) }}
+                                                    </button>
+                                                </div>
+                                                
+                                                
+                                        
+                                            </div>
+
+                                        </fieldset>
+                                        <hr style="margin: 10px 0;"/>
+                                        
+                                        <div class="note note-warning nohide" style="margin-bottom: 0px; padding: 8px;">
+                                            <h3 class="no-margin">
+                                                {{ ::('resource.summary.followup.reminders.for' | translate) }} <strong>{{ ::('resource.summary.followup.reminders.admin' | translate) }}</strong> 
+                                                <button ng-hide="settings.showAdminReminers" ng-click="settings.showAdminReminers=true" type="button" class="btn btn-sm btn-inverse pull-right">
+                                                    {{ ::('resource.summary.followup.configure' | translate) }}
+                                                </button>
+                                                <button ng-show="settings.showAdminReminers" ng-click="settings.showAdminReminers=false" type="button" class="btn btn-sm btn-inverse pull-right">
+                                                    {{ ::('resource.summary.followup.hide' | translate) }}
+                                                </button>
+                                            </h3>
+                                        </div>
+
+                                        <fieldset ng-show="settings.showAdminReminers" style="border-left: 5px solid #eee;">
+                                            <div class="row margin-top-5">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.admin_reminders.on_create.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.on.create' | translate) }}
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ ::('resource.summary.followup.on.create.descr' | translate) }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.on.create.admin.explain' | translate) }}
+                                                        <button type="button" ng-class="(newFollowup.admin_reminders.on_create.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.on_create.email.enable=!newFollowup.admin_reminders.on_create.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </button>
+                                                        <button type="button" ng-if="settings.sms" ng-class="(newFollowup.admin_reminders.on_create.sms.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.on_create.sms.enable=!newFollowup.admin_reminders.on_create.sms.enable" class="pull-right btn btn-inverse btn-sm bold" style="margin-right: 2px;">
+                                                            {{ ::('resource.summary.followup.reminder.sms' | translate) }}
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div ng-show="newFollowup.admin_reminders.on_create.enable">
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div ng-class="(newFollowup.admin_reminders.on_create.sms.enable && newFollowup.admin_reminders.on_create.email.enable) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.on_create.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.on_create.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.on_create.email.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.cc' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-model="newFollowup.admin_reminders.on_create.email.cc" 
+                                                                            multiple>
+                                                                            <option ng-repeat="option in formData.admins" value="{{ option.user_id }}">{{ option.full }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.reply' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.on_create.email.reply" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-class="(newFollowup.admin_reminders.on_create.sms.enable && newFollowup.admin_reminders.on_create.email.enable) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.on_create.sms.enable">
+                                                                
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.reminder.sms' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.on_create.sms.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.on_create.sms.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <hr style="margin: 0 0 10px 0;" />
+                                            <div class="row">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.admin_reminders.for_date.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.for.date' | translate) }}
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ newFollowup.date.toLocaleDateString() }} {{ settings.datapicker.enabletime ?  newFollowup.date.toLocaleTimeString() : '' }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.for.date.admin.explain' | translate) }}
+                                                        <span ng-class="(newFollowup.admin_reminders.for_date.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.for_date.email.enable=!newFollowup.admin_reminders.for_date.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </span>
+                                                        <span ng-if="settings.sms" ng-class="(newFollowup.admin_reminders.for_date.sms.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.for_date.sms.enable=!newFollowup.admin_reminders.for_date.sms.enable" class="pull-right btn btn-inverse btn-sm bold" style="margin-right: 2px;">
+                                                            {{ ::('resource.summary.followup.reminder.sms' | translate) }}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    
+                                                    <div ng-show="newFollowup.admin_reminders.for_date.enable">
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div ng-class="(newFollowup.admin_reminders.for_date.sms.enable && newFollowup.admin_reminders.for_date.email.enable) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.for_date.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.for_date.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.for_date.email.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.cc' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-model="newFollowup.admin_reminders.for_date.email.cc" 
+                                                                            multiple>
+                                                                            <option ng-repeat="option in formData.admins" value="{{ option.user_id }}">{{ option.full }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.reply' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.for_date.email.reply" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-class="(newFollowup.admin_reminders.for_date.sms.enable && newFollowup.admin_reminders.for_date.email.enable && settings.sms) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.for_date.sms.enable">
+                                                                
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.reminder.sms' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.for_date.sms.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.for_date.sms.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <hr style="margin: 0 0 10px 0;" />
+                                            <div class="row">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.admin_reminders.before_date.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.before.date' | translate) }}
+                                                        
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ ::('resource.summary.followup.before.date.descr' | translate) }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.before.date.admin.explain' | translate) }}
+                                                    
+                                                        <span ng-class="(newFollowup.admin_reminders.before_date.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.before_date.email.enable=!newFollowup.admin_reminders.before_date.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </span>
+                                                        <span ng-if="settings.sms" ng-class="(newFollowup.admin_reminders.before_date.sms.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.admin_reminders.before_date.sms.enable=!newFollowup.admin_reminders.before_date.sms.enable" class="pull-right btn btn-inverse btn-sm bold" style="margin-right: 2px;">
+                                                            {{ ::('resource.summary.followup.reminder.sms' | translate) }}
+                                                        </span>
+                                                        
+                                                    </div>
+                                                    
+                                                    
+                                                    <div ng-show="newFollowup.admin_reminders.before_date.enable">
+                                                        
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div ng-class="(newFollowup.admin_reminders.before_date.sms.enable && newFollowup.admin_reminders.before_date.email.enable) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.before_date.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.before_date.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.before_date.email.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.timebefore' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <input class="form-control required" ng-model="newFollowup.admin_reminders.before_date.email.amount" type="number" min="0" style="margin-right: 15px; width: 70px; float: left" value="15">
+                                                                        <select class="form-control" name="type" ng-options="item.key as item.name for item in settings.beforeOptions" ng-model="newFollowup.admin_reminders.before_date.email.before" required style="margin-left: 0; width: 100px; float: left">
+                                                                        </select>
+                                                                        <p class="help-block" style="float: left; display: inline-block; margin-left: 10px; color: #999;">{{ ::('resource.summary.followup.form.timebefore.esplain' | translate) }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-class="(newFollowup.admin_reminders.before_date.sms.enable && newFollowup.admin_reminders.before_date.email.enable && settings.sms) ? 'col-sm-6' : 'col-sm-12'" ng-show="newFollowup.admin_reminders.before_date.sms.enable">
+                                                                
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.reminder.sms' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.admin"
+                                                                            ng-model="newFollowup.admin_reminders.before_date.sms.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.admin' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.admin_reminders.before_date.sms.admin" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.timebefore' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <input class="form-control required"  ng-model="newFollowup.admin_reminders.before_date.sms.amount" type="number" min="0" style="margin-right: 15px; width: 70px; float: left" value="15">
+                                                                        <select class="form-control" name="type" ng-options="item.key as item.name for item in settings.beforeOptions" ng-model="newFollowup.admin_reminders.before_date.sms.before" required style="margin-left: 0; width: 100px; float: left">
+                                                                        </select>
+                                                                        <p class="help-block" style="float: left; display: inline-block; margin-left: 10px; color: #999;">{{ ::('resource.summary.followup.form.timebeforesms.esplain' | translate) }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            <hr style="margin: 0 0 10px 0;" />
+<!--                                            <p class="text-muted text-center">
+                                                <small>{{ ::('resource.summary.followup.admin.reminders.helperdescr' | translate) }}</small>
+                                            </p>-->
+
+                                        </fieldset>
+                                        
+                                        
+                                        <div class="note note-warning nohide" style="margin-bottom: 0px; padding: 8px; margin-top: 5px;">
+                                            <h3 class="no-margin">
+                                                {{ ::('resource.summary.followup.reminders.for' | translate) }} <strong>{{ ::('resource.summary.followup.reminders.client' | translate) }}</strong> 
+                                                <button ng-hide="settings.showClientReminers" ng-click="settings.showClientReminers=true" type="button" class="btn btn-sm btn-inverse pull-right">
+                                                    {{ ::('resource.summary.followup.configure' | translate) }}
+                                                </button>
+                                                <button ng-show="settings.showClientReminers" ng-click="settings.showClientReminers=false" type="button" class="btn btn-sm btn-inverse pull-right">
+                                                    {{ ::('resource.summary.followup.hide' | translate) }}
+                                                </button>
+                                            </h3>
+                                        </div>
+                                        
+                                        <fieldset ng-show="settings.showClientReminers" style="border-left: 5px solid #eee;">
+                                            <div class="row margin-top-5">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.client_reminders.on_create.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.on.create' | translate) }}
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ ::('resource.summary.followup.on.create.descr' | translate) }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.on.create.client.explain' | translate) }}
+                                                        
+                                                        <span ng-class="(newFollowup.client_reminders.on_create.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.client_reminders.on_create.email.enable=!newFollowup.client_reminders.on_create.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </span>
+
+                                                    </div>
+                                                    
+                                                    <div ng-show="newFollowup.client_reminders.on_create.enable">
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div class="col-sm-12" ng-show="newFollowup.client_reminders.on_create.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.client"
+                                                                            ng-model="newFollowup.client_reminders.on_create.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.cc' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-model="newFollowup.client_reminders.on_create.email.cc" 
+                                                                            multiple>
+                                                                            <option ng-repeat="option in formData.admins" value="{{ option.user_id }}">{{ option.full }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.reply' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.client_reminders.on_create.email.reply" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <hr style="margin: 0 0 10px 0;" />
+                                            <div class="row">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.client_reminders.for_date.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.for.date' | translate) }}
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ newFollowup.date.toLocaleDateString() }} {{ settings.datapicker.enabletime ?  newFollowup.date.toLocaleTimeString() : '' }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.for.date.client.explain' | translate) }}
+                                                        <span ng-class="(newFollowup.client_reminders.for_date.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.client_reminders.for_date.email.enable=!newFollowup.client_reminders.for_date.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    
+                                                    <div ng-show="newFollowup.client_reminders.for_date.enable">
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div class="col-sm-12" ng-show="newFollowup.client_reminders.for_date.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.client"
+                                                                            ng-model="newFollowup.client_reminders.for_date.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.cc' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-model="newFollowup.client_reminders.for_date.email.cc" 
+                                                                            multiple>
+                                                                            <option ng-repeat="option in formData.admins" value="{{ option.user_id }}">{{ option.full }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.reply' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.user_id) as option.full for option in formData.admins"
+                                                                            ng-model="newFollowup.client_reminders.for_date.email.reply" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <hr style="margin: 0 0 10px 0;" />
+                                            <div class="row">
+                                                
+                                                <div class="col-xs-3 no-margin-bottom">
+                                                    <label>
+                                                        <input type="checkbox" name="invitation" id="" ng-model="newFollowup.client_reminders.before_date.enable" class="margin-left-10"/>
+                                                        {{ ::('resource.summary.followup.before.date' | translate) }}
+                                                        <span class="help-block no-margin-bottom" style="margin-left: 30px;">
+                                                            <small>
+                                                                {{ ::('resource.summary.followup.before.date.descr' | translate) }}
+                                                            </small>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9 no-margin-bottom">
+                                                    <div class="note note-info nohide" style="margin-bottom: 0px; padding: 8px;">
+                                                        {{ ::('resource.summary.followup.before.date.client.explain' | translate) }}
+                                                        <span ng-class="(newFollowup.client_reminders.before_date.email.enable) ? 'btn-green-grey' : 'btn-grey-medium'" ng-click="newFollowup.client_reminders.before_date.email.enable=!newFollowup.client_reminders.before_date.email.enable" class="pull-right btn btn-inverse btn-sm bold">
+                                                            {{ ::('resource.summary.followup.reminder.email' | translate) }}
+                                                        </span>
+                                                        
+                                                    </div>
+                                                    
+                                                    
+                                                    <div ng-show="newFollowup.client_reminders.before_date.enable">
+                                                        
+                                                        <div class="row" style="margin-top: 7px;">
+                                                            
+                                                            <div class="col-sm-12" ng-show="newFollowup.client_reminders.before_date.email.enable">
+                                                                <h4 class="bold text-center">{{ ::('resource.summary.followup.form.email' | translate) }}</h4>
+                                                                
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.tpl' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        <select 
+                                                                            class="form-control" 
+                                                                            name="type" 
+                                                                            ng-options="convertToInt(option.template_id) as option.full for option in formData.templates.client"
+                                                                            ng-model="newFollowup.client_reminders.before_date.email.template" 
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-2 text-right">
+                                                                        <h5 class="text-right">{{ ::('resource.summary.followup.form.timebefore' | translate) }}</h5>
+                                                                    </div>
+                                                                    <div class="col-sm-10">
+                                                                        
+                                                                        <input class="form-control required"  ng-model="newFollowup.client_reminders.before_date.email.amount" type="number" min="0" style="margin-right: 15px; width: 70px; float: left" value="15">
+                                                                        <select class="form-control" name="type" ng-options="item.key as item.name for item in settings.beforeOptions" ng-model="newFollowup.client_reminders.before_date.email.before" required style="margin-left: 0; width: 100px; float: left">
+                                                                        </select>
+                                                                        
+                                                                        <p class="help-block" style="float: left; display: inline-block; margin-left: 10px; color: #999;">{{ ::('resource.summary.followup.form.timebefore.esplain' | translate) }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                        </fieldset>
+                                            
+                                    </form>
+
+                                    <div class="clearfix"></div>
+
+                                
+                                    
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-12">
+                            
+                            <div  st-pipe="callServer" st-table="displayed">
+                                <div class="box light">
+                                    <div class="box-title">
+                                    <div class="caption">
+                                        <span class="bold font-red-thunderbird uppercase pull-left" style="padding-top: 9px;">
+                                            {{ ::('resource.summary.followups.widget.name' | translate) }}
+                                        </span>
+                                        <div id="tableSearchContainer" style="width: 300px;" class="col-xs-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="background: none;"><i class="font-red bold icon-magnifier"></i></span>
+                                                <input st-search="description" id="followups-table-search" placeholder="{{ ::('form.search.placeholder' | translate) }}"  class="form-control" type="search" style="border-color: #e5e5e5;" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-flat" ng-class="{'active': displayFollowupsFilters == true}" ng-click="displayFollowupsFilters = !displayFollowupsFilters" type="button" style="height: 34px;"><i class="fa fa-filter"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="actions" style="padding-right: 11px; top: 17px;">
+                                        <a href="javascript:;" class="btn btn-sm btn-circle btn-outline btn-inverse btn-transparent btn-danger btn-icon-only fullscreen">
+                                            <i class="icon-size-fullscreen"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                    <div class="box-body">
+                                        <table class="table table-striped table-hover align-vertical" id="leadsTable" highlight-active-table-header="border-bottom-red">
+                                            <colgroup>
+                                                <col width="80" />
+                                                <col width="150" />
+                                                <col width="150" />
+                                                <col width="200" />
+                                                <col />
+                                                <col width="100" />
+                                                <col width="120" ng-if="!isArchive()"/>
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th st-sort="id">{{ ::('table.th.id' | translate) }}</th>
+                                                <th st-sort="date">{{ ::('table.th.date' | translate) }}</th>
+                                                <th st-sort="type_id">{{ ::('resource.summary.followups.th.type' | translate) }}</th>
+                                                <th st-sort="admin_id">{{ ::('resource.summary.followups.th.admin' | translate) }}</th>
+                                                <th st-sort="description">{{ ::('resource.summary.followups.th.descr' | translate) }}</th>
+                                                <th>{{ ::('resource.summary.followups.th.reminders' | translate) }}</th>
+                                                <th ng-if="!isArchive()">{{ ::('table.th.actions' | translate) }}</th>
+                                            </tr>
+                                            <tr ng-show="displayFollowupsFilters">
+                                                <th>
+                                                    <input type="number" min="0" st-search="id" class="form-control input-sm"/>
+                                                </th>
+                                                <th>
+                                                    <input type="text" st-search="date" class="form-control input-sm"/>
+                                                </th>
+                                                <th>
+                                                    <select st-search="type_id" st-input-event="change" class="form-control input-sm">
+                                                        <option value="">{{ ::('form.any' | translate) }}</option>
+                                                        <option ng-repeat="a in temp.followupTypes" value="{{ ::a.id }}">{{ ::a.name }}</option>
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    <select st-search="admin_id" st-input-event="change" class="form-control input-sm">
+                                                        <option value="">{{ ::('form.any' | translate) }}</option>
+                                                        <option ng-repeat="a in temp.admins" value="{{ ::a.user_id }}">{{ ::a.full }}</option>
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    <input type="text" st-search="description" class="form-control input-sm"/>
+                                                </th>
+                                                <th></th>
+                                                <th ng-if="!isArchive()"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody block-ui="followupsTable">
+                                                <tr ng-repeat="row in displayed">
+                                                    <td class="">#{{ row.id }}</td>
+                                                    <td class="">{{ ::row.date }}</td>
+                                                    <td class="">
+                                                        <span class="label" ng-style="{'background-color': row.type.color }">
+                                                            {{ ::row.type.name }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="">
+
+                                                        <a ng-if="row.admin" href="mailto:{{ ::row.admin.email }}">#{{ ::row.admin.user_id }} {{ ::row.admin.firstname }} {{ ::row.admin.lastname }}</a>
+                                                        <span ng-if="!row.admin_id" class="uppercase">{{ ::('text.system' | translate) }}</span>
+
+                                                    </td>
+                                                    <td class="">{{ ::row.description }}</td>
+                                                    <td class="text-right">
+                                                        
+                                                        <button type="button" class="btn btn-sm btn-inverse" ng-class="( row.reminders_count > 0 ? 'btn-grey-medium' : 'btn-grey-light')" ng-click="showRemindersForFollowup(row)">
+                                                            {{ ::row.reminders_count }}
+                                                        </button>
+
+                                                    </td>
+                                                    <td ng-if="!isArchive()">
+                                                        
+                                                        <div class="btn-group btn-group-sm">
+                                                            <button type="button" class="btn btn-icon-only" ng-click="triggerFollowupReschedue(row)">
+                                                                <i class="icon-clock"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-icon-only btn-primary"  ui-sref="contacts.details.followup({followupID: row.id })">
+                                                                <i class="icon-pencil"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-icon-only btn-danger" ng-click="triggerDeleteFollowup(row)">
+                                                                <i class="icon-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-hide="displayed.length">
+                                                    <td colspan="{{ isArchive() ? '6' : '7' }}" class="text-center">
+                                                        <h4>{{ ::('resource.summary.followups.none' | translate) }}</h4>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="{{ isArchive() ? '6' : '7' }}" class="text-left">
+
+                                                        <span ng-hide="itemsLastNr == 0">
+                                                            {{ 'table.pagination.display' | translate }} 
+
+                                                            <div class="btn-group btn-group-xs btn-group-solid">
+                                                                <button id="itemsByPage-10" type="button" class="btn" ng-class="{'active': itemsByPage == 10}" ng-click="itemsByPage = 10">10</button>
+                                                                <button id="itemsByPage-25" type="button" class="btn" ng-class="{'active': itemsByPage == 25}" ng-click="itemsByPage = 25">25</button>
+                                                                <button id="itemsByPage-50" type="button" class="btn" ng-class="{'active': itemsByPage == 50}" ng-click="itemsByPage = 50">50</button>
+                                                                <button id="itemsByPage-100" type="button" class="btn" ng-class="{'active': itemsByPage == 100}" ng-click="itemsByPage = 100">100</button>
+                                                            </div>
+
+                                                            {{ 'table.pagination.perpage' | translate }} {{ 'table.pagination.showing' | translate }} {{ itemsFirstNr }} {{ 'table.pagination.to' | translate }} {{ itemsLastNr }} {{ 'table.pagination.of' | translate }} {{ itemsTotal }} {{ 'table.pagination.entries' | translate }}
+
+                                                        </span>
+
+                                                        <div class="pull-right" st-pagination="" st-items-by-page="itemsByPage">
+
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>	
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                </div>
+            </div>
+</div>

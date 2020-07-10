@@ -1,0 +1,10 @@
+<?php $lastOrder = $this->getLastOrder();  ?>
+<!-- MageMail conversion -->
+<script>
+    <?php if (is_object($lastOrder) && !$lastOrder->isObjectNew()): ?>
+        MageMailData = typeof(MageMailData) != 'undefined' ? MageMailData : {};
+        MageMailData.mm_conversion = true;
+        MageMailData.mm_entity = '<?php echo $lastOrder->getEntityId(); ?>';
+        MageMailData.mm_customer_email = '<?php echo urlencode($lastOrder->getCustomerEmail()); ?>';
+    <?php endif; ?>
+</script>

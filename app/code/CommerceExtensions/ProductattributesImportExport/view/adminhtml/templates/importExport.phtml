@@ -1,0 +1,121 @@
+<?php
+/**
+ * Copyright © 2015 CommerceExtensions. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<div class="import-export-productattributes">
+    <?php if (!$block->getIsReadonly()): ?>
+    <div class="import-productattributes">
+        <?php if ($block->getUseContainer()): ?>
+        <form id="import-form" action="<?php echo $block->getUrl('productattributes/data/importPost') ?>" method="post" enctype="multipart/form-data">
+        <?php endif; ?>
+            <?php echo $block->getBlockHtml('formkey')?>
+            <fieldset class="fieldset">
+                <legend class="legend"><span><?php echo __('Import Product Attributes') ?></span></legend>
+				<div class="admin__field field field-productattributes">
+					<label class="label admin__field-label" for="import_delimiter"><span>Import CSV Delimiter Value</span></label>
+					<div class="control">
+						<input id="basic_behavior_import_delimiter" name="import_delimiter" value="," title="Import Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="1">
+					</div>
+					<label class="label admin__field-label" for="import_enclose"><span>Import CSV Enclose Value</span></label>
+					<div class="control">
+						<input id="basic_behavior_import_enclose" name="import_enclose" value='"' title="Import Enclose" class="basic_behavior input-text admin__control-text" type="text" size="1">
+					</div>
+					<label class="label admin__field-label" for="import_w_sort_order"><span>Import With Sort Order</span></label>
+					<div class="admin__field-control control">
+						<select id="import_w_sort_order" name="import_w_sort_order" title="Import With Sort Order" class="select admin__control-select">
+							<option value="false">No</option>
+							<option value="true">Yes</option>
+						</select>
+					</div>
+					<label class="label admin__field-label" for="attribute_options_delimiter"><span>Attribute Options Delimiter</span></label>
+					<div class="control">
+						<input id="basic_behavior_import_field_separator" name="attribute_options_delimiter" value="|" title="Attribute Options Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+					<label class="label admin__field-label" for="attribute_options_value_delimiter"><span>Attribute Options Value Delimiter</span></label>
+					<div class="control">
+						<input id="basic_behavior_import_field_separator" name="attribute_options_value_delimiter" value="," title="Attribute Options Value Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+					<br/>
+					<div class="admin__field-control control">
+						<input type="file" name="import_rates_file" class="input-file required-entry"/>
+					</div>
+					<div class="admin__field-control control">
+					<?php echo $block->getButtonHtml('Import Product Attributes', '', 'import-submit') ?>
+					</div>
+				</div>
+            </fieldset>
+        <?php if ($block->getUseContainer()): ?>
+        </form>
+        <?php endif; ?>
+        <script>
+require(['jquery', "mage/mage", "loadingPopup"], function(jQuery){
+
+    jQuery('#import-form').mage('form').mage('validation');
+    (function ($) {
+        $('.import-submit').click(function(){
+            if($(':input[name="import_rates_file"]').val()) {
+                $('body').loadingPopup({
+                    timeout: false
+                });
+
+                $(this.form).submit();
+            }
+        });
+    })(jQuery);
+
+});
+</script>
+    </div>
+    <?php endif; ?>
+    <div class="export-productattributes <?php if ($block->getIsReadonly()): ?>box-left<?php else: ?>box-right<?php endif; ?>">
+        <?php if ($block->getUseContainer()): ?>
+        <form id="export_form" action="<?php echo $block->getUrl('productattributes/data/exportPost') ?>" method="post" enctype="multipart/form-data">
+        <?php endif; ?>
+            <?php echo $block->getBlockHtml('formkey')?>
+            <fieldset class="fieldset">
+                <legend class="legend"><span><?php echo __('Export Product Attributes') ?></span></legend>
+				<div class="admin__field field field-productattributes">
+                    <label class="label admin__field-label" for="export_delimiter"><span>Export CSV Delimiter Value</span></label>
+					<div class="control">
+						<input id="basic_behavior_export_delimiter" name="export_delimiter" value="," title="Export Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="1">
+					</div>
+                    <label class="label admin__field-label" for="export_delimiter"><span>Export CSV Enclose Value</span></label>
+					<div class="control">
+						<input id="basic_behavior_export_enclose" name="export_enclose" value='"' title="Export Enaclose" class="basic_behavior input-text admin__control-text" type="text" size="1">
+					</div>
+					<label class="label admin__field-label" for="entitytypeid"><span>Entity Type ID</span></label>
+					<div class="control">
+						<input id="entitytypeid" name="entitytypeid" value="4" title="Entity Type ID" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+					<label class="label admin__field-label" for="attribute_set_filter_list"><span>Filter By Attribute Set</span></label>
+					<div class="control">
+						<input id="attribute_set_filter_list" name="attribute_set_filter_list" value="" title="Filter By Attribute Set" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+                    <label class="label admin__field-label" for="export_w_sort_order"><span>Export With Sort Order</span></label>
+            		<div class="admin__field-control control">
+               			<select id="export_w_sort_order" name="export_w_sort_order" title="Export With Sort Order" class="select admin__control-select">
+							<option value="false">No</option>
+							<option value="true">Yes</option>
+						</select>
+                    </div>
+					<label class="label admin__field-label" for="entitytypeid"><span>Attribute Options Delimiter</span></label>
+					<div class="control">
+						<input id="attribute_options_delimiter" name="attribute_options_delimiter" value="|" title="Attribute Options Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+					<label class="label admin__field-label" for="entitytypeid"><span>Attribute Options Value Delimiter</span></label>
+					<div class="control">
+						<input id="attribute_options_value_delimiter" name="attribute_options_value_delimiter" value="," title="Attribute Options Value Delimiter" class="basic_behavior input-text admin__control-text" type="text" size="20">
+					</div>
+					<br/>
+            		<div class="admin__field-control control">
+                		<?php echo $block->getButtonHtml('Export Product Attributes', "this.form.submit()") ?>
+                    </div>
+                </div>
+            </fieldset>
+        <?php if ($block->getUseContainer()): ?>
+        </form>
+        <?php endif; ?>
+    </div>
+</div>
