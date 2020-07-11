@@ -11,5 +11,5 @@ bin/magento setup:static-content:deploy \
 bin/magento setup:static-content:deploy \
 	--area frontend \
 	--theme Infortis/ultimo \
-	-f en_GB
+	-f en_US
 ```
