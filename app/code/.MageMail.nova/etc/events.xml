@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="sales_quote_item_save_after">
-        <observer name="quoteItemfixEventObserver" instance="KJ\MageMail\Model\Observer\Catalog\QuoteItemUpdateTimestamp"/>
-    </event>
-    <event name="sales_quote_save_after">
-        <observer name="quotefixEventObserver" instance="KJ\MageMail\Model\Observer\Catalog\QuoteUpdateTimestamp"/>
-    </event>
-</config>

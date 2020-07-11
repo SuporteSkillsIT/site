@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
-    <menu>
-        <add id="Modulesgarden_Crm::index" title="CRM" module="Modulesgarden_Crm" parent="Magento_Customer::customer" action="crm/dashboard/index" sortOrder="80" 
-             resource="Modulesgarden_Crm::index"/>
-    </menu>
-</config>
