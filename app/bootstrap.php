@@ -7,6 +7,8 @@
 /**
  * Environment initialization
  */
+// 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+// This file was modified by someone at 2020-05-24.
 error_reporting(E_ALL ^ E_DEPRECATED);
 #ini_set('display_errors', 1);
 
