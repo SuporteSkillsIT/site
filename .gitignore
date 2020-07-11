@@ -23,6 +23,10 @@
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2020-05-11.
 !vendor/magento/module-customer/Model/Indexer/Source.php
+# 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
+# 2) This file was modified by someone at 2018-10-04.
+!vendor/magento/module-import-export/Model/Import/Entity/AbstractEntity.php
 /update/
 dev
 vendor/codeception
