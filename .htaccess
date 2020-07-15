@@ -31,6 +31,11 @@ deny from 194.68
     #AddHandler x-mapp-php5 .php
 
 ############################################
+## enable usage of methods arguments in backtrace
+
+    SetEnv MAGE_DEBUG_SHOW_ARGS 1
+
+############################################
 ## default index file
 
     DirectoryIndex index.php
@@ -39,8 +44,8 @@ deny from 194.68
 ############################################
 ## adjust memory limit
 
-    php_value memory_limit 3756M
-    php_value max_execution_time 300000
+    php_value memory_limit 756M
+    php_value max_execution_time 18000
 
 ############################################
 ## disable automatic session start
@@ -60,7 +65,7 @@ deny from 194.68
 </IfModule>
 <IfModule mod_php7.c>
 ############################################
-## 
+
 ############################################
 ## disable automatic session start
 ## before autoload was initialized
@@ -136,11 +141,6 @@ deny from 194.68
 
     Options +FollowSymLinks
     RewriteEngine on
-	
-##SetEnvIf Host dxboat.com* MAGE_RUN_CODE=dxboatstore
-##SetEnvIf Host dxboat.com* MAGE_RUN_TYPE=dxboatcom
-
-
 
 ############################################
 ## you can put here your magento root folder
@@ -278,15 +278,6 @@ deny from 194.68
             Require all denied
         </IfVersion>
     </Files>
-    <Files CONTRIBUTING.md>
-        <IfVersion < 2.4>
-            order allow,deny
-            deny from all
-        </IfVersion>
-        <IfVersion >= 2.4>
-            Require all denied
-        </IfVersion>
-    </Files>
     <Files COPYING.txt>
         <IfVersion < 2.4>
             order allow,deny
@@ -359,6 +350,15 @@ deny from 194.68
             Require all denied
         </IfVersion>
     </Files>
+    <Files magento_umask>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
     <Files auth.json>
         <IfVersion < 2.4>
             order allow,deny
@@ -368,7 +368,7 @@ deny from 194.68
             Require all denied
         </IfVersion>
     </Files>
-    <Files magento_umask>
+    <Files .user.ini>
         <IfVersion < 2.4>
             order allow,deny
             deny from all
@@ -422,7 +422,6 @@ ErrorDocument 403 /pub/errors/404.php
     </FilesMatch>
 
 </IfModule>
-
 
 ## BLACKLIST IP AUTO ADDED ##
 
@@ -1649,4 +1648,3 @@ deny from 2606:4700:3035::681b:8a6f
 deny from 2606:4700:3032::6812:3032
 deny from 2606:4700:3030::6812:2a77
 deny from 2606:4700:3030::681b:8b6f
-
