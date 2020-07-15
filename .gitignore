@@ -18,6 +18,10 @@
 !app/code/**/*
 !app/design/frontend/Infortis/**/*
 !app/etc/config.php
+# 2020-07-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
+# https://github.com/dxmoto/site/issues/13
+!vendor/magento/framework/View/Element/Template/File/Validator.php
 # 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2018-05-31.
