@@ -236,8 +236,18 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         return $this;
     }
 
-    protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
+	/**
+	 * 2020-07-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Declaration of BoostMyShop\AdvancedStock\Model\ResourceModel\LowStock\Collection::_getSelectCountSql
+	 * should be compatible with Magento\Catalog\Model\ResourceModel\Product\Collection::_getSelectCountSql»:
+	 * https://github.com/dxmoto/site/issues/20
+	 * @param Select|null $select
+	 * @param bool $resetLeftJoins
+	 * @return Select
+	 */
+    protected function _getSelectCountSql(?Select $select = null, $resetLeftJoins = true)
     {
+    	parent::_getSelectCountSql();
         $this->_renderFilters();
 
         $subQuery =  new \Zend_Db_Expr('('.$this->getSelect().')');
