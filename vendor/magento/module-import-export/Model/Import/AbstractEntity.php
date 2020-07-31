@@ -45,9 +45,13 @@ abstract class AbstractEntity
     /**#@+
      * Database constants
      */
-    // 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-	// This file was modified by someone at 2018-10-04.
-    const DB_MAX_VARCHAR_LENGTH = 1024;
+	# 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	# This file was modified by someone at 2018-10-04.
+	# 2020-07-31
+	# It could be related to:
+	# https://github.com/magento/magento2/issues/15679#issuecomment-394157625
+	# https://github.com/magento/magento2/pull/15835
+	const DB_MAX_VARCHAR_LENGTH = 1024;
 
     const DB_MAX_TEXT_LENGTH = 65536;
 

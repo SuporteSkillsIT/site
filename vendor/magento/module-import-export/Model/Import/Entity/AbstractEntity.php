@@ -7,6 +7,7 @@ namespace Magento\ImportExport\Model\Import\Entity;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\ImportExport\Model\Import\AbstractSource;
 use Magento\ImportExport\Model\Import as ImportExport;
@@ -31,9 +32,13 @@ abstract class AbstractEntity
 
     const DB_MAX_PACKET_DATA = 1048576;
 
-    // 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-	// This file was modified by someone at 2018-10-04.
-    const DB_MAX_VARCHAR_LENGTH = 1024;
+	# 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	# This file was modified by someone at 2018-10-04.
+	# 2020-07-31
+	# It could be related to:
+	# https://github.com/magento/magento2/issues/15679#issuecomment-394157625
+	# https://github.com/magento/magento2/pull/15835
+	const DB_MAX_VARCHAR_LENGTH = 1024;
 
     const DB_MAX_TEXT_LENGTH = 65536;
 
@@ -312,7 +317,7 @@ abstract class AbstractEntity
     protected function _getSource()
     {
         if (!$this->_source) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('Please specify a source.'));
+            throw new LocalizedException(__('Please specify a source.'));
         }
         return $this->_source;
     }
@@ -380,7 +385,7 @@ abstract class AbstractEntity
     /**
      * Validate data rows and save bunches to DB.
      *
-     * @return $this|void
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _saveValidatedBunches()
@@ -392,6 +397,7 @@ abstract class AbstractEntity
         $nextRowBackup = [];
         $maxDataSize = $this->_resourceHelper->getMaxDataSize();
         $bunchSize = $this->_importExportData->getBunchSize();
+        $skuSet = [];
 
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();
@@ -408,6 +414,9 @@ abstract class AbstractEntity
             if ($source->valid()) {
                 try {
                     $rowData = $source->current();
+                    if (array_key_exists('sku', $rowData)) {
+                        $skuSet[$rowData['sku']] = true;
+                    }
                 } catch (\InvalidArgumentException $e) {
                     $this->addRowError($e->getMessage(), $this->_processedRowsCount);
                     $this->_processedRowsCount++;
@@ -435,6 +444,8 @@ abstract class AbstractEntity
                 $source->next();
             }
         }
+        $this->_processedEntitiesCount = (count($skuSet)) ? : $this->_processedRowsCount;
+
         return $this;
     }
 
@@ -550,11 +561,13 @@ abstract class AbstractEntity
         if (!isset(
             $this->_parameters['behavior']
         ) ||
-            $this->_parameters['behavior'] != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND &&
-            $this->_parameters['behavior'] != \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE &&
-            $this->_parameters['behavior'] != \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
+            $this->_parameters['behavior'] != ImportExport::BEHAVIOR_APPEND &&
+            $this->_parameters['behavior'] != ImportExport::BEHAVIOR_ADD_UPDATE &&
+            $this->_parameters['behavior'] != ImportExport::BEHAVIOR_REPLACE &&
+            $this->_parameters['behavior'] != ImportExport::BEHAVIOR_CUSTOM &&
+            $this->_parameters['behavior'] != ImportExport::BEHAVIOR_DELETE
         ) {
-            return \Magento\ImportExport\Model\Import::getDefaultBehavior();
+            return ImportExport::getDefaultBehavior();
         }
         return $this->_parameters['behavior'];
     }
@@ -606,7 +619,7 @@ abstract class AbstractEntity
     public function getSource()
     {
         if (!$this->_source) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The source is not set.'));
+            throw new LocalizedException(__('The source is not set.'));
         }
         return $this->_source;
     }
@@ -825,6 +838,8 @@ abstract class AbstractEntity
     }
 
     /**
+     * Get error aggregator object
+     *
      * @return ProcessingErrorAggregatorInterface
      */
     public function getErrorAggregator()
@@ -881,7 +896,7 @@ abstract class AbstractEntity
     protected function getMetadataPool()
     {
         if (!$this->metadataPool) {
-            $this->metadataPool = \Magento\Framework\App\ObjectManager::getInstance()
+            $this->metadataPool = ObjectManager::getInstance()
                 ->get(\Magento\Framework\EntityManager\MetadataPool::class);
         }
         return $this->metadataPool;
