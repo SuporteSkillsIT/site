@@ -159,7 +159,7 @@ return [
         'Magento_MsrpGroupedProduct' => 1,
         'Magento_Multishipping' => 1,
         'Magento_MysqlMq' => 1,
-        'Magento_NewRelicReporting' => 1,
+        'Magento_NewRelicReporting' => 0,
         'Magento_Newsletter' => 1,
         'Magento_OfflinePayments' => 1,
         'Magento_SalesRule' => 1,
@@ -196,7 +196,7 @@ return [
         'Magento_SendFriend' => 1,
         'Magento_SendFriendGraphQl' => 1,
         'Magento_InventoryShippingAdminUi' => 0,
-        'Magento_Signifyd' => 1,
+        'Magento_Signifyd' => 0,
         'Magento_Sitemap' => 1,
         'Magento_InventoryGraphQl' => 0,
         'Magento_UrlRewriteGraphQl' => 1,
@@ -249,7 +249,7 @@ return [
         'BoostMyShop_UltimateReport' => 1,
         'CommerceExtensions_ProductattributesImportExport' => 1,
         'Dotdigitalgroup_Email' => 0,
-        'Dotdigitalgroup_Chat' => 1,
+        'Dotdigitalgroup_Chat' => 0,
         'Emipro_SocialShare' => 1,
         'Ess_M2ePro' => 1,
         'Firebear_CustomImportExport223' => 1,
@@ -284,13 +284,13 @@ return [
         'Temando_ShippingRemover' => 1,
         'Thanhdv2811_CurrencyConverter' => 1,
         'Vdshop_Aliexpress' => 1,
-        'Vertex_Tax' => 1,
-        'Vertex_AddressValidation' => 1,
+        'Vertex_Tax' => 0,
+        'Vertex_AddressValidation' => 0,
         'Wyomind_Core' => 1,
         'Wyomind_Framework' => 1,
         'Wyomind_CronScheduler' => 1,
         'Wyomind_SimpleGoogleShopping' => 1,
         'Wyomind_Watchlog' => 1,
-        'Yotpo_Yotpo' => 1
+        'Yotpo_Yotpo' => 0
     ]
 ];
