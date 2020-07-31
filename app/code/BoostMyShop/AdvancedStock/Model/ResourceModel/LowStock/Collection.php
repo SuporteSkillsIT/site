@@ -247,7 +247,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 	 */
     protected function _getSelectCountSql(?Select $select = null, $resetLeftJoins = true)
     {
-    	parent::_getSelectCountSql();
         $this->_renderFilters();
 
         $subQuery =  new \Zend_Db_Expr('('.$this->getSelect().')');
