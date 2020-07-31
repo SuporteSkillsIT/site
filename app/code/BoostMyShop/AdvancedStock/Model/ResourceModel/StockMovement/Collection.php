@@ -1,8 +1,6 @@
 <?php
-
 namespace BoostMyShop\AdvancedStock\Model\ResourceModel\StockMovement;
-
-
+use Magento\Framework\DB\Select;
 class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 {
     protected $_stockMovementTable;
@@ -113,7 +111,16 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         return $this;
     }
 
-    protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
+	/**
+	 * 2020-07-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Declaration of BoostMyShop\AdvancedStock\Model\ResourceModel\StockMovement\Collection::_getSelectCountSql
+	 * should be compatible with Magento\Catalog\Model\ResourceModel\Product\Collection::_getSelectCountSql»:
+	 * https://github.com/dxmoto/site/issues/21
+	 * @param Select|null $select
+	 * @param bool $resetLeftJoins
+	 * @return Select
+	 */
+	protected function _getSelectCountSql(?Select $select = null, $resetLeftJoins = true)
     {
         $this->_renderFilters();
         $countSelect = is_null($select) ? $this->_getClearSelect() : $this->_buildClearSelect($select);
