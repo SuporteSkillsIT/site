@@ -3,6 +3,8 @@
 namespace BoostMyShop\Supplier\Model\ResourceModel\Supplier\Product;
 
 
+use Magento\Framework\DB\Select;
+
 class All extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 {
 
@@ -85,7 +87,16 @@ class All extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         return $this;
     }
 
-    protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
+	/**
+	 * 2020-08-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Declaration of BoostMyShop\Supplier\Model\ResourceModel\Supplier\Product\All::_getSelectCountSql
+	 * should be compatible with Magento\Catalog\Model\ResourceModel\Product\Collection::_getSelectCountSql»Ж
+	 * https://github.com/dxmoto/site/issues/24
+	 * @param Select|null $select
+	 * @param bool $resetLeftJoins
+	 * @return Select
+	 */
+	protected function _getSelectCountSql(?Select $select = null, $resetLeftJoins = true)
     {
         $this->_renderFilters();
         $countSelect = is_null($select) ? $this->_getClearSelect() : $this->_buildClearSelect($select);
