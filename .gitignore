@@ -10,7 +10,7 @@
 # "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 !/.htaccess
 !/composer.json
-!/README.md
+!/readme.md
 # 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2020-05-24.
@@ -18,6 +18,10 @@
 !app/code/**/*
 !app/design/frontend/Infortis/**/*
 !app/etc/config.php
+# 2020-08-02 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# "«Wrong file» on opening any frontend product page in Windows":
+# https://github.com/dxmoto/site/issues/26
+!vendor/magento/framework/Image/Adapter/Gd2.php
 # 2020-07-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
 # https://github.com/dxmoto/site/issues/13
