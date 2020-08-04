@@ -74,9 +74,12 @@
                     <?php if (($block->getVar("gallery/allowfullscreen"))): ?>
                         "allowfullscreen": <?php /* @escapeNotVerified */ echo $block->getVar("gallery/allowfullscreen"); ?>,
                     <?php endif; ?>
-                    <?php if (($block->getVar("gallery/caption"))): ?>
-                        "showCaption": <?php /* @escapeNotVerified */ echo $block->getVar("gallery/caption"); ?>,
-                    <?php endif; ?>
+<?php
+// 2020-08-04 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+// "The product name is duplicated under the product image on the frontend product pages in Magento 2.3.5":
+// https://github.com/dxmoto/site/issues/32
+?>
+                    "showCaption": <?= (int)$block->getVar("gallery/caption") ?>,
                     "width": "<?php /* @escapeNotVerified */ echo $block->getImageAttribute('product_page_image_medium', 'width'); ?>",
                     "thumbwidth": "<?php /* @escapeNotVerified */ echo $block->getImageAttribute('product_page_image_small', 'width'); ?>",
                     <?php if ($block->getImageAttribute('product_page_image_small', 'height') || $block->getImageAttribute('product_page_image_small', 'width')): ?>
