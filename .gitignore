@@ -21,6 +21,9 @@
 # 2020-08-02 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # "«Wrong file» on opening any frontend product page in Windows":
 # https://github.com/dxmoto/site/issues/26
+# 2020-08-05 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# "A watermark is shown with a wrong transparency on the frontend product pages in Magento 2.3.5":
+# https://github.com/dxmoto/site/issues/33
 !vendor/magento/framework/Image/Adapter/Gd2.php
 # 2020-07-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
