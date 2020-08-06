@@ -2,7 +2,10 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/system_file.xsd">
     <system>
         <tab id="magecomp" translate="label" sortOrder="100">
-        	<label><![CDATA[<img src="https://www.magecomp.com/media/images/magecomp--extension.png" alt="MAGECOMP" height="25" style="vertical-align:middle;"/>]]></label>
+<!-- 2020-08-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+"The MageComp logo is rendered as a text instead of an image in the Magento backend":
+https://github.com/dxmoto/site/issues/35 -->
+        	<label>MageComp</label>
 		</tab>
         <section id="geocurrencystore" showInDefault="1" sortOrder="1">
 			 <tab>magecomp</tab>
