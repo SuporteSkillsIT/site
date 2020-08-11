@@ -15,6 +15,7 @@
         "amasty/finder": "1.10.1",
         "baldwin/magento2-module-url-data-integrity-checker": "v1.0.0",
         "bitexpert/magento2-force-customer-login": "*",
+        "dxmoto/core": "*",
         "elgentos/regenerate-catalog-urls": "0.2.0",
         "emipro/socialshare": "1.0.1",
         "firebear/importexport": "3.4.2",

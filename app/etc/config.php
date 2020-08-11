@@ -250,6 +250,7 @@ return [
         'CommerceExtensions_ProductattributesImportExport' => 1,
         'Dotdigitalgroup_Email' => 0,
         'Dotdigitalgroup_Chat' => 0,
+        'DxMoto_Core' => 1,
         'Emipro_SocialShare' => 1,
         'Ess_M2ePro' => 1,
         'Firebear_CustomImportExport223' => 1,
