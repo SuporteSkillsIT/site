@@ -106,7 +106,14 @@ class InProgress extends \Magento\Backend\Block\Widget\Grid\Extended
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('in_progress_ids');
+		/**
+		 * 2020-08-27 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * "`BoostMyShop_OrderPreparation`: «Unknown column 'main_table.in_progress_ids' in 'field list'»":
+		 * https://github.com/dxmoto/site/issues/39
+		 * The previous code was:
+		 * 		$this->setMassactionIdField('in_progress_ids');
+		 */
+		$this->setMassactionIdField('ip_id');
         $this->getMassactionBlock()->setTemplate('Magento_Catalog::product/grid/massaction_extended.phtml');
 
 
