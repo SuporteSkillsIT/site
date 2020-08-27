@@ -275,7 +275,7 @@ return [
         'Mageplaza_Core' => 1,
         'Mageplaza_Shopbybrand' => 1,
         'Mageplaza_Smtp' => 1,
-        'Mgt_Varnish' => 1,
+        'Mgt_Varnish' => 0,
         'Mirasvit_Core' => 1,
         'Mirasvit_Dashboard' => 1,
         'Mirasvit_Report' => 1,
