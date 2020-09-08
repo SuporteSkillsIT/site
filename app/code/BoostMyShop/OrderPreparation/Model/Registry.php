@@ -54,11 +54,7 @@ class Registry
                     break;
             }
         }
-
-        # 2020-09-08 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-		# "Prevent logging to `orderpreparation_registry.log`": https://github.com/dxmoto/site/issues/47
-        #$this->_logger->log('Get '.$key.' : '.$value, 'registry');
-
+        $this->_logger->log('Get '.$key.' : '.$value, 'registry');
         return $value;
     }
 
@@ -68,11 +64,7 @@ class Registry
         $extra['orderpreparation'][$key] = $value;
         $this->_adminSession->getUser()->setExtra(serialize($extra));
         $this->_adminSession->getUser()->saveExtra($extra);
-
-        # 2020-09-08 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-        # "Prevent logging to `orderpreparation_registry.log`": https://github.com/dxmoto/site/issues/47
-        #$this->_logger->log('Change '.$key.' to '.$value, 'registry');
-
+        $this->_logger->log('Change '.$key.' to '.$value, 'registry');
         return $this;
     }
 
