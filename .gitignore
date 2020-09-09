@@ -25,6 +25,10 @@
 # "A watermark is shown with a wrong transparency on the frontend product pages in Magento 2.3.5":
 # https://github.com/dxmoto/site/issues/33
 !vendor/magento/framework/Image/Adapter/Gd2.php
+# 2020-09-09 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# «Argument 3 passed to Magento\Cms\Model\Wysiwyg\CompositeConfigProvider::__construct()
+# must be of the type array, null given»: https://github.com/dxmoto/site/issues/52
+!vendor/magento/framework/ObjectManager/Factory/AbstractFactory.php
 # 2020-07-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
 # https://github.com/dxmoto/site/issues/13
