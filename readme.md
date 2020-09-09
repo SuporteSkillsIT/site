@@ -14,6 +14,11 @@ bin/magento setup:static-content:deploy \
 	-f en_US
 ```
 
+## How to restart services in `dxmoto.mage2.pro`
+```
+sudo service php7.1-fpm restart
+``` 
+
 ## How do I upgrade my packages in `dxmoto.mage2.pro` 
 ```                 
 sudo service cron stop             
