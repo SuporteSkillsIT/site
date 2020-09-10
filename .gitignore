@@ -14,25 +14,25 @@
 # 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2020-05-24.
-!app/bootstrap.php
-!app/code/**/*
-!app/design/frontend/Infortis/**/*
-!app/etc/config.php
+!/app/bootstrap.php
+!/app/code/**/*
+!/app/design/frontend/Infortis/**/*
+!/app/etc/config.php
 # 2020-08-02 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # "«Wrong file» on opening any frontend product page in Windows":
 # https://github.com/dxmoto/site/issues/26
 # 2020-08-05 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # "A watermark is shown with a wrong transparency on the frontend product pages in Magento 2.3.5":
 # https://github.com/dxmoto/site/issues/33
-!vendor/magento/framework/Image/Adapter/Gd2.php
+!/vendor/magento/framework/Image/Adapter/Gd2.php
 # 2020-09-09 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Argument 3 passed to Magento\Cms\Model\Wysiwyg\CompositeConfigProvider::__construct()
 # must be of the type array, null given»: https://github.com/dxmoto/site/issues/52
-!vendor/magento/framework/ObjectManager/Factory/AbstractFactory.php
+!/vendor/magento/framework/ObjectManager/Factory/AbstractFactory.php
 # 2020-07-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
 # https://github.com/dxmoto/site/issues/13
-!vendor/magento/framework/View/Element/Template/File/Validator.php
+!/vendor/magento/framework/View/Element/Template/File/Validator.php
 # 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2018-10-04.
@@ -40,15 +40,15 @@
 # It could be related to:
 # https://github.com/magento/magento2/issues/15679#issuecomment-394157625
 # https://github.com/magento/magento2/pull/15835
-!vendor/magento/module-import-export/Model/Import/AbstractEntity.php
+!/vendor/magento/module-import-export/Model/Import/AbstractEntity.php
 # 2020-07-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2018-10-04.
-!vendor/magento/module-import-export/Model/Import/Entity/AbstractEntity.php
+!/vendor/magento/module-import-export/Model/Import/Entity/AbstractEntity.php
 /update/
-dev
-vendor/codeception
-vendor/magento/framework/Test
-vendor/magento/magento2-base
-vendor/magento/magento2-functional-testing-framework
-vendor/tubalmartin
+/dev
+/vendor/codeception
+/vendor/magento/framework/Test
+/vendor/magento/magento2-base
+/vendor/magento/magento2-functional-testing-framework
+/vendor/tubalmartin
