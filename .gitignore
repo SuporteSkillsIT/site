@@ -25,6 +25,10 @@
 # "A watermark is shown with a wrong transparency on the frontend product pages in Magento 2.3.5":
 # https://github.com/dxmoto/site/issues/33
 !/vendor/magento/framework/Image/Adapter/Gd2.php
+# 2020-09-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# «Broken reference: the 'amasty.finder.5' element cannot be added as child to 'content', because the latter doesn't exist»:
+# https://github.com/dxmoto/site/issues/53
+!/vendor/magento/framework/View/Layout/ScheduledStructure/Helper.php
 # 2020-09-09 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Argument 3 passed to Magento\Cms\Model\Wysiwyg\CompositeConfigProvider::__construct()
 # must be of the type array, null given»: https://github.com/dxmoto/site/issues/52
