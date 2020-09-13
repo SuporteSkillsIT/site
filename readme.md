@@ -27,7 +27,6 @@ composer remove dxmoto/core
 composer remove mage2pro/core
 rm -rf composer.lock
 composer clear-cache
-composer require mage2pro/core:*
 composer require dxmoto/core:*
 bin/magento setup:upgrade
 bin/magento cache:enable
@@ -46,4 +45,5 @@ bin/magento setup:static-content:deploy \
 bin/magento cache:clean
 bin/magento maintenance:disable
 sudo service cron start
+rm -rf var/log/*
 ```
