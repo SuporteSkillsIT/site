@@ -24,7 +24,6 @@ sudo service php7.1-fpm restart
 sudo service cron stop             
 bin/magento maintenance:enable      
 composer remove dxmoto/core
-composer remove mage2pro/core
 rm -rf composer.lock
 composer clear-cache
 composer require dxmoto/core:*
