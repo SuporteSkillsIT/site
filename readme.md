@@ -46,3 +46,29 @@ bin/magento maintenance:disable
 sudo service cron start
 rm -rf var/log/*
 ```
+
+## How do I upgrade my packages in `www1.dxmoto.com` 
+```                          
+php7.1 bin/magento maintenance:enable      
+php7.1 /usr/local/bin/composer remove dxmoto/core
+rm -rf composer.lock
+php7.1 /usr/local/bin/composer clear-cache
+php7.1 /usr/local/bin/composer require dxmoto/core:*
+php7.1 bin/magento setup:upgrade
+php7.1 bin/magento cache:enable
+rm -rf var/di var/generation generated/*
+php7.1 bin/magento setup:di:compile
+php7.1 bin/magento cache:clean
+rm -rf pub/static/*
+php7.1 bin/magento setup:static-content:deploy \
+	--area adminhtml \
+	--theme Magento/backend \
+	-f en_US
+php7.1 bin/magento setup:static-content:deploy \
+	--area frontend \
+	--theme Infortis/ultimo \
+	-f en_US
+php7.1 bin/magento cache:clean
+php7.1 bin/magento maintenance:disable
+rm -rf var/log/*
+```

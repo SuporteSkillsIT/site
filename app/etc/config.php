@@ -330,7 +330,7 @@ return [
         'Vertex_AddressValidation' => 0,
         'Wyomind_Core' => 1,
         'Wyomind_Framework' => 1,
-        'Wyomind_CronScheduler' => 1,
+        'Wyomind_CronScheduler' => 0,
         'Wyomind_SimpleGoogleShopping' => 1,
         'Wyomind_Watchlog' => 1,
         'Yotpo_Yotpo' => 0
