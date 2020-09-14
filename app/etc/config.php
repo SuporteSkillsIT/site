@@ -328,10 +328,6 @@ return [
         'Vdshop_Aliexpress' => 1,
         'Vertex_Tax' => 0,
         'Vertex_AddressValidation' => 0,
-        'Wyomind_Core' => 1,
-        'Wyomind_Framework' => 1,
-        'Wyomind_CronScheduler' => 0,
-        'Wyomind_Watchlog' => 1,
         'Yotpo_Yotpo' => 0
     ]
 ];

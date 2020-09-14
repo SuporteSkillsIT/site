@@ -1,1 +1,0 @@
-<?php namespace Wyomind\CronScheduler\Helper;class CronScheduler{}
