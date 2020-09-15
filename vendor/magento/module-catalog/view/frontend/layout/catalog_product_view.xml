@@ -146,8 +146,22 @@ https://github.com/dxmoto/site/issues/67
                         <argument name="imageHelper" xsi:type="object">Magento\Catalog\Helper\Image</argument>
                     </arguments>
                 </block>
-                <container name="skip_gallery_after.wrapper" htmlTag="div" htmlClass="action-skip-wrapper">
-                    <block class="Magento\Framework\View\Element\Template" after="product.info.media.image" name="skip_gallery_after" template="Magento_Theme::html/skip.phtml">
+<!-- 2020-09-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+1) «Broken reference: the 'skip_gallery_after' tries to reorder itself towards 'product.info.media.image',
+but their parents are different: 'skip_gallery_after.wrapper' and 'product.info.media' respectively.»:
+https://github.com/dxmoto/site/issues/68
+2) https://github.com/magento/magento2/issues/27216#issue-578166599 -->
+                <container
+					after="product.info.media.image"
+					htmlClass="action-skip-wrapper"
+					htmlTag="div"
+					name="skip_gallery_after.wrapper"
+				>
+                    <block
+						class="Magento\Framework\View\Element\Template"
+						name="skip_gallery_after"
+						template="Magento_Theme::html/skip.phtml"
+					>
                         <arguments>
                             <argument name="target" xsi:type="string">gallery-prev-area</argument>
                             <argument name="label" translate="true" xsi:type="string">Skip to the beginning of the images gallery</argument>
