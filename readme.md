@@ -14,6 +14,15 @@ bin/magento setup:static-content:deploy \
 	-f en_US
 ```
 
+## How to restart services on the new Hetzner server
+```
+service cron restart
+service elasticsearch restart
+service mysql restart
+service nginx restart
+service php7.2-fpm restart
+``` 
+
 ## How do I upgrade my packages in `dxmoto.com` on the new Hetzner server
 ```                 
 sudo service cron stop             
@@ -41,11 +50,6 @@ php7.2 bin/magento maintenance:disable
 sudo service cron start
 rm -rf var/log/*
 ```
-
-## How to restart services in `dxmoto.mage2.pro`
-```
-sudo service php7.1-fpm restart
-``` 
 
 ## How do I upgrade my packages in `dxmoto.mage2.pro`
 ### With PHP 7.1 
