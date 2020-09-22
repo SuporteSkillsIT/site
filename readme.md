@@ -23,6 +23,11 @@ service nginx restart
 service php7.2-fpm restart
 ``` 
 
+## Magento reindexing
+```
+php7.2 bin/magento indexer:reindex
+```
+
 ## How do I upgrade my packages in `dxmoto.com` on the new Hetzner server
 ```                 
 sudo service cron stop             

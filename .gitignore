@@ -57,6 +57,10 @@
 # 1) "Add the modified standard files to the source control": https://github.com/dxmoto/site/issues/2
 # 2) This file was modified by someone at 2018-10-04.
 !/vendor/magento/module-import-export/Model/Import/Entity/AbstractEntity.php
+# 2020-09-22 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# «Call to a member function appendChild() on null in vendor/pelago/emogrifier/src/Emogrifier.php:1431»
+# https://github.com/dxmoto/site/issues/87
+!/vendor/pelago/emogrifier/src/Emogrifier.php
 /update/
 /dev
 /vendor/codeception
