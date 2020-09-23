@@ -76,10 +76,6 @@ class Processor implements ContentProcessorInterface
             $content = $this->assetSource->getContent($asset);
 
             if (trim($content) === '') {
-				# 2020-09-23 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-				# «Compilation from source: LESS file is empty:
-				# frontend/Infortis/ultimo/en_US/Magento_Swatches/css/swatches.less»: https://github.com/dxmoto/site/issues/89
-            	df_log_l($this, ['asset' => df_dump($asset), 'path' => $path], 'less-file-is-empty');
                 throw new ContentProcessorException(
                     new Phrase('Compilation from source: LESS file is empty: ' . $path)
                 );
@@ -93,10 +89,6 @@ class Processor implements ContentProcessorInterface
             gc_enable();
 
             if (trim($content) === '') {
-				# 2020-09-23 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-				# «Compilation from source: LESS file is empty:
-				# frontend/Infortis/ultimo/en_US/Magento_Swatches/css/swatches.less»: https://github.com/dxmoto/site/issues/89
-            	df_log_l($this, ['asset' => df_dump($asset), 'path' => $path], 'less-file-is-empty');
                 throw new ContentProcessorException(
                     new Phrase('Compilation from source: LESS file is empty: ' . $path)
                 );
