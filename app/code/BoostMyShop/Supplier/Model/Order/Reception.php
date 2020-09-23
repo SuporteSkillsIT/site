@@ -66,7 +66,12 @@ class Reception extends \Magento\Framework\Model\AbstractModel
 
     public function addProducts($products)
     {
-
+		if (!is_array($products) && !$values instanceof \Traversable) {
+			# 2020-09-24 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			# «Invalid argument supplied for foreach() in app/code/BoostMyShop/Supplier/Model/Order/Reception.php on line 70»:
+			# https://github.com/dxmoto/site/issues/100
+			df_log_l($this, ['type' => gettype($products), 'value' => df_dump($products), 'this' => df_dump($this)]);
+		}
         foreach($products as $productId => $data)
             $this->addProduct($productId, $data['qty'], (isset($data['qty_pack']) ? $data['qty_pack'] : 1));
 
