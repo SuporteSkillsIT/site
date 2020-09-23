@@ -30,7 +30,7 @@ php7.2 bin/magento indexer:reindex
 
 ## How do I upgrade my packages in `dxmoto.com` on the new Hetzner server
 ```                 
-sudo service cron stop             
+sudo service cron stop           
 php7.2 bin/magento maintenance:enable      
 php7.2 /usr/local/bin/composer remove dxmoto/core
 rm -rf composer.lock
