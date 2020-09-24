@@ -133,6 +133,14 @@ class OrderPreparation
             }
             catch(\Exception $ex)
             {
+            	# 2020-09-24 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				# "Embedded ERP Order Preparation: «Incorrect table name '', query was: INSERT INTO `` () VALUES ()»":
+				# https://github.com/dxmoto/site/issues/102
+            	df_log_e($ex, $this, [
+					'createInvoice' => df_dump($createInvoice)
+            		,'createShipment' => df_dump($createShipment)
+					,'order' => df_dump($item->getOrder())
+				]);
                 $errors[] = 'Error for order #'.$item->getOrder()->getIncrementId().' : '.$ex->getMessage();
             }
 
