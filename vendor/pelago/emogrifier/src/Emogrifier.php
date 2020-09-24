@@ -1432,7 +1432,7 @@ class Emogrifier
 		# «Call to a member function appendChild() on null in vendor/pelago/emogrifier/src/Emogrifier.php:1431»
 		# https://github.com/dxmoto/site/issues/87
         if (!$headElement) {
-        	df_log_l('Magento_Email', ['this' => df_dump($this)]);
+        	df_log_l('Magento_Email', ['html' => $this->getDomDocument()->saveHTML()]);
 		}
         else {
 			$headElement->appendChild($styleElement);
