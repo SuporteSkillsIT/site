@@ -313,6 +313,8 @@ return [
         'MSP_TwoFactorAuth' => 1,
         'Magecomp_Geocurrencystore' => 1,
         'Magecomp_Imageclean' => 1,
+        'Magefan_Community' => 1,
+        'Magefan_ConflictDetector' => 1,
         'Mageplaza_Core' => 1,
         'Mageplaza_Shopbybrand' => 1,
         'Mageplaza_Smtp' => 1,
@@ -327,6 +329,7 @@ return [
         'Vdshop_Aliexpress' => 1,
         'Vertex_Tax' => 0,
         'Vertex_AddressValidation' => 0,
+        'Yireo_DisableLog2' => 1,
         'Yotpo_Yotpo' => 0
     ]
 ];
