@@ -85,6 +85,10 @@
 # «Call to a member function toArray() on null in vendor/mirasvit/module-dashboard/Controller/Adminhtml/Api/Request.php:74»:
 # https://github.com/dxmoto/site/issues/98
 !/vendor/mirasvit/module-dashboard/Controller/Adminhtml/Api/Request.php
+# 2020-09-25 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# «DOMDocument::loadHTML(): Tag date invalid in Entity, line: 1 at vendor/magento/framework/Escaper.php:94»
+# https://github.com/dxmoto/site/issues/92
+!/vendor/magento/module-sales/view/frontend/templates/order/order_date.phtml
 # 2020-09-22 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # «Call to a member function appendChild() on null in vendor/pelago/emogrifier/src/Emogrifier.php:1431»
 # https://github.com/dxmoto/site/issues/87
