@@ -75,13 +75,18 @@ class Request extends AbstractApi
 			# «Call to a member function toArray() on null
 			# in vendor/mirasvit/module-dashboard/Controller/Adminhtml/Api/Request.php:74»:
 			# https://github.com/dxmoto/site/issues/98
-			df_log_l($this, ['params' => $params]);
-            $responseData = $response->toArray();
-
-            return $jsonResponse->representJson(\Zend_Json::encode([
-                'success' => true,
-                'data'    => $responseData,
-            ]));
+			# 2020-09-26 https://github.com/dxmoto/site/issues/98#issuecomment-699480845
+			if (!$response) {
+				$r = $jsonResponse->representJson(\Zend_Json::encode(['success' => false, 'message' => 'An empty response']));
+			}
+			else {
+				$responseData = $response->toArray();
+				$r = $jsonResponse->representJson(\Zend_Json::encode([
+					'success' => true,
+					'data'    => $responseData,
+				]));
+			}
+			return $r;
         } catch (\Exception $e) {
             return $jsonResponse->representJson(\Zend_Json::encode([
                 'success' => false,
