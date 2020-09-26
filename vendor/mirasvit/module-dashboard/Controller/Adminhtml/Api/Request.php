@@ -77,7 +77,11 @@ class Request extends AbstractApi
 			# https://github.com/dxmoto/site/issues/98
 			# 2020-09-26 https://github.com/dxmoto/site/issues/98#issuecomment-699480845
 			if (!$response) {
-				$r = $jsonResponse->representJson(\Zend_Json::encode(['success' => false, 'message' => 'An empty response']));
+				$t = mb_strtoupper($block['title']);
+				$r = $jsonResponse->representJson(\Zend_Json::encode([
+					'message' => "The block «{$t}» is not yet properly configured."
+					,'success' => false
+				]));
 			}
 			else {
 				$responseData = $response->toArray();
