@@ -30,7 +30,7 @@
         "mirasvit/module-report-api": "1.0.37",
         "mirasvit/module-report-builder": "1.0.24",
         "mirasvit/module-reports": "1.3.31",
-        "shoppingfeed/magento2-manager": "*",
+        "shoppingfeed/magento2-manager": ">0.39.3",
         "thanhdv2811/magento-2-currency-convert": "1.0.1",
         "vdshop/aliexpress": "1.4.2",
         "yireo/magento2-disablelog2": "*"
