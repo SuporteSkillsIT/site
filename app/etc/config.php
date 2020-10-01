@@ -294,6 +294,7 @@ return [
         'DxMoto_Core' => 1,
         'Emipro_SocialShare' => 1,
         'Ess_M2ePro' => 1,
+        'EthanYehuda_CronjobManager' => 1,
         'Firebear_CustomImportExport223' => 1,
         'Firebear_ImportExport' => 1,
         'Iazel_RegenProductUrl' => 0,

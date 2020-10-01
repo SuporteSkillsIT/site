@@ -18,6 +18,7 @@
         "dxmoto/core": "*",
         "elgentos/regenerate-catalog-urls": "0.2.0",
         "emipro/socialshare": "1.0.1",
+        "ethanyehuda/magento2-cronjobmanager": "*",
         "firebear/importexport": "3.4.2",
         "m2e/ebay-amazon-magento2": "1.4.3",
         "magefan/module-conflict-detector": "*",
