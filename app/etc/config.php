@@ -270,6 +270,7 @@ return [
         'Df_Qa' => 1,
         'Df_Quote' => 1,
         'Df_Review' => 1,
+        'Df_Rss' => 1,
         'Df_Sales' => 1,
         'Df_SampleData' => 1,
         'Df_Sentry' => 1,
