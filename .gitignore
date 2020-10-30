@@ -61,6 +61,10 @@
 # «Invalid template file: 'vendor/magento/module-theme/view/frontend/templates/page/js/require_js.phtml'»:
 # https://github.com/dxmoto/site/issues/13
 !/vendor/magento/framework/View/Element/Template/File/Validator.php
+# 2020-10-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# "The `BoostMyShop_AdvancedStock` module does not show the «Orders to ship» tab
+# on backend `erp/products/edit` pages in Magento 2.3.5": https://github.com/dxmoto/site/issues/128
+!/vendor/magento/module-backend/Block/Widget/Tabs.php
 # 2020-09-16 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 # 1) «Broken reference: the 'skip_gallery_before' tries to reorder itself towards 'product.info.media.image',
 # but their parents are different: 'skip_gallery_before.wrapper' and 'product.info.media' respectively.»:
