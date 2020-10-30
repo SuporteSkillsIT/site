@@ -11,8 +11,7 @@
         "sort-packages": true
     },
     "require": {
-        "amasty/base": "1.10.0",
-        "amasty/finder": "1.10.1",
+        "amasty/finder": "*",
         "baldwin/magento2-module-url-data-integrity-checker": "v1.0.0",
         "bitexpert/magento2-force-customer-login": "*",
         "dxmoto/core": "*",
@@ -89,7 +88,8 @@
     "version": "2.3.5-p1",
     "minimum-stability": "stable",
     "repositories": [
-        {"type": "composer", "url": "https://repo.magento.com"}
+		{"type": "composer", "url": "https://composer.amasty.com/community"}
+        ,{"type": "composer", "url": "https://repo.magento.com"}
 		,{"type": "composer", "url": "https://repo.mageplaza.com"}
         ,{
             "type": "composer",
